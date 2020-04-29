@@ -8,7 +8,7 @@ LDLAGS = -lstdc++
 .SUFFIXES: .c .o
 
 $(PROGRAM): $(OBJS)
-	$(CC) $(LDLAGS) -o $(PROGRAM) $^
+	$(CC) -o $(PROGRAM) $^ $(LDLAGS)
 
 .cpp.o:
 	$(CC) $(CFLAGS) -c $<
