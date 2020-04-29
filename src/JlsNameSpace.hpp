@@ -1,10 +1,11 @@
 //
-// join_logo_scp ƒf[ƒ^—p’è‹`
+// join_logo_scp ãƒ‡ãƒ¼ã‚¿ç”¨å®šç¾©
 //
-#pragma once
+#ifndef __JLSNAMESPACE__
+#define __JLSNAMESPACE__
 
 //---------------------------------------------------------------------
-// ƒf[ƒ^Ši”[—p
+// ãƒ‡ãƒ¼ã‚¿æ ¼ç´ç”¨
 //---------------------------------------------------------------------
 namespace jlsd
 {
@@ -14,39 +15,39 @@ namespace jlsd
 	using Nrf = int;
 	using Nlg = int;
 
-	//--- Auto\¬‹æØ‚è(scp.chap) ---
+	//--- Autoæ§‹æˆåŒºåˆ‡ã‚Š(scp.chap) ---
 	enum ScpChapType {
-		SCP_CHAP_DUPE = -1,		// d•¡‰ÓŠ
-		SCP_CHAP_NONE,			// ‰Šúó‘Ô
-		SCP_CHAP_CPOSIT,		// 5•b’PˆÊ‰Â”\«•ÛŽ
-		SCP_CHAP_CPOSQ,			// 15•b’PˆÊ‰Â”\«•ÛŽ
-		SCP_CHAP_CDET,			// 15•b’PˆÊ•ÛŽ
-		SCP_CHAP_DINT,			// \¬“à•”®”•b’PˆÊ‹æØ‚è
-		SCP_CHAP_DBORDER,		// –³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚È‚µ‹æØ‚è
-		SCP_CHAP_DFIX,			// \¬‹æØ‚è
-		SCP_CHAP_DFORCE,		// ‹­§‹æØ‚èÝ’è‰ÓŠ
-		SCP_CHAP_DUNIT			// Trim‚à‹­§‹æØ‚è
+		SCP_CHAP_DUPE = -1,		// é‡è¤‡ç®‡æ‰€
+		SCP_CHAP_NONE,			// åˆæœŸçŠ¶æ…‹
+		SCP_CHAP_CPOSIT,		// 5ç§’å˜ä½å¯èƒ½æ€§ä¿æŒ
+		SCP_CHAP_CPOSQ,			// 15ç§’å˜ä½å¯èƒ½æ€§ä¿æŒ
+		SCP_CHAP_CDET,			// 15ç§’å˜ä½ä¿æŒ
+		SCP_CHAP_DINT,			// æ§‹æˆå†…éƒ¨æ•´æ•°ç§’å˜ä½åŒºåˆ‡ã‚Š
+		SCP_CHAP_DBORDER,		// ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãªã—åŒºåˆ‡ã‚Š
+		SCP_CHAP_DFIX,			// æ§‹æˆåŒºåˆ‡ã‚Š
+		SCP_CHAP_DFORCE,		// å¼·åˆ¶åŒºåˆ‡ã‚Šè¨­å®šç®‡æ‰€
+		SCP_CHAP_DUNIT			// Trimã‚‚å¼·åˆ¶åŒºåˆ‡ã‚Š
 	};
-	static const ScpChapType SCP_CHAP_DECIDE = SCP_CHAP_DINT;		// Šm’è‰ÓŠè‡’l
+	static const ScpChapType SCP_CHAP_DECIDE = SCP_CHAP_DINT;		// ç¢ºå®šç®‡æ‰€é–¾å€¤
 	inline bool isScpChapTypeDecide(ScpChapType type){
 		return (type >= SCP_CHAP_DECIDE)? true : false;
 	}
 
-	//--- Auto\¬„‘ªŠî–{“à—e(scp.arstat) ---
+	//--- Autoæ§‹æˆæŽ¨æ¸¬åŸºæœ¬å†…å®¹(scp.arstat) ---
 	enum ScpArType {
-		SCP_AR_UNKNOWN,			// •s–¾
-		SCP_AR_L_UNIT,			// ƒƒS—L ‚P‚T•b’PˆÊ
-		SCP_AR_L_OTHER,			// ƒƒS—L ‚»‚Ì‘¼
-		SCP_AR_L_MIXED,			// ƒƒS—L ƒƒS–³‚à¬‡
-		SCP_AR_N_UNIT,			// ƒƒS–³ ‚P‚T•b’PˆÊ
-		SCP_AR_N_OTHER,			// ƒƒS–³ ‚»‚Ì‘¼
-		SCP_AR_N_AUNIT,			// ƒƒS–³ ‡•¹‚Å‚P‚T•b‚Ì’†ŠÔ’n“_
-		SCP_AR_N_BUNIT,			// ƒƒS–³ ‡•¹‚Å‚P‚T•b‚Ì’[
-		SCP_AR_B_UNIT,			// ƒƒS‹«ŠE ‚P‚T•b’PˆÊ
-		SCP_AR_B_OTHER			// ƒƒS‹«ŠE ‚»‚Ì‘¼
+		SCP_AR_UNKNOWN,			// ä¸æ˜Ž
+		SCP_AR_L_UNIT,			// ãƒ­ã‚´æœ‰ ï¼‘ï¼•ç§’å˜ä½
+		SCP_AR_L_OTHER,			// ãƒ­ã‚´æœ‰ ãã®ä»–
+		SCP_AR_L_MIXED,			// ãƒ­ã‚´æœ‰ ãƒ­ã‚´ç„¡ã‚‚æ··åˆ
+		SCP_AR_N_UNIT,			// ãƒ­ã‚´ç„¡ ï¼‘ï¼•ç§’å˜ä½
+		SCP_AR_N_OTHER,			// ãƒ­ã‚´ç„¡ ãã®ä»–
+		SCP_AR_N_AUNIT,			// ãƒ­ã‚´ç„¡ åˆä½µã§ï¼‘ï¼•ç§’ã®ä¸­é–“åœ°ç‚¹
+		SCP_AR_N_BUNIT,			// ãƒ­ã‚´ç„¡ åˆä½µã§ï¼‘ï¼•ç§’ã®ç«¯
+		SCP_AR_B_UNIT,			// ãƒ­ã‚´å¢ƒç•Œ ï¼‘ï¼•ç§’å˜ä½
+		SCP_AR_B_OTHER			// ãƒ­ã‚´å¢ƒç•Œ ãã®ä»–
 	};
-	static const int SCP_ARR_L_LOW  = SCP_AR_L_UNIT;		// ƒƒS—L‚Ì‰ºŒÀ’l
-	static const int SCP_ARR_L_HIGH = SCP_AR_L_MIXED;		// ƒƒS—L‚ÌãŒÀ’l
+	static const int SCP_ARR_L_LOW  = SCP_AR_L_UNIT;		// ãƒ­ã‚´æœ‰ã®ä¸‹é™å€¤
+	static const int SCP_ARR_L_HIGH = SCP_AR_L_MIXED;		// ãƒ­ã‚´æœ‰ã®ä¸Šé™å€¤
 	inline bool isScpArTypeLogo(ScpArType type){
 		return (type >= SCP_ARR_L_LOW && type <= SCP_ARR_L_HIGH)? true : false;
 	}
@@ -57,114 +58,114 @@ namespace jlsd
 		return ((type >= SCP_ARR_L_LOW && type <= SCP_ARR_L_HIGH) ||
 				(type >= SCP_AR_B_UNIT && type <= SCP_AR_B_OTHER))? true : false;
 	}
-	//--- Auto\¬„‘ªŠg’£“à—e(scp.arext) ---
+	//--- Autoæ§‹æˆæŽ¨æ¸¬æ‹¡å¼µå†…å®¹(scp.arext) ---
 	enum ScpArExtType {
-		SCP_AREXT_NONE,			// ’Ç‰Á\¬‚È‚µ
-		SCP_AREXT_L_TRKEEP,		// ƒƒS—L Žc‚·—\
-		SCP_AREXT_L_TRCUT,		// ƒƒS—L ƒJƒbƒg”Ôé
-		SCP_AREXT_L_TRRAW,		// ƒƒS—L ƒGƒ“ƒhƒJ[ƒh”»’f‘O
-		SCP_AREXT_L_ECCUT,		// ƒƒS—L ƒJƒbƒg”Ôé
-		SCP_AREXT_L_EC,			// ƒƒS—L ƒGƒ“ƒhƒJ[ƒh
-		SCP_AREXT_L_SP,			// ƒƒS—L ”Ô‘g’ñ‹Ÿ
-		SCP_AREXT_L_LGCUT,		// ƒƒS—L ƒƒS’[•”•ªƒJƒbƒg
-		SCP_AREXT_L_LGADD,		// ƒƒS—L ƒƒS’[•”•ªŽc‚·
-		SCP_AREXT_N_TRCUT,		// ƒƒS–³ ƒJƒbƒg”Ôé
-		SCP_AREXT_N_LGCUT,		// ƒƒS–³ ƒƒS’[•”•ªƒJƒbƒg
-		SCP_AREXT_N_LGADD		// ƒƒS–³ ƒƒS’[•”•ªŽc‚·
+		SCP_AREXT_NONE,			// è¿½åŠ æ§‹æˆãªã—
+		SCP_AREXT_L_TRKEEP,		// ãƒ­ã‚´æœ‰ æ®‹ã™äºˆå‘Š
+		SCP_AREXT_L_TRCUT,		// ãƒ­ã‚´æœ‰ ã‚«ãƒƒãƒˆç•ªå®£
+		SCP_AREXT_L_TRRAW,		// ãƒ­ã‚´æœ‰ ã‚¨ãƒ³ãƒ‰ã‚«ãƒ¼ãƒ‰åˆ¤æ–­å‰
+		SCP_AREXT_L_ECCUT,		// ãƒ­ã‚´æœ‰ ã‚«ãƒƒãƒˆç•ªå®£
+		SCP_AREXT_L_EC,			// ãƒ­ã‚´æœ‰ ã‚¨ãƒ³ãƒ‰ã‚«ãƒ¼ãƒ‰
+		SCP_AREXT_L_SP,			// ãƒ­ã‚´æœ‰ ç•ªçµ„æä¾›
+		SCP_AREXT_L_LGCUT,		// ãƒ­ã‚´æœ‰ ãƒ­ã‚´ç«¯éƒ¨åˆ†ã‚«ãƒƒãƒˆ
+		SCP_AREXT_L_LGADD,		// ãƒ­ã‚´æœ‰ ãƒ­ã‚´ç«¯éƒ¨åˆ†æ®‹ã™
+		SCP_AREXT_N_TRCUT,		// ãƒ­ã‚´ç„¡ ã‚«ãƒƒãƒˆç•ªå®£
+		SCP_AREXT_N_LGCUT,		// ãƒ­ã‚´ç„¡ ãƒ­ã‚´ç«¯éƒ¨åˆ†ã‚«ãƒƒãƒˆ
+		SCP_AREXT_N_LGADD		// ãƒ­ã‚´ç„¡ ãƒ­ã‚´ç«¯éƒ¨åˆ†æ®‹ã™
 	};
 	
 
-	//--- Ý’è’l•ÛŽ ---
+	//--- è¨­å®šå€¤ä¿æŒ ---
 	enum ConfigVarType {
-		CONFIG_VAR_msecWLogoTRMax,			// AutoCutƒRƒ}ƒ“ƒh‚ÅƒJƒbƒg‘ÎÛ‚Æ‚·‚éƒƒSŠúŠÔÅ‘åƒtƒŒ[ƒ€ŠúŠÔ
-		CONFIG_VAR_msecWCompTRMax,			// AutoCutƒRƒ}ƒ“ƒhTR‚Å—\‚Æ”FŽ¯‚·‚é\¬Å‘åƒtƒŒ[ƒ€ŠúŠÔ
-		CONFIG_VAR_msecWLogoSftMrg,			// AutoƒRƒ}ƒ“ƒh‘O’²®‚ÅƒƒSØ‚è‘Ö‚í‚è‚Ì‚¸‚ê‚ð‹–‚·ƒtƒŒ[ƒ€ŠúŠÔ
-		CONFIG_VAR_msecWCompFirst,			// æ“ª\¬ƒJƒbƒgˆµ‚¢‚É‚·‚é\¬Å‘åƒtƒŒ[ƒ€ŠúŠÔ
-		CONFIG_VAR_msecWCompLast,			// ÅŒã\¬ƒJƒbƒgˆµ‚¢‚É‚·‚é\¬Å‘åƒtƒŒ[ƒ€ŠúŠÔ
-		CONFIG_VAR_msecWLogoSumMin,			// ƒƒS‡ŒvŠúŠÔ‚ªŽw’èƒtƒŒ[ƒ€–¢–ž‚ÌŽž‚ÍƒƒS‚È‚µ‚Æ‚µ‚Äˆµ‚¤
-		CONFIG_VAR_msecWLogoLgMin,			// CM„‘ªŽž‚ÉƒƒS—Lî•ñŠm’è‚Æ”FŽ¯‚·‚éÅ¬ƒƒSŠúŠÔ
-		CONFIG_VAR_msecWLogoCmMin,			// CM„‘ªŽž‚ÉƒƒS–³î•ñŠm’è‚Æ”FŽ¯‚·‚éÅ¬ƒƒSŠúŠÔ
-		CONFIG_VAR_msecWLogoRevMin,			// ƒƒSî•ñ•â³‚·‚éŽž‚É–{•Ò‚Æ”FŽ¯‚·‚éÅ¬ŠúŠÔ
-		CONFIG_VAR_msecMgnCmDetect,			// CM\¬‚Å15•b’PˆÊ‚Å‚Í‚È‚¢‰Â”\«‚Æ”FŽ¯‚·‚éŒë·ƒtƒŒ[ƒ€ŠúŠÔ
-		CONFIG_VAR_msecMgnCmDivide,			// CM\¬“à•ªŠ„‚ð‹–‚·‚P•b’PˆÊ‚©‚ç‚ÌŒë·ƒtƒŒ[ƒ€ŠúŠÔ
-		CONFIG_VAR_secWCompSPMin,			// AutoƒRƒ}ƒ“ƒh”Ô‘g’ñ‹Ÿ‚Å•W€Å¬•b”
-		CONFIG_VAR_secWCompSPMax,			// AutoƒRƒ}ƒ“ƒh”Ô‘g’ñ‹Ÿ‚Å•W€Å‘å•b”
-		CONFIG_VAR_flagCutTR,				// 15•bˆÈã”Ôé‚ðƒJƒbƒg‚·‚éê‡‚Í1‚ðƒZƒbƒg
-		CONFIG_VAR_flagCutSP,				// ”Ô‘g’ñ‹Ÿ‚ðƒJƒbƒg‚·‚éê‡‚Í1‚ðƒZƒbƒg
-		CONFIG_VAR_flagAddLogo,				// ƒƒS‚ ‚è’Êí\¬‚ðŽc‚·ê‡‚Í1‚ðƒZƒbƒgiŒ»Ý‚Í–¢Žg—pj
-		CONFIG_VAR_flagAddUC,				// ƒƒS‚È‚µ•s–¾\¬‚ðŽc‚·ê‡‚Í1‚ðƒZƒbƒg
-		CONFIG_VAR_typeNoSc,				// ƒV[ƒ“ƒ`ƒFƒ“ƒW‚È‚µ–³‰¹ˆÊ’u‚ÌCM”»’fi0:Ž©“® 1:‚È‚µ 2:‚ ‚èj
-		CONFIG_VAR_cancelCntSc,				// –³‰¹‚ª‘½‚¢\¬‚ð•ª—£‚µ‚È‚¢ˆ—‚ð1‚ÌŽž‚ÍŽg—p‚µ‚È‚¢
-		CONFIG_VAR_LogoLevel,				// ƒƒSŽg—pƒŒƒxƒ‹
-		CONFIG_VAR_LogoRevise,				// ƒƒS‚©‚ç‚Ì•â³
-		CONFIG_VAR_AutoCmSub,				// ƒƒS‚È‚µŽž‚Ì•â•Ý’è
-		CONFIG_VAR_msecPosFirst,			// ƒƒSŠJŽnˆÊ’uŒŸoÝ’èŠúŠÔ
-		CONFIG_VAR_msecLgCutFirst,			// ƒƒS‚ªÅ‰‚©‚ç‚ ‚éŽž‚ÉƒJƒbƒgˆµ‚¢‚É‚·‚é\¬Å‘åƒtƒŒ[ƒ€ŠúŠÔ
-		CONFIG_VAR_msecZoneFirst,			// ƒƒS–³Œø‚Æ‚·‚éŠJŽnˆÊ’uŒŸoÝ’èŠúŠÔ
-		CONFIG_VAR_msecZoneLast,			// ƒƒS–³Œø‚Æ‚·‚éI—¹ˆÊ’uŒŸoÝ’èŠúŠÔ
-		CONFIG_VAR_priorityPosFirst,		// Å‰‚ÌˆÊ’uÝ’è—Dæ“xi0:§Œä‚È‚µ 1:ƒƒS‚ ‚è 2:ˆÊ’u—Dæ 3:Select—Dæj
+		CONFIG_VAR_msecWLogoTRMax,			// AutoCutã‚³ãƒžãƒ³ãƒ‰ã§ã‚«ãƒƒãƒˆå¯¾è±¡ã¨ã™ã‚‹ãƒ­ã‚´æœŸé–“æœ€å¤§ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		CONFIG_VAR_msecWCompTRMax,			// AutoCutã‚³ãƒžãƒ³ãƒ‰TRã§äºˆå‘Šã¨èªè­˜ã™ã‚‹æ§‹æˆæœ€å¤§ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		CONFIG_VAR_msecWLogoSftMrg,			// Autoã‚³ãƒžãƒ³ãƒ‰å‰èª¿æ•´ã§ãƒ­ã‚´åˆ‡ã‚Šæ›¿ã‚ã‚Šã®ãšã‚Œã‚’è¨±ã™ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		CONFIG_VAR_msecWCompFirst,			// å…ˆé ­æ§‹æˆã‚«ãƒƒãƒˆæ‰±ã„ã«ã™ã‚‹æ§‹æˆæœ€å¤§ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		CONFIG_VAR_msecWCompLast,			// æœ€å¾Œæ§‹æˆã‚«ãƒƒãƒˆæ‰±ã„ã«ã™ã‚‹æ§‹æˆæœ€å¤§ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		CONFIG_VAR_msecWLogoSumMin,			// ãƒ­ã‚´åˆè¨ˆæœŸé–“ãŒæŒ‡å®šãƒ•ãƒ¬ãƒ¼ãƒ æœªæº€ã®æ™‚ã¯ãƒ­ã‚´ãªã—ã¨ã—ã¦æ‰±ã†
+		CONFIG_VAR_msecWLogoLgMin,			// CMæŽ¨æ¸¬æ™‚ã«ãƒ­ã‚´æœ‰æƒ…å ±ç¢ºå®šã¨èªè­˜ã™ã‚‹æœ€å°ãƒ­ã‚´æœŸé–“
+		CONFIG_VAR_msecWLogoCmMin,			// CMæŽ¨æ¸¬æ™‚ã«ãƒ­ã‚´ç„¡æƒ…å ±ç¢ºå®šã¨èªè­˜ã™ã‚‹æœ€å°ãƒ­ã‚´æœŸé–“
+		CONFIG_VAR_msecWLogoRevMin,			// ãƒ­ã‚´æƒ…å ±è£œæ­£ã™ã‚‹æ™‚ã«æœ¬ç·¨ã¨èªè­˜ã™ã‚‹æœ€å°æœŸé–“
+		CONFIG_VAR_msecMgnCmDetect,			// CMæ§‹æˆã§15ç§’å˜ä½ã§ã¯ãªã„å¯èƒ½æ€§ã¨èªè­˜ã™ã‚‹èª¤å·®ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		CONFIG_VAR_msecMgnCmDivide,			// CMæ§‹æˆå†…åˆ†å‰²ã‚’è¨±ã™ï¼‘ç§’å˜ä½ã‹ã‚‰ã®èª¤å·®ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		CONFIG_VAR_secWCompSPMin,			// Autoã‚³ãƒžãƒ³ãƒ‰ç•ªçµ„æä¾›ã§æ¨™æº–æœ€å°ç§’æ•°
+		CONFIG_VAR_secWCompSPMax,			// Autoã‚³ãƒžãƒ³ãƒ‰ç•ªçµ„æä¾›ã§æ¨™æº–æœ€å¤§ç§’æ•°
+		CONFIG_VAR_flagCutTR,				// 15ç§’ä»¥ä¸Šç•ªå®£ã‚’ã‚«ãƒƒãƒˆã™ã‚‹å ´åˆã¯1ã‚’ã‚»ãƒƒãƒˆ
+		CONFIG_VAR_flagCutSP,				// ç•ªçµ„æä¾›ã‚’ã‚«ãƒƒãƒˆã™ã‚‹å ´åˆã¯1ã‚’ã‚»ãƒƒãƒˆ
+		CONFIG_VAR_flagAddLogo,				// ãƒ­ã‚´ã‚ã‚Šé€šå¸¸æ§‹æˆã‚’æ®‹ã™å ´åˆã¯1ã‚’ã‚»ãƒƒãƒˆï¼ˆç¾åœ¨ã¯æœªä½¿ç”¨ï¼‰
+		CONFIG_VAR_flagAddUC,				// ãƒ­ã‚´ãªã—ä¸æ˜Žæ§‹æˆã‚’æ®‹ã™å ´åˆã¯1ã‚’ã‚»ãƒƒãƒˆ
+		CONFIG_VAR_typeNoSc,				// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãªã—ç„¡éŸ³ä½ç½®ã®CMåˆ¤æ–­ï¼ˆ0:è‡ªå‹• 1:ãªã— 2:ã‚ã‚Šï¼‰
+		CONFIG_VAR_cancelCntSc,				// ç„¡éŸ³ãŒå¤šã„æ§‹æˆã‚’åˆ†é›¢ã—ãªã„å‡¦ç†ã‚’1ã®æ™‚ã¯ä½¿ç”¨ã—ãªã„
+		CONFIG_VAR_LogoLevel,				// ãƒ­ã‚´ä½¿ç”¨ãƒ¬ãƒ™ãƒ«
+		CONFIG_VAR_LogoRevise,				// ãƒ­ã‚´ã‹ã‚‰ã®è£œæ­£
+		CONFIG_VAR_AutoCmSub,				// ãƒ­ã‚´ãªã—æ™‚ã®è£œåŠ©è¨­å®š
+		CONFIG_VAR_msecPosFirst,			// ãƒ­ã‚´é–‹å§‹ä½ç½®æ¤œå‡ºè¨­å®šæœŸé–“
+		CONFIG_VAR_msecLgCutFirst,			// ãƒ­ã‚´ãŒæœ€åˆã‹ã‚‰ã‚ã‚‹æ™‚ã«ã‚«ãƒƒãƒˆæ‰±ã„ã«ã™ã‚‹æ§‹æˆæœ€å¤§ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		CONFIG_VAR_msecZoneFirst,			// ãƒ­ã‚´ç„¡åŠ¹ã¨ã™ã‚‹é–‹å§‹ä½ç½®æ¤œå‡ºè¨­å®šæœŸé–“
+		CONFIG_VAR_msecZoneLast,			// ãƒ­ã‚´ç„¡åŠ¹ã¨ã™ã‚‹çµ‚äº†ä½ç½®æ¤œå‡ºè¨­å®šæœŸé–“
+		CONFIG_VAR_priorityPosFirst,		// æœ€åˆã®ä½ç½®è¨­å®šå„ªå…ˆåº¦ï¼ˆ0:åˆ¶å¾¡ãªã— 1:ãƒ­ã‚´ã‚ã‚Š 2:ä½ç½®å„ªå…ˆ 3:Selectå„ªå…ˆï¼‰
 		SIZE_CONFIG_VAR
 	};
-	enum ConfigActType {					// Ý’è’l‚ð“®ì•Ê‚ÉŽæ“¾—p
-		CONFIG_ACT_LogoDelEdge,				// ƒƒS’[‚ÌCM”»’f
-		CONFIG_ACT_LogoDelMid,				// ƒƒS“à‚Ì15•b’PˆÊCM‰»
-		CONFIG_ACT_LogoDelWide,				// LˆæƒƒS‚È‚µíœ
-		CONFIG_ACT_LogoUCRemain,			// ƒƒS‚È‚µ•s–¾•”•ª‚ðŽc‚·
-		CONFIG_ACT_LogoUCGapCm,				// CM’PˆÊ‚©‚çŒë·‚ª‘å‚«‚¢\¬‚ðŽc‚·
-		CONFIG_ACT_MuteNoSc					// ƒV[ƒ“ƒ`ƒFƒ“ƒW‚È‚µ–³‰¹ˆÊ’u‚ÌCM”»’fi1:Žg—p‚µ‚È‚¢ 2:Žg—p‚·‚éj
+	enum ConfigActType {					// è¨­å®šå€¤ã‚’å‹•ä½œåˆ¥ã«å–å¾—ç”¨
+		CONFIG_ACT_LogoDelEdge,				// ãƒ­ã‚´ç«¯ã®CMåˆ¤æ–­
+		CONFIG_ACT_LogoDelMid,				// ãƒ­ã‚´å†…ã®15ç§’å˜ä½CMåŒ–
+		CONFIG_ACT_LogoDelWide,				// åºƒåŸŸãƒ­ã‚´ãªã—å‰Šé™¤
+		CONFIG_ACT_LogoUCRemain,			// ãƒ­ã‚´ãªã—ä¸æ˜Žéƒ¨åˆ†ã‚’æ®‹ã™
+		CONFIG_ACT_LogoUCGapCm,				// CMå˜ä½ã‹ã‚‰èª¤å·®ãŒå¤§ãã„æ§‹æˆã‚’æ®‹ã™
+		CONFIG_ACT_MuteNoSc					// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãªã—ç„¡éŸ³ä½ç½®ã®CMåˆ¤æ–­ï¼ˆ1:ä½¿ç”¨ã—ãªã„ 2:ä½¿ç”¨ã™ã‚‹ï¼‰
 	};
 
-	//--- \¬Œó•â—Dæ‡ˆÊ(scp.stat) ---
+	//--- æ§‹æˆå€™è£œå„ªå…ˆé †ä½(scp.stat) ---
 	enum ScpPriorType {
-		SCP_PRIOR_DUPE = -1,	// ŠÔˆø‚«
-		SCP_PRIOR_NONE,			// ‰Šúó‘Ô
-		SCP_PRIOR_LV1,			// Œó•â
-		SCP_PRIOR_DECIDE		// Œˆ’è
+		SCP_PRIOR_DUPE = -1,	// é–“å¼•ã
+		SCP_PRIOR_NONE,			// åˆæœŸçŠ¶æ…‹
+		SCP_PRIOR_LV1,			// å€™è£œ
+		SCP_PRIOR_DECIDE		// æ±ºå®š
 	};
 
-	//--- \¬Œó•â—Dæ‡ˆÊ(logo.stat_*) ---
+	//--- æ§‹æˆå€™è£œå„ªå…ˆé †ä½(logo.stat_*) ---
 	enum LogoPriorType {
-		LOGO_PRIOR_DUPE = -1,	// ŠÔˆø‚«
-		LOGO_PRIOR_NONE,		// ‰Šúó‘Ô
-		LOGO_PRIOR_LV1,			// Œó•â
-		LOGO_PRIOR_DECIDE		// Œˆ’è
+		LOGO_PRIOR_DUPE = -1,	// é–“å¼•ã
+		LOGO_PRIOR_NONE,		// åˆæœŸçŠ¶æ…‹
+		LOGO_PRIOR_LV1,			// å€™è£œ
+		LOGO_PRIOR_DECIDE		// æ±ºå®š
 	};
-	//--- ƒƒS•ª—£\¬ó‘Ô(logo.unit_*) ---
+	//--- ãƒ­ã‚´åˆ†é›¢æ§‹æˆçŠ¶æ…‹(logo.unit_*) ---
 	enum LogoUnitType {
-		LOGO_UNIT_NORMAL,		// ’Êí
-		LOGO_UNIT_DIVIDE		// ƒƒS•ª—£
+		LOGO_UNIT_NORMAL,		// é€šå¸¸
+		LOGO_UNIT_DIVIDE		// ãƒ­ã‚´åˆ†é›¢
 	};
-	//--- ƒƒSŒ‹‰ÊŠm’èó‘Ô(logo.flag_*) ---
+	//--- ãƒ­ã‚´çµæžœç¢ºå®šçŠ¶æ…‹(logo.flag_*) ---
 	enum LogoResultType {
-		LOGO_RESULT_NONE,		// ‰Šúó‘Ô
-		LOGO_RESULT_DECIDE,		// Šm’è
-		LOGO_RESULT_ABORT		// abort”jŠüŠm’è
+		LOGO_RESULT_NONE,		// åˆæœŸçŠ¶æ…‹
+		LOGO_RESULT_DECIDE,		// ç¢ºå®š
+		LOGO_RESULT_ABORT		// abortç ´æ£„ç¢ºå®š
 	};
 
-	//--- ‘I‘ð•ûŒü ---
+	//--- é¸æŠžæ–¹å‘ ---
 	enum SearchDirType {
 		SEARCH_DIR_PREV,
 		SEARCH_DIR_NEXT
 	};
 
-	//--- ƒƒS‚Ì‘I‘ðƒGƒbƒW ---
+	//--- ãƒ­ã‚´ã®é¸æŠžã‚¨ãƒƒã‚¸ ---
 	enum LogoEdgeType {
-		LOGO_EDGE_RISE,			// ƒƒS‚Ì—§‚¿ã‚ª‚èƒGƒbƒW
-		LOGO_EDGE_FALL,			// ƒƒS‚Ì—§‚¿‰º‚ª‚èƒGƒbƒW
-		LOGO_EDGE_BOTH			// ƒƒS‚Ì—¼ƒGƒbƒW
+		LOGO_EDGE_RISE,			// ãƒ­ã‚´ã®ç«‹ã¡ä¸ŠãŒã‚Šã‚¨ãƒƒã‚¸
+		LOGO_EDGE_FALL,			// ãƒ­ã‚´ã®ç«‹ã¡ä¸‹ãŒã‚Šã‚¨ãƒƒã‚¸
+		LOGO_EDGE_BOTH			// ãƒ­ã‚´ã®ä¸¡ã‚¨ãƒƒã‚¸
 	};
-	//--- ƒƒS‚Ì‘I‘ð ---
+	//--- ãƒ­ã‚´ã®é¸æŠž ---
 	enum LogoSelectType {
-		LOGO_SELECT_ALL,		// ‘S‘I‘ð
-		LOGO_SELECT_VALID		// —LŒø‚Ì‚Ý‘I‘ð
+		LOGO_SELECT_ALL,		// å…¨é¸æŠž
+		LOGO_SELECT_VALID		// æœ‰åŠ¹ã®ã¿é¸æŠž
 	};
-	//--- ƒV[ƒ“ƒ`ƒFƒ“ƒW‚Å‘S‘Ì‚Ìæ“ªÅŒã‚ðœ‚­‘I‘ð ---
+	//--- ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã§å…¨ä½“ã®å…ˆé ­æœ€å¾Œã‚’é™¤ãé¸æŠž ---
 	enum ScpEndType {
-		SCP_END_EDGEIN,			// ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†‚Ìæ“ªÅŒãŠÜ‚Þ
-		SCP_END_NOEDGE			// ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†‚Ìæ“ªÅŒãœ‚­
+		SCP_END_EDGEIN,			// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·ã®å…ˆé ­æœ€å¾Œå«ã‚€
+		SCP_END_NOEDGE			// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·ã®å…ˆé ­æœ€å¾Œé™¤ã
 	};
 
-	//--- ƒƒS‚ÌƒGƒbƒW•ûŒü”FŽ¯ ---
+	//--- ãƒ­ã‚´ã®ã‚¨ãƒƒã‚¸æ–¹å‘èªè­˜ ---
 	inline bool isLogoEdgeRise(LogoEdgeType type){
 		return (type == LOGO_EDGE_RISE || type == LOGO_EDGE_BOTH)? true : false;
 	}
@@ -177,7 +178,7 @@ namespace jlsd
 	inline bool isLogoEdgeRiseFromNrf(int nrf){
 		return (nrf % 2 == 0)? true : false;
 	}
-	//--- ƒƒS”Ô†•ÏŠ·inrf - nlgj ---
+	//--- ãƒ­ã‚´ç•ªå·å¤‰æ›ï¼ˆnrf - nlgï¼‰ ---
 	inline LogoEdgeType edgeFromNrf(int nrf){
 		return (nrf % 2 == 0)? LOGO_EDGE_RISE : LOGO_EDGE_FALL;
 	}
@@ -196,12 +197,12 @@ namespace jlsd
 	inline int nrfFromNlgFall(int nlg){
 		return nlg*2+1;
 	}
-	//--- —Dæ‡ˆÊ‚Ì•ÏŠ· ---
+	//--- å„ªå…ˆé †ä½ã®å¤‰æ› ---
 	inline LogoPriorType priorLogoFromScp(ScpPriorType n){
 		return (LogoPriorType) n;
 	}
 
-	//--- •ÛŽÝ’è’l‚Ìƒtƒ‰ƒO’l’è‹` ---
+	//--- ä¿æŒè¨­å®šå€¤ã®ãƒ•ãƒ©ã‚°å€¤å®šç¾© ---
 	enum ConfigBitType {
 		CONFIG_LOGO_LEVEL_DEFAULT   = 0,
 		CONFIG_LOGO_LEVEL_UNUSE_ALL = 1,
@@ -214,7 +215,7 @@ namespace jlsd
 		CONFIG_LOGO_LEVEL_USE_MAX   = 8
 	};
 
-	//--- \‘¢‘Ì ---
+	//--- æ§‹é€ ä½“ ---
 	struct RangeNsc {
 		Nsc st;
 		Nsc ed;
@@ -235,15 +236,15 @@ namespace jlsd
 	struct RangeFixMsec {
 		Msec st;
 		Msec ed;
-		bool fixSt;				// true=Šm’èŠJŽn’n“_
-		bool fixEd;				// true=Šm’èI—¹’n“_
+		bool fixSt;				// true=ç¢ºå®šé–‹å§‹åœ°ç‚¹
+		bool fixEd;				// true=ç¢ºå®šçµ‚äº†åœ°ç‚¹
 	};
 	struct RangeWideMsec {
 		WideMsec st;
 		WideMsec ed;
-		bool fixSt;				// true=Šm’èŠJŽn’n“_
-		bool fixEd;				// true=Šm’èI—¹’n“_
-		bool logomode;			// false=CMŠúŠÔ  true=ƒƒSŠúŠÔ
+		bool fixSt;				// true=ç¢ºå®šé–‹å§‹åœ°ç‚¹
+		bool fixEd;				// true=ç¢ºå®šçµ‚äº†åœ°ç‚¹
+		bool logomode;			// false=CMæœŸé–“  true=ãƒ­ã‚´æœŸé–“
 	};
 	struct RangeNscMsec {
 		RangeNsc  nsc;
@@ -258,7 +259,7 @@ namespace jlsd
 		RangeMsec msec;
 	};
 	struct NrfCurrent {
-		bool valid;				// 0=ƒf[ƒ^Ši”[‚È‚µ  1=ƒf[ƒ^Ši”[‚ ‚è
+		bool valid;				// 0=ãƒ‡ãƒ¼ã‚¿æ ¼ç´ãªã—  1=ãƒ‡ãƒ¼ã‚¿æ ¼ç´ã‚ã‚Š
 		Nrf nrfRise;
 		Nrf nrfFall;
 		Nrf nrfLastRise;
@@ -269,9 +270,9 @@ namespace jlsd
 		Msec msecLastFall;
 	};
 	struct ElgCurrent {
-		bool valid;				// 0=ƒf[ƒ^Ši”[‚È‚µ  1=ƒf[ƒ^Ši”[‚ ‚è
-		bool border;			// 0=borderŠÜ‚ß‚È‚¢  1=borderŠÜ‚Þ
-		bool outflag;			// 0=“à•”“®ì 1=ÅIo—Í“®ì
+		bool valid;				// 0=ãƒ‡ãƒ¼ã‚¿æ ¼ç´ãªã—  1=ãƒ‡ãƒ¼ã‚¿æ ¼ç´ã‚ã‚Š
+		bool border;			// 0=borderå«ã‚ãªã„  1=borderå«ã‚€
+		bool outflag;			// 0=å†…éƒ¨å‹•ä½œ 1=æœ€çµ‚å‡ºåŠ›å‹•ä½œ
 		Nsc nscRise;
 		Nsc nscFall;
 		Nsc nscLastRise;
@@ -294,11 +295,11 @@ namespace jlsd
 }
 
 //---------------------------------------------------------------------
-// JLƒXƒNƒŠƒvƒg‚Ìˆø”ŠÖ˜A•ÛŽ
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã®å¼•æ•°é–¢é€£ä¿æŒ
 //---------------------------------------------------------------------
 namespace jlscmd
 {
-	//--- JLƒXƒNƒŠƒvƒg–½—ß ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆå‘½ä»¤ ---
 	enum JlcmdSelType {
 		JLCMD_SEL_Nop,
 		JLCMD_SEL_If,
@@ -339,7 +340,7 @@ namespace jlscmd
 		JLCMD_SEL_NextTail,
 		SIZE_JLCMD_SEL
 	};
-	//--- JLƒXƒNƒŠƒvƒg–½—ßŽí—Þ ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆå‘½ä»¤ç¨®é¡ž ---
 	enum JlcmdCategoryType {
 		JLCMD_CAT_NONE,
 		JLCMD_CAT_COND,
@@ -353,7 +354,7 @@ namespace jlscmd
 		JLCMD_CAT_AUTOEACH,
 		JLCMD_CAT_AUTO
 	};
-	//--- JLƒXƒNƒŠƒvƒgƒIƒvƒVƒ‡ƒ“Ží—Þ ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ç¨®é¡ž ---
 	enum JlOptionCategoryType{
 		JLOPT_CAT_NONE,
 		JLOPT_CAT_NUMLOGO,
@@ -364,7 +365,7 @@ namespace jlscmd
 		JLOPT_CAT_NUM,
 		JLOPT_CAT_FLAG
 	};
-	//--- JLƒXƒNƒŠƒvƒgƒIƒvƒVƒ‡ƒ“Ši”[•Ï” ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚ªãƒ—ã‚·ãƒ§ãƒ³æ ¼ç´å¤‰æ•° ---
 	enum JlOptionDataType {
 		JLOPT_DATA_DUMMY,
 		JLOPT_DATA_TypeNLogo,
@@ -452,23 +453,23 @@ namespace jlscmd
 		CMDARG_FR_FMIDX
 	};
 
-	//--- JLƒXƒNƒŠƒvƒg–½—ßƒTƒu‘I‘ð ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆå‘½ä»¤ã‚µãƒ–é¸æŠž ---
 	enum JlcmdSubType {
 		JLCMD_SUB_TR,
 		JLCMD_SUB_SP,
 		JLCMD_SUB_EC
 	};
-	//--- JLƒXƒNƒŠƒvƒgƒfƒR[ƒhŒ‹‰ÊƒGƒ‰[ ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆãƒ‡ã‚³ãƒ¼ãƒ‰çµæžœã‚¨ãƒ©ãƒ¼ ---
 	enum JlcmdErrType {
 		JLCMD_ERR_None,
-		JLCMD_ERR_ErrOpt,				// ƒRƒ}ƒ“ƒhˆÙíiƒIƒvƒVƒ‡ƒ“j
-		JLCMD_ERR_ErrRange,				// ƒRƒ}ƒ“ƒhˆÙíi”ÍˆÍj
-		JLCMD_ERR_ErrSEB,				// ƒRƒ}ƒ“ƒhˆÙíiS/E/B‘I‘ðj
-		JLCMD_ERR_ErrVar,				// ƒRƒ}ƒ“ƒhˆÙíi•Ï”ŠÖ˜Aj
-		JLCMD_ERR_ErrTR,				// ƒRƒ}ƒ“ƒhˆÙíiTR/SP/ED‘I‘ðj
-		JLCMD_ERR_ErrCmd				// ƒRƒ}ƒ“ƒhˆÙíiƒRƒ}ƒ“ƒhj
+		JLCMD_ERR_ErrOpt,				// ã‚³ãƒžãƒ³ãƒ‰ç•°å¸¸ï¼ˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ï¼‰
+		JLCMD_ERR_ErrRange,				// ã‚³ãƒžãƒ³ãƒ‰ç•°å¸¸ï¼ˆç¯„å›²ï¼‰
+		JLCMD_ERR_ErrSEB,				// ã‚³ãƒžãƒ³ãƒ‰ç•°å¸¸ï¼ˆS/E/Bé¸æŠžï¼‰
+		JLCMD_ERR_ErrVar,				// ã‚³ãƒžãƒ³ãƒ‰ç•°å¸¸ï¼ˆå¤‰æ•°é–¢é€£ï¼‰
+		JLCMD_ERR_ErrTR,				// ã‚³ãƒžãƒ³ãƒ‰ç•°å¸¸ï¼ˆTR/SP/EDé¸æŠžï¼‰
+		JLCMD_ERR_ErrCmd				// ã‚³ãƒžãƒ³ãƒ‰ç•°å¸¸ï¼ˆã‚³ãƒžãƒ³ãƒ‰ï¼‰
 	};
-	//--- JLƒXƒNƒŠƒvƒgAutoŒnƒRƒ}ƒ“ƒh ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆAutoç³»ã‚³ãƒžãƒ³ãƒ‰ ---
 	enum JlcmdAutoType {
 		JLCMD_AUTO_None,
 		JLCMD_AUTO_CUTTR,
@@ -484,31 +485,31 @@ namespace jlscmd
 		JLCMD_AUTO_INS,
 		JLCMD_AUTO_DEL
 	};
-	//--- AutoƒRƒ}ƒ“ƒhƒpƒ‰ƒ[ƒ^ ---
+	//--- Autoã‚³ãƒžãƒ³ãƒ‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ ---
 	enum JlParamAuto {
-		// codeƒpƒ‰ƒ[ƒ^
-		PARAM_AUTO_c_exe,			// 0:ƒRƒ}ƒ“ƒhŽÀs‚È‚µ 1:ƒRƒ}ƒ“ƒhŽÀs
-		PARAM_AUTO_c_search,		// ŒŸõ‚·‚é”ÍˆÍ‚ð‘I‘ð
-		PARAM_AUTO_c_wmin,			// \¬ŠúŠÔ‚ÌÅ¬’l•b”
-		PARAM_AUTO_c_wmax,			// \¬ŠúŠÔ‚ÌÅ‘å’l•b”
-		PARAM_AUTO_c_w15,			// 1:”Ô‘g\¬‚Å15•b‚ðŒŸõ
-		PARAM_AUTO_c_lgprev,		// 0:ƒƒSE—\‚Ì‘O‘¤‚ð‘ÎÛŠO
-		PARAM_AUTO_c_lgpost,		// 0:ƒƒSE—\‚ÌŒã‘¤‚ð‘ÎÛŠO
-		PARAM_AUTO_c_lgintr,		// 1:—\‚Æ”Ô‘g’ñ‹Ÿ‚ÌŠÔ‚Ì‚Ý‘ÎÛ‚Æ‚·‚é
-		PARAM_AUTO_c_lgsp,			// 1:”Ô‘g’ñ‹Ÿ‚ª’¼Œã‚É‚ ‚éê‡‚Ì‚Ý‘ÎÛ
-		PARAM_AUTO_c_cutskip,		// 1:—\ƒJƒbƒgˆÈ~‚à‘ÎÛ‚Æ‚·‚é
-		PARAM_AUTO_c_in1,			// 1:—\ˆÊ’u‚É”Ô‘g’ñ‹Ÿ‚ð“ü‚ê‚é
-		PARAM_AUTO_c_chklast,		// 1:–{‘Ì\¬‚ªŒã‚É‚ ‚ê‚Î‘ÎÛŠO‚Æ‚·‚é
-		PARAM_AUTO_c_lgy,			// 1:ƒƒS“à‚ð‘ÎÛ‚Æ‚·‚é
-		PARAM_AUTO_c_lgn,			// 1:ƒƒSŠO‚ð‘ÎÛ‚Æ‚·‚é
-		PARAM_AUTO_c_lgbn,			// 1:—¼—×‚ðŠÜ‚ßƒƒSŠO‚Ìê‡‚ð‘ÎÛ‚Æ‚·‚é
-		PARAM_AUTO_c_limloc,		// 1:•W€ŠúŠÔ‚ÌŒó•âˆÊ’u‚Ì‚Ý‚ÉŒÀ’è
-		PARAM_AUTO_c_limtrsum,		// 1:—\ŠúŠÔ‚É‚æ‚è–³Œø‰»‚·‚é
-		PARAM_AUTO_c_unitcmoff,		// 1:CM•ªŠ„‚µ‚½\¬‚ÌŒŸo‚ð‹­§–³Œø
-		PARAM_AUTO_c_unitcmon,		// 1:CM•ªŠ„‚µ‚½\¬‚ÌŒŸo‚ð‹­§Ý’è
-		PARAM_AUTO_c_wdefmin,		// •W€‚Ì\¬ŠúŠÔ‚ÌÅ¬’l•b”
-		PARAM_AUTO_c_wdefmax,		// •W€‚Ì\¬ŠúŠÔ‚ÌÅ‘å’l•b”
-		// autocut—p
+		// codeãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+		PARAM_AUTO_c_exe,			// 0:ã‚³ãƒžãƒ³ãƒ‰å®Ÿè¡Œãªã— 1:ã‚³ãƒžãƒ³ãƒ‰å®Ÿè¡Œ
+		PARAM_AUTO_c_search,		// æ¤œç´¢ã™ã‚‹ç¯„å›²ã‚’é¸æŠž
+		PARAM_AUTO_c_wmin,			// æ§‹æˆæœŸé–“ã®æœ€å°å€¤ç§’æ•°
+		PARAM_AUTO_c_wmax,			// æ§‹æˆæœŸé–“ã®æœ€å¤§å€¤ç§’æ•°
+		PARAM_AUTO_c_w15,			// 1:ç•ªçµ„æ§‹æˆã§15ç§’ã‚’æ¤œç´¢
+		PARAM_AUTO_c_lgprev,		// 0:ãƒ­ã‚´ãƒ»äºˆå‘Šã®å‰å´ã‚’å¯¾è±¡å¤–
+		PARAM_AUTO_c_lgpost,		// 0:ãƒ­ã‚´ãƒ»äºˆå‘Šã®å¾Œå´ã‚’å¯¾è±¡å¤–
+		PARAM_AUTO_c_lgintr,		// 1:äºˆå‘Šã¨ç•ªçµ„æä¾›ã®é–“ã®ã¿å¯¾è±¡ã¨ã™ã‚‹
+		PARAM_AUTO_c_lgsp,			// 1:ç•ªçµ„æä¾›ãŒç›´å¾Œã«ã‚ã‚‹å ´åˆã®ã¿å¯¾è±¡
+		PARAM_AUTO_c_cutskip,		// 1:äºˆå‘Šã‚«ãƒƒãƒˆä»¥é™ã‚‚å¯¾è±¡ã¨ã™ã‚‹
+		PARAM_AUTO_c_in1,			// 1:äºˆå‘Šä½ç½®ã«ç•ªçµ„æä¾›ã‚’å…¥ã‚Œã‚‹
+		PARAM_AUTO_c_chklast,		// 1:æœ¬ä½“æ§‹æˆãŒå¾Œã«ã‚ã‚Œã°å¯¾è±¡å¤–ã¨ã™ã‚‹
+		PARAM_AUTO_c_lgy,			// 1:ãƒ­ã‚´å†…ã‚’å¯¾è±¡ã¨ã™ã‚‹
+		PARAM_AUTO_c_lgn,			// 1:ãƒ­ã‚´å¤–ã‚’å¯¾è±¡ã¨ã™ã‚‹
+		PARAM_AUTO_c_lgbn,			// 1:ä¸¡éš£ã‚’å«ã‚ãƒ­ã‚´å¤–ã®å ´åˆã‚’å¯¾è±¡ã¨ã™ã‚‹
+		PARAM_AUTO_c_limloc,		// 1:æ¨™æº–æœŸé–“ã®å€™è£œä½ç½®ã®ã¿ã«é™å®š
+		PARAM_AUTO_c_limtrsum,		// 1:äºˆå‘ŠæœŸé–“ã«ã‚ˆã‚Šç„¡åŠ¹åŒ–ã™ã‚‹
+		PARAM_AUTO_c_unitcmoff,		// 1:CMåˆ†å‰²ã—ãŸæ§‹æˆã®æ¤œå‡ºã‚’å¼·åˆ¶ç„¡åŠ¹
+		PARAM_AUTO_c_unitcmon,		// 1:CMåˆ†å‰²ã—ãŸæ§‹æˆã®æ¤œå‡ºã‚’å¼·åˆ¶è¨­å®š
+		PARAM_AUTO_c_wdefmin,		// æ¨™æº–ã®æ§‹æˆæœŸé–“ã®æœ€å°å€¤ç§’æ•°
+		PARAM_AUTO_c_wdefmax,		// æ¨™æº–ã®æ§‹æˆæœŸé–“ã®æœ€å¤§å€¤ç§’æ•°
+		// autocutç”¨
 		PARAM_AUTO_c_from,			// cuttr
 		PARAM_AUTO_c_cutst,			// cuttr
 		PARAM_AUTO_c_lgpre,			// cuttr
@@ -517,14 +518,14 @@ namespace jlscmd
 		PARAM_AUTO_c_cutlp,			// cutec
 		PARAM_AUTO_c_cut30,			// cutec
 		PARAM_AUTO_c_cutsp,			// cutec
-		// edge—p
+		// edgeç”¨
 		PARAM_AUTO_c_cmpart,
 		PARAM_AUTO_c_add,
 		PARAM_AUTO_c_allcom,
 		PARAM_AUTO_c_noedge,
-		// autoins,autodel—p
+		// autoins,autodelç”¨
 		PARAM_AUTO_c_restruct,
-		// ”’lƒpƒ‰ƒ[ƒ^
+		// æ•°å€¤ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 		PARAM_AUTO_v_limit,
 		PARAM_AUTO_v_scope,
 		PARAM_AUTO_v_scopen,
@@ -533,12 +534,12 @@ namespace jlscmd
 		PARAM_AUTO_v_trsumprd,
 		PARAM_AUTO_v_secprev,
 		PARAM_AUTO_v_secnext,
-		// autocut—p
+		// autocutç”¨
 		PARAM_AUTO_v_trscope,
 		PARAM_AUTO_v_tr1stprd,
-		// ‡Œv”
+		// åˆè¨ˆæ•°
 		SIZE_PARAM_AUTO
 	};
 }
 
-
+#endif

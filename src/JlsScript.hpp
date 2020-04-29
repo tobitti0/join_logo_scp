@@ -1,8 +1,9 @@
 //
-// JLƒRƒ}ƒ“ƒhÀs—p
+// JLã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œç”¨
 //
 ///////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __JLSSCRIPT__
+#define __JLSSCRIPT__
 
 class JlsReformData;
 class JlsAutoScript;
@@ -14,7 +15,7 @@ class JlsDataset;
 
 ///////////////////////////////////////////////////////////////////////
 //
-// •Ï”Ši”[ƒNƒ‰ƒX
+// å¤‰æ•°æ ¼ç´ã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsRegFile
@@ -27,7 +28,7 @@ private:
 	int  getRegNameVal(string &strName, string &strVal, const string &strPair);
 
 private:
-	static const int SIZE_VARNUM_MAX = 2048;		// •Ï”‚ÌÅ‘å”‚ğ”O‚Ì‚½‚ßİ’è
+	static const int SIZE_VARNUM_MAX = 2048;		// å¤‰æ•°ã®æœ€å¤§æ•°ã‚’å¿µã®ãŸã‚è¨­å®š
 	vector<string> m_strListVar;
 
 };
@@ -35,22 +36,22 @@ private:
 
 ///////////////////////////////////////////////////////////////////////
 //
-// ƒXƒNƒŠƒvƒg§Œä
+// ã‚¹ã‚¯ãƒªãƒ—ãƒˆåˆ¶å¾¡
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsScriptState
 {
 private:
-	static const int SIZE_REPLINE  = 4096;		// ƒLƒƒƒbƒVƒ…•ÛÅ‘ås”
+	static const int SIZE_REPLINE  = 4096;		// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ä¿æŒæœ€å¤§è¡Œæ•°
 
-	enum CondIfState {			// Ifó‘Ô
-		COND_IF_FINISHED,		// ÀsÏ‚İ
-		COND_IF_PREPARE,		// –¢Às
-		COND_IF_RUNNING			// Às’†
+	enum CondIfState {			// IfçŠ¶æ…‹
+		COND_IF_FINISHED,		// å®Ÿè¡Œæ¸ˆã¿
+		COND_IF_PREPARE,		// æœªå®Ÿè¡Œ
+		COND_IF_RUNNING			// å®Ÿè¡Œä¸­
 	};
-	struct RepDepthHold {		// RepeatŠeƒlƒXƒg‚Ìó‘Ô
-		int  lineStart;			// ŠJns
-		int  countLoop;			// ŒJ‚è•Ô‚µc‚è‰ñ”
+	struct RepDepthHold {		// Repeatå„ãƒã‚¹ãƒˆã®çŠ¶æ…‹
+		int  lineStart;			// é–‹å§‹è¡Œ
+		int  countLoop;			// ç¹°ã‚Šè¿”ã—æ®‹ã‚Šå›æ•°
 	};
 
 public:
@@ -68,63 +69,63 @@ public:
 	bool isSkipCmd();
 
 private:
-	//--- IF•¶§Œä ---
-	bool					m_ifSkip;			// IFğŒŠOi0=’Êí  1=ğŒŠO‚ÅÀs‚µ‚È‚¢j
-	vector <CondIfState>	m_listIfState;		// ŠeIFƒlƒXƒg‚Ìó‘ÔiÀsÏ‚İ –¢Às Às’†j
-	//--- Repeat•¶§Œä ---
-	bool					m_repSkip;			// RepeatÀsi0=’Êí  1=ŒJ‚è•Ô‚µ‚O‰ñ‚ÅÀs‚È‚µj
-	int						m_repLineReadCache;	// “Ç‚İo‚µƒLƒƒƒbƒVƒ…s
-	vector <string>			m_listRepCmdCache;	// repeat’†‚ÌƒRƒ}ƒ“ƒh•¶š—ñƒLƒƒƒbƒVƒ…
-	vector <RepDepthHold>	m_listRepDepth;		// ŒJ‚è•Ô‚µó‘Ô•Û
+	//--- IFæ–‡åˆ¶å¾¡ ---
+	bool					m_ifSkip;			// IFæ¡ä»¶å¤–ï¼ˆ0=é€šå¸¸  1=æ¡ä»¶å¤–ã§å®Ÿè¡Œã—ãªã„ï¼‰
+	vector <CondIfState>	m_listIfState;		// å„IFãƒã‚¹ãƒˆã®çŠ¶æ…‹ï¼ˆå®Ÿè¡Œæ¸ˆã¿ æœªå®Ÿè¡Œ å®Ÿè¡Œä¸­ï¼‰
+	//--- Repeatæ–‡åˆ¶å¾¡ ---
+	bool					m_repSkip;			// Repeatå®Ÿè¡Œï¼ˆ0=é€šå¸¸  1=ç¹°ã‚Šè¿”ã—ï¼å›ã§å®Ÿè¡Œãªã—ï¼‰
+	int						m_repLineReadCache;	// èª­ã¿å‡ºã—ã‚­ãƒ£ãƒƒã‚·ãƒ¥è¡Œ
+	vector <string>			m_listRepCmdCache;	// repeatä¸­ã®ã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—ã‚­ãƒ£ãƒƒã‚·ãƒ¥
+	vector <RepDepthHold>	m_listRepDepth;		// ç¹°ã‚Šè¿”ã—çŠ¶æ…‹ä¿æŒ
 };
 
 
 ///////////////////////////////////////////////////////////////////////
 //
-// JLƒXƒNƒŠƒvƒgÀsƒNƒ‰ƒX
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆå®Ÿè¡Œã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsScript
 {
 private:
-	static const int SIZE_CALL_LOOP = 10;		// CallƒRƒ}ƒ“ƒh‚ÌÄ‹AÅ‘å‰ñ”
+	static const int SIZE_CALL_LOOP = 10;		// Callã‚³ãƒãƒ³ãƒ‰ã®å†å¸°æœ€å¤§å›æ•°
 
-	// –½—ßƒZƒbƒg\¬
+	// å‘½ä»¤ã‚»ãƒƒãƒˆæ§‹æˆ
 	enum ConfigStrValType {
-		CONFIG_STR_MSEC,			// ƒ~ƒŠ•bæ“¾
-		CONFIG_STR_MSECM1,			// ƒ~ƒŠ•bæ“¾iƒ}ƒCƒiƒX‚P‚Í‚»‚Ì‚Ü‚Üc‚·j
-		CONFIG_STR_SEC,				// •bæ“¾i®”“ü—Í‚Í•b‚Æ‚µ‚Äˆµ‚¤j
-		CONFIG_STR_NUM				// ”’læ“¾
+		CONFIG_STR_MSEC,			// ãƒŸãƒªç§’å–å¾—
+		CONFIG_STR_MSECM1,			// ãƒŸãƒªç§’å–å¾—ï¼ˆãƒã‚¤ãƒŠã‚¹ï¼‘ã¯ãã®ã¾ã¾æ®‹ã™ï¼‰
+		CONFIG_STR_SEC,				// ç§’å–å¾—ï¼ˆæ•´æ•°å…¥åŠ›ã¯ç§’ã¨ã—ã¦æ‰±ã†ï¼‰
+		CONFIG_STR_NUM				// æ•°å€¤å–å¾—
 	};
-	struct LogoMarkCount {			// ƒƒS”Ô†‚ğƒJƒEƒ“ƒg
+	struct LogoMarkCount {			// ãƒ­ã‚´ç•ªå·ã‚’ã‚«ã‚¦ãƒ³ãƒˆ
 		int abs;					// -N
 		int rel;					// -NR
 		int lg;						// -LG
 	};
-	struct LogoMarkExist {			// ƒƒS”Ô†ƒJƒEƒ“ƒg—p
+	struct LogoMarkExist {			// ãƒ­ã‚´ç•ªå·ã‚«ã‚¦ãƒ³ãƒˆç”¨
 		bool abs;
 		bool rel;
 		bool lg;
 	};
 	struct JlscrCmdRecord {
-		JlcmdSelType		cmdsel;		// ‘I‘ğƒRƒ}ƒ“ƒh
-		JlcmdCategoryType	category;	// ƒRƒ}ƒ“ƒhí•Ê
-		int		mustchar;			// •K{ƒIƒvƒVƒ‡ƒ“‚Pi0=‚È‚µ  1=S/E/B  2=TR/SP/ECj
-		int		mustrange;			// •K{ƒIƒvƒVƒ‡ƒ“‚Qi0=‚È‚µ  1=center  3=center+left+rightj
-		int		needopt;			// ’Ç‰ÁƒIƒvƒVƒ‡ƒ“i0=‚È‚µ  1=“Ç‚İ‚İj
-		int		floatbase;			// Šî€ˆÊ’u‚Íƒ^[ƒQƒbƒg‘¤
-		char	cmdname[12];		// ƒRƒ}ƒ“ƒh•¶š—ñ
+		JlcmdSelType		cmdsel;		// é¸æŠã‚³ãƒãƒ³ãƒ‰
+		JlcmdCategoryType	category;	// ã‚³ãƒãƒ³ãƒ‰ç¨®åˆ¥
+		int		mustchar;			// å¿…é ˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ï¼‘ï¼ˆ0=ãªã—  1=S/E/B  2=TR/SP/ECï¼‰
+		int		mustrange;			// å¿…é ˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ï¼’ï¼ˆ0=ãªã—  1=center  3=center+left+rightï¼‰
+		int		needopt;			// è¿½åŠ ã‚ªãƒ—ã‚·ãƒ§ãƒ³ï¼ˆ0=ãªã—  1=èª­ã¿è¾¼ã¿ï¼‰
+		int		floatbase;			// åŸºæº–ä½ç½®ã¯ã‚¿ãƒ¼ã‚²ãƒƒãƒˆå´
+		char	cmdname[12];		// ã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—
 	};
 	struct JlscrCmdAlias {
-		JlcmdSelType		cmdsel;		// ‘I‘ğƒRƒ}ƒ“ƒh
-		char	cmdname[12];			// ƒRƒ}ƒ“ƒh•Ê–¼•¶š—ñ
+		JlcmdSelType		cmdsel;		// é¸æŠã‚³ãƒãƒ³ãƒ‰
+		char	cmdname[12];			// ã‚³ãƒãƒ³ãƒ‰åˆ¥åæ–‡å­—åˆ—
 	};
 	struct JlOptionRecord {
-		JlOptionCategoryType	category;	// ƒIƒvƒVƒ‡ƒ“‚Ìí—Ş
-		int						num;		// İ’è”‚Ü‚½‚Íİ’è”’l
-		int						sort;		// ˆø”•À‚Ñ‘Ö‚¦(12=1‚Æ2, 23=2‚Æ3)
-		JlOptionDataType		data1;		// “ü—Íƒf[ƒ^‚Ìí—Ş
-		char	optname[12];				// ƒRƒ}ƒ“ƒh•¶š—ñ
+		JlOptionCategoryType	category;	// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®ç¨®é¡
+		int						num;		// è¨­å®šæ•°ã¾ãŸã¯è¨­å®šæ•°å€¤
+		int						sort;		// å¼•æ•°ä¸¦ã³æ›¿ãˆ(12=1ã¨2, 23=2ã¨3)
+		JlOptionDataType		data1;		// å…¥åŠ›ãƒ‡ãƒ¼ã‚¿ã®ç¨®é¡
+		char	optname[12];				// ã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—
 	};
 	struct ConfigDataRecord {
 		ConfigVarType		prmsel;
@@ -132,7 +133,7 @@ private:
 		char	namestr[18];
 	};
 
-//--- ƒRƒ}ƒ“ƒhƒŠƒXƒg ---
+//--- ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ ---
 const JlscrCmdRecord  CmdDefine[SIZE_JLCMD_SEL] = {
 	{ JLCMD_SEL_Nop,        JLCMD_CAT_NONE,     0,0,0,0, "Nop"        },
 	{ JLCMD_SEL_If,         JLCMD_CAT_COND,     0,0,0,0, "If"         },
@@ -172,15 +173,15 @@ const JlscrCmdRecord  CmdDefine[SIZE_JLCMD_SEL] = {
 	{ JLCMD_SEL_GetList,    JLCMD_CAT_LOGO,     1,3,1,0, "GetList"    },
 	{ JLCMD_SEL_NextTail,   JLCMD_CAT_NEXT,     1,3,1,1, "NextTail"   }
 };
-//--- •Ê–¼İ’è ---
+//--- åˆ¥åè¨­å®š ---
 static const int SIZE_JLSCR_CMDALIAS = 2;
 const JlscrCmdAlias CmdAlias[SIZE_JLSCR_CMDALIAS] = {
 	{ JLCMD_SEL_AutoIns,    "AutoInsert" },
 	{ JLCMD_SEL_AutoDel,    "AutoDelete" }
 };
 
-//--- ƒRƒ}ƒ“ƒhƒIƒvƒVƒ‡ƒ“ ---
-static const int SIZE_JLOPT_DEFINE = 70;		// OptDefine‚Ì€–Ú”‚ğİ’èi€–Ú”•ÏX‚Í•ÏX•K{j
+//--- ã‚³ãƒãƒ³ãƒ‰ã‚ªãƒ—ã‚·ãƒ§ãƒ³ ---
+static const int SIZE_JLOPT_DEFINE = 70;		// OptDefineã®é …ç›®æ•°ã‚’è¨­å®šï¼ˆé …ç›®æ•°å¤‰æ›´æ™‚ã¯å¤‰æ›´å¿…é ˆï¼‰
 const JlOptionRecord  OptDefine[SIZE_JLOPT_DEFINE] = {
 	{ JLOPT_CAT_NUMLOGO, CMDARG_LG_N,        0,  JLOPT_DATA_DUMMY,         "-N"        },
 	{ JLOPT_CAT_NUMLOGO, CMDARG_LG_NR,       0,  JLOPT_DATA_DUMMY,         "-NR"       },
@@ -254,7 +255,7 @@ const JlOptionRecord  OptDefine[SIZE_JLOPT_DEFINE] = {
 	{ JLOPT_CAT_FLAG,    0,                  0,  JLOPT_DATA_FlagRelative,  "-relative" }
 };
 
-//--- setParamƒRƒ}ƒ“ƒh‚É‚æ‚éİ’è iƒf[ƒ^‰Šú’l‚Ídataset‚Å’è‹`j ---
+//--- setParamã‚³ãƒãƒ³ãƒ‰ã«ã‚ˆã‚‹è¨­å®š ï¼ˆãƒ‡ãƒ¼ã‚¿åˆæœŸå€¤ã¯datasetã§å®šç¾©ï¼‰ ---
 const ConfigDataRecord ConfigDefine[SIZE_CONFIG_VAR] = {
 	{ CONFIG_VAR_msecWLogoTRMax,      CONFIG_STR_MSEC,   "WLogoTRMax"  },
 	{ CONFIG_VAR_msecWCompTRMax,      CONFIG_STR_MSEC,   "WCompTRMax"  },
@@ -356,16 +357,17 @@ private:
 
 
 private:
-	//--- ŠÖ” ---
-	JlsDataset *pdata;									// “ü—Íƒf[ƒ^ƒAƒNƒZƒX
-	unique_ptr <JlsAutoScript>	m_funcAutoScript;		// ©“®\¬„‘ªƒXƒNƒŠƒvƒg
+	//--- é–¢æ•° ---
+	JlsDataset *pdata;									// å…¥åŠ›ãƒ‡ãƒ¼ã‚¿ã‚¢ã‚¯ã‚»ã‚¹
+	unique_ptr <JlsAutoScript>	m_funcAutoScript;		// è‡ªå‹•æ§‹æˆæ¨æ¸¬ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 
-	//--- •Ûƒf[ƒ^ ---
-	JlsRegFile   m_regvar;				// set/defaultƒRƒ}ƒ“ƒh‚É‚æ‚é•Ï”’l‚Ì•Û
-	string       m_pathNameJL;			// JLƒXƒNƒŠƒvƒg‚ÌPath
+	//--- ä¿æŒãƒ‡ãƒ¼ã‚¿ ---
+	JlsRegFile   m_regvar;				// set/defaultã‚³ãƒãƒ³ãƒ‰ã«ã‚ˆã‚‹å¤‰æ•°å€¤ã®ä¿æŒ
+	string       m_pathNameJL;			// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã®Path
 
-	//--- Às§Œä ---
-	bool m_lastexe;						// ’¼‘Os‚ÌÀs—L–³
-	bool m_exe1st;						// Às‰‰ñ‚Ìİ’è—p
+	//--- å®Ÿè¡Œåˆ¶å¾¡ ---
+	bool m_lastexe;						// ç›´å‰è¡Œã®å®Ÿè¡Œæœ‰ç„¡
+	bool m_exe1st;						// å®Ÿè¡Œåˆå›ã®è¨­å®šç”¨
 };
 
+#endif

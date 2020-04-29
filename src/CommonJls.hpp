@@ -1,6 +1,7 @@
-// ‹¤—L
+// å…±æœ‰
 
-#pragma once
+#ifndef __COMMONJLS__
+#define __COMMONJLS__
 
 //#include <string>
 //#include <fstream>
@@ -18,3 +19,4 @@ using namespace std;
 
 using namespace jlsd;
 using namespace jlscmd;
+#endif

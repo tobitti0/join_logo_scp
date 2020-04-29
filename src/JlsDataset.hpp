@@ -1,117 +1,118 @@
 //
-// join_logo_scp ƒf[ƒ^Ši”[ƒNƒ‰ƒX
+// join_logo_scp ãƒ‡ãƒ¼ã‚¿æ ¼ç´ã‚¯ãƒ©ã‚¹
 //
 //
-// •Ï”–¼‹¤’Ê–½–¼‘¥
-//   nlg      : ƒƒS”Ô†i—§‚¿ã‚ª‚è^—§‚¿‰º‚ª‚è•Êj
-//   nrf      : ƒƒS”Ô†i—§‚¿ã‚ª‚è^—§‚¿‰º‚ª‚è’ÊZj
-//   nsc      : ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-//   msec,ms* : ŠÔƒ~ƒŠ•b’PˆÊ
-//   sec      : ŠÔ•b’PˆÊ
-//   frm      : ŠÔƒtƒŒ[ƒ€’PˆÊ
+// å¤‰æ•°åå…±é€šå‘½åå‰‡
+//   nlg      : ãƒ­ã‚´ç•ªå·ï¼ˆç«‹ã¡ä¸ŠãŒã‚Šï¼ç«‹ã¡ä¸‹ãŒã‚Šåˆ¥ï¼‰
+//   nrf      : ãƒ­ã‚´ç•ªå·ï¼ˆç«‹ã¡ä¸ŠãŒã‚Šï¼ç«‹ã¡ä¸‹ãŒã‚Šé€šç®—ï¼‰
+//   nsc      : ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+//   msec,ms* : æ™‚é–“ãƒŸãƒªç§’å˜ä½
+//   sec      : æ™‚é–“ç§’å˜ä½
+//   frm      : æ™‚é–“ãƒ•ãƒ¬ãƒ¼ãƒ å˜ä½
 //
 //
 /////////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __JLSDATASET__
+#define __JLSDATASET__
 
 #include "CnvStrTime.hpp"
 
 
-//--- ƒV[ƒ“ƒ`ƒFƒ“ƒW‚Æ\¬‹æØ‚è—p ---
+//--- ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã¨æ§‹æˆåŒºåˆ‡ã‚Šç”¨ ---
 struct DataScpRecord {
-// “Çƒf[ƒ^
-	Msec			msec;				// ƒ~ƒŠ•b
-	Msec			msbk;				// I—¹ˆÊ’uƒ~ƒŠ•b
-	Msec			msmute_s;			// ƒV[ƒ“ƒ`ƒFƒ“ƒW–³‰¹ŒŸoŠJnˆÊ’u
-	Msec			msmute_e;			// ƒV[ƒ“ƒ`ƒFƒ“ƒW–³‰¹ŒŸoI—¹ˆÊ’u
-	bool			still;				// Ã~‰æ
-// ]—ˆİ’è—p
-	ScpPriorType	statpos;			// -1:d•¡“™ 0:‰Šú 1:Œó•â 2:Šm’è
-// „‘ªİ’è—p
-	int				score;				// \¬‹æØ‚èŒó•â‚Ì„‘ª—p
-	ScpChapType		chap;				// \¬‹æØ‚èó‘Ô
-	ScpArType		arstat;				// ‹æØ‚è‚Ì\¬“à—e
-	ScpArExtType	arext;				// ‹æØ‚è‚Ì\¬“à—e‚ÌŠg’£İ’è
+// èª­è¾¼ãƒ‡ãƒ¼ã‚¿
+	Msec			msec;				// ãƒŸãƒªç§’
+	Msec			msbk;				// çµ‚äº†ä½ç½®ãƒŸãƒªç§’
+	Msec			msmute_s;			// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç„¡éŸ³æ¤œå‡ºé–‹å§‹ä½ç½®
+	Msec			msmute_e;			// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç„¡éŸ³æ¤œå‡ºçµ‚äº†ä½ç½®
+	bool			still;				// é™æ­¢ç”»
+// å¾“æ¥è¨­å®šç”¨
+	ScpPriorType	statpos;			// -1:é‡è¤‡ç­‰ 0:åˆæœŸ 1:å€™è£œ 2:ç¢ºå®š
+// æ¨æ¸¬è¨­å®šç”¨
+	int				score;				// æ§‹æˆåŒºåˆ‡ã‚Šå€™è£œã®æ¨æ¸¬ç”¨
+	ScpChapType		chap;				// æ§‹æˆåŒºåˆ‡ã‚ŠçŠ¶æ…‹
+	ScpArType		arstat;				// åŒºåˆ‡ã‚Šã®æ§‹æˆå†…å®¹
+	ScpArExtType	arext;				// åŒºåˆ‡ã‚Šã®æ§‹æˆå†…å®¹ã®æ‹¡å¼µè¨­å®š
 };
 
-//--- ƒƒSƒf[ƒ^•Û—p ---
+//--- ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ä¿æŒç”¨ ---
 struct DataLogoRecord {
-// “Çƒf[ƒ^
-	Msec			rise;				// ƒƒSŠeŠJnƒtƒŒ[ƒ€iƒ~ƒŠ•bj
-	Msec			fall;				// ƒƒSŠeI—¹ƒtƒŒ[ƒ€iƒ~ƒŠ•bj
-	Msec			rise_l;				// ƒƒSŠeŠJnƒtƒŒ[ƒ€Œó•âŠJniƒ~ƒŠ•bj
-	Msec			rise_r;				// ƒƒSŠeŠJnƒtƒŒ[ƒ€Œó•âI—¹iƒ~ƒŠ•bj
-	Msec			fall_l;				// ƒƒSŠeI—¹ƒtƒŒ[ƒ€Œó•âŠJniƒ~ƒŠ•bj
-	Msec			fall_r;				// ƒƒSŠeI—¹ƒtƒŒ[ƒ€Œó•âI—¹iƒ~ƒŠ•bj
-	int				fade_rise;			// ŠeŠJnƒtƒF[ƒhƒCƒ“ó‘Ô(0 or fadein)
-	int				fade_fall;			// ŠeI—¹ƒtƒF[ƒhƒAƒEƒgó‘Ô(0 or fadeout)
-	int				intl_rise;			// ƒCƒ“ƒ^[ƒŒ[ƒXó‘Ô(0:ALL 1:TOP 2:BTM)
-	int				intl_fall;			// ƒCƒ“ƒ^[ƒŒ[ƒXó‘Ô(0:ALL 1:TOP 2:BTM)
-// “Ç‚İ‚İŒ³ƒf[ƒ^•Û
-	Msec			org_rise;			// ƒƒSŠeŠJnƒtƒŒ[ƒ€iƒ~ƒŠ•bj
-	Msec			org_fall;			// ƒƒSŠeI—¹ƒtƒŒ[ƒ€iƒ~ƒŠ•bj
-	Msec			org_rise_l;			// ƒƒSŠeŠJnƒtƒŒ[ƒ€Œó•âŠJniƒ~ƒŠ•bj
-	Msec			org_rise_r;			// ƒƒSŠeŠJnƒtƒŒ[ƒ€Œó•âI—¹iƒ~ƒŠ•bj
-	Msec			org_fall_l;			// ƒƒSŠeI—¹ƒtƒŒ[ƒ€Œó•âŠJniƒ~ƒŠ•bj
-	Msec			org_fall_r;			// ƒƒSŠeI—¹ƒtƒŒ[ƒ€Œó•âI—¹iƒ~ƒŠ•bj
-// ]—ˆİ’è’²®—p
-	LogoPriorType	stat_rise;			// -1:‚Í‚¸‚êŠm’è 0:‰Šú 1:Œó•â 2:Šm’è
-	LogoPriorType	stat_fall;			// -1:‚Í‚¸‚êŠm’è 0:‰Šú 1:Œó•â 2:Šm’è
-	LogoUnitType	unit;				// 1:“Æ—§ƒtƒŒ[ƒ€
-// ]—ˆŒ‹‰ÊŠi”[—p
-	LogoResultType	outtype_rise;		// 0:o—Í–¢Šm’è  1:o—ÍŠm’è  2:abort”jŠüŠm’è
-	LogoResultType	outtype_fall;		// 0:o—Í–¢Šm’è  1:o—ÍŠm’è  2:abort”jŠüŠm’è
-	Msec			result_rise;		// ƒƒSŠeŠJnŠm’èˆÊ’uiƒ~ƒŠ•bj
-	Msec			result_fall;		// ƒƒSŠeI—¹Šm’èˆÊ’uiƒ~ƒŠ•bj
+// èª­è¾¼ãƒ‡ãƒ¼ã‚¿
+	Msec			rise;				// ãƒ­ã‚´å„é–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ ï¼ˆãƒŸãƒªç§’ï¼‰
+	Msec			fall;				// ãƒ­ã‚´å„çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ ï¼ˆãƒŸãƒªç§’ï¼‰
+	Msec			rise_l;				// ãƒ­ã‚´å„é–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ å€™è£œé–‹å§‹ï¼ˆãƒŸãƒªç§’ï¼‰
+	Msec			rise_r;				// ãƒ­ã‚´å„é–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ å€™è£œçµ‚äº†ï¼ˆãƒŸãƒªç§’ï¼‰
+	Msec			fall_l;				// ãƒ­ã‚´å„çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ å€™è£œé–‹å§‹ï¼ˆãƒŸãƒªç§’ï¼‰
+	Msec			fall_r;				// ãƒ­ã‚´å„çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ å€™è£œçµ‚äº†ï¼ˆãƒŸãƒªç§’ï¼‰
+	int				fade_rise;			// å„é–‹å§‹ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³çŠ¶æ…‹(0 or fadein)
+	int				fade_fall;			// å„çµ‚äº†ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆçŠ¶æ…‹(0 or fadeout)
+	int				intl_rise;			// ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ¬ãƒ¼ã‚¹çŠ¶æ…‹(0:ALL 1:TOP 2:BTM)
+	int				intl_fall;			// ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ¬ãƒ¼ã‚¹çŠ¶æ…‹(0:ALL 1:TOP 2:BTM)
+// èª­ã¿è¾¼ã¿å…ƒãƒ‡ãƒ¼ã‚¿ä¿æŒ
+	Msec			org_rise;			// ãƒ­ã‚´å„é–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ ï¼ˆãƒŸãƒªç§’ï¼‰
+	Msec			org_fall;			// ãƒ­ã‚´å„çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ ï¼ˆãƒŸãƒªç§’ï¼‰
+	Msec			org_rise_l;			// ãƒ­ã‚´å„é–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ å€™è£œé–‹å§‹ï¼ˆãƒŸãƒªç§’ï¼‰
+	Msec			org_rise_r;			// ãƒ­ã‚´å„é–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ å€™è£œçµ‚äº†ï¼ˆãƒŸãƒªç§’ï¼‰
+	Msec			org_fall_l;			// ãƒ­ã‚´å„çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ å€™è£œé–‹å§‹ï¼ˆãƒŸãƒªç§’ï¼‰
+	Msec			org_fall_r;			// ãƒ­ã‚´å„çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ å€™è£œçµ‚äº†ï¼ˆãƒŸãƒªç§’ï¼‰
+// å¾“æ¥è¨­å®šèª¿æ•´ç”¨
+	LogoPriorType	stat_rise;			// -1:ã¯ãšã‚Œç¢ºå®š 0:åˆæœŸ 1:å€™è£œ 2:ç¢ºå®š
+	LogoPriorType	stat_fall;			// -1:ã¯ãšã‚Œç¢ºå®š 0:åˆæœŸ 1:å€™è£œ 2:ç¢ºå®š
+	LogoUnitType	unit;				// 1:ç‹¬ç«‹ãƒ•ãƒ¬ãƒ¼ãƒ 
+// å¾“æ¥çµæœæ ¼ç´ç”¨
+	LogoResultType	outtype_rise;		// 0:å‡ºåŠ›æœªç¢ºå®š  1:å‡ºåŠ›ç¢ºå®š  2:abortç ´æ£„ç¢ºå®š
+	LogoResultType	outtype_fall;		// 0:å‡ºåŠ›æœªç¢ºå®š  1:å‡ºåŠ›ç¢ºå®š  2:abortç ´æ£„ç¢ºå®š
+	Msec			result_rise;		// ãƒ­ã‚´å„é–‹å§‹ç¢ºå®šä½ç½®ï¼ˆãƒŸãƒªç§’ï¼‰
+	Msec			result_fall;		// ãƒ­ã‚´å„çµ‚äº†ç¢ºå®šä½ç½®ï¼ˆãƒŸãƒªç§’ï¼‰
 };
 
 /////////////////////////////////////////////////////////////////////////
 
-//--- ƒf[ƒ^Ši”[—p ---
+//--- ãƒ‡ãƒ¼ã‚¿æ ¼ç´ç”¨ ---
 class JlsDataset
 {
 private:
 	static const int MAXSIZE_LOGO  = 1024;
 	static const int MAXSIZE_SCP   = 4096;
 
-	//--- ‰ŠúŠO•”“ü—ÍƒIƒvƒVƒ‡ƒ“ ---
+	//--- åˆæœŸå¤–éƒ¨å…¥åŠ›ã‚ªãƒ—ã‚·ãƒ§ãƒ³ ---
 	struct DtExtOptRecord {
-		// ƒIƒvƒVƒ‡ƒ“
-		int		verbose;				// Ú×•\¦—p
-		int		frmLastcut;				// ƒIƒvƒVƒ‡ƒ“ -lastcut
-		int		msecCutIn;				// ƒIƒvƒVƒ‡ƒ“ -CutMrgIn
-		int		msecCutOut;				// ƒIƒvƒVƒ‡ƒ“ -CutMrgOut
-		int		wideCutIn;				// CutMrgIn‚Ì•‘I‘ğ  0:ŒÅ’è 1:0’n“_‚Æ2“_
-		int		wideCutOut;				// CutMrgOut‚Ì•‘I‘ğ 0:ŒÅ’è 1:0’n“_‚Æ2“_
-		// ‘‚«‚İ—L–³
-		int		fixCutIn;				// 0:CutMrgInw’è‚È‚µ 1:CutMrgInw’è‚ ‚è
-		int		fixCutOut;				// 0:CutMrgOutw’è‚È‚µ 1:CutMrgOutw’è‚ ‚è
-		int		fixWidCutI;				// 0:widecutw’è‚È‚µ 1:widecutw’è‚ ‚è
-		int		fixWidCutO;				// 0:widecutw’è‚È‚µ 1:widecutw’è‚ ‚è
-		// “à•”•Ûƒpƒ‰ƒ[ƒ^
-		int		flagNoLogo;				// 0:’Êí 1:ƒƒS‚ğ“Ç‚İ‚Ü‚È‚¢ê‡
-		int		oldAdjust;				// 0:‹Œ•û®’²®‚È‚µ 1:‹Œ•û®’²®‚ ‚è
+		// ã‚ªãƒ—ã‚·ãƒ§ãƒ³
+		int		verbose;				// è©³ç´°è¡¨ç¤ºç”¨
+		int		frmLastcut;				// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ -lastcut
+		int		msecCutIn;				// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ -CutMrgIn
+		int		msecCutOut;				// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ -CutMrgOut
+		int		wideCutIn;				// CutMrgInã®å¹…é¸æŠ  0:å›ºå®š 1:0åœ°ç‚¹ã¨2ç‚¹
+		int		wideCutOut;				// CutMrgOutã®å¹…é¸æŠ 0:å›ºå®š 1:0åœ°ç‚¹ã¨2ç‚¹
+		// æ›¸ãè¾¼ã¿æœ‰ç„¡
+		int		fixCutIn;				// 0:CutMrgInæŒ‡å®šãªã— 1:CutMrgInæŒ‡å®šã‚ã‚Š
+		int		fixCutOut;				// 0:CutMrgOutæŒ‡å®šãªã— 1:CutMrgOutæŒ‡å®šã‚ã‚Š
+		int		fixWidCutI;				// 0:widecutæŒ‡å®šãªã— 1:widecutæŒ‡å®šã‚ã‚Š
+		int		fixWidCutO;				// 0:widecutæŒ‡å®šãªã— 1:widecutæŒ‡å®šã‚ã‚Š
+		// å†…éƒ¨ä¿æŒãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+		int		flagNoLogo;				// 0:é€šå¸¸ 1:ãƒ­ã‚´ã‚’èª­ã¿è¾¼ã¾ãªã„å ´åˆ
+		int		oldAdjust;				// 0:æ—§æ–¹å¼èª¿æ•´ãªã— 1:æ—§æ–¹å¼èª¿æ•´ã‚ã‚Š
 	};
-	//--- ŠesÀs‚Ì•Ûƒpƒ‰ƒ[ƒ^ ---
-	struct RecordHoldFromCmd {			// ƒRƒ}ƒ“ƒh‚Åİ’è‚³‚ê‚é’l‚Å‚¿‘±‚¯‚é’l
-		Msec	msecSelect1st;			// Å‰‚ÌŠJnˆÊ’uŒó•âiSelectg—p‚Ì‚İj
-		Msec	msecTrPoint;			// CutTRƒRƒ}ƒ“ƒh‚Ìİ’èˆÊ’uiCM\¬“à•”•ªŠ„‚ÌˆÊ’u”»’f—pj
-		RangeMsec	rmsecHeadTail;		// $HEADTIME,$TAILTIME§–ñ
+	//--- å„è¡Œå®Ÿè¡Œæ™‚ã®ä¿æŒãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ ---
+	struct RecordHoldFromCmd {			// ã‚³ãƒãƒ³ãƒ‰ã§è¨­å®šã•ã‚Œã‚‹å€¤ã§æŒã¡ç¶šã‘ã‚‹å€¤
+		Msec	msecSelect1st;			// æœ€åˆã®é–‹å§‹ä½ç½®å€™è£œï¼ˆSelectä½¿ç”¨æ™‚ã®ã¿ï¼‰
+		Msec	msecTrPoint;			// CutTRã‚³ãƒãƒ³ãƒ‰ã®è¨­å®šä½ç½®ï¼ˆCMæ§‹æˆå†…éƒ¨åˆ†å‰²ã®ä½ç½®åˆ¤æ–­ç”¨ï¼‰
+		RangeMsec	rmsecHeadTail;		// $HEADTIME,$TAILTIMEåˆ¶ç´„
 	};
 
 public:
-// ‰Šúİ’è
+// åˆæœŸè¨­å®š
 	JlsDataset();
 	void initData();
-// “®ìİ’è‚Ì•Û‘¶E“Ç‚İo‚µ
+// å‹•ä½œè¨­å®šã®ä¿å­˜ãƒ»èª­ã¿å‡ºã—
 	void setConfig(ConfigVarType tp, int val);
 	int  getConfig(ConfigVarType tp);
 	int  getConfigAction(ConfigActType acttp);
-// ƒf[ƒ^ƒTƒCƒYæ“¾
+// ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚ºå–å¾—
 	int  sizeDataLogo();
 	int  sizeDataScp();
 	bool emptyDataLogo();
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊ‚Ìˆ—
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½ã®å‡¦ç†
 	void clearRecordLogo(DataLogoRecord &dt);
 	void clearRecordScp(DataScpRecord &dt);
 	void pushRecordLogo(DataLogoRecord &dt);
@@ -123,7 +124,7 @@ public:
 	void setRecordLogo(DataLogoRecord &dt, Nlg nlg);
 	void getRecordScp(DataScpRecord &dt, Nsc nsc);
 	void setRecordScp(DataScpRecord &dt, Nsc nsc);
-// ‚P—v‘f’PˆÊ‚Ìˆ—
+// ï¼‘è¦ç´ å˜ä½ã®å‡¦ç†
 	Msec getMsecLogoRise(Nlg nlg);
 	Msec getMsecLogoFall(Nlg nlg);
 	Msec getMsecLogoNrf(Nrf nrf);
@@ -147,10 +148,10 @@ public:
 	void				setScpArstat(Nsc nsc, ScpArType val);
 	void				setScpArext(Nsc nsc, ScpArExtType val);
 	void				setResultLogoAtNrf(Msec msec, LogoResultType outtype, Nrf nrf);
-// —Dæ“xæ“¾
+// å„ªå…ˆåº¦å–å¾—
 	jlsd::LogoPriorType	getPriorLogo(Nrf nrf);
 	jlsd::ScpPriorType	getPriorScp(Nsc nsc);
-// ‘OŒãƒf[ƒ^æ“¾ˆ—iƒƒSj
+// å‰å¾Œãƒ‡ãƒ¼ã‚¿å–å¾—å‡¦ç†ï¼ˆãƒ­ã‚´ï¼‰
 	Nrf  getNrfDirLogo(Nrf nrf, SearchDirType dr, LogoEdgeType edge, LogoSelectType type);
 	Nrf  getNrfPrevLogo(Nrf nrf, LogoEdgeType edge, LogoSelectType type);
 	Nrf  getNrfNextLogo(Nrf nrf, LogoEdgeType edge, LogoSelectType type);
@@ -161,7 +162,7 @@ public:
 	bool getNrfptNext(NrfCurrent &logopt, LogoSelectType type);
 	bool getElgptNext(ElgCurrent &elg);
 	Nlg  getResultLogoNext(Msec &msec_rise, Msec &msec_fall, bool &cont_next, Nlg nlg);
-// ‘OŒãƒf[ƒ^æ“¾ˆ—i–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWj
+// å‰å¾Œãƒ‡ãƒ¼ã‚¿å–å¾—å‡¦ç†ï¼ˆç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ï¼‰
 	Nsc  getNscDirScpChap(Nsc nsc, SearchDirType dr, ScpChapType chap_th);
 	Nsc  getNscPrevScpChap(Nsc nsc, ScpChapType chap_th);
 	Nsc  getNscNextScpChap(Nsc nsc, ScpChapType chap_th);
@@ -171,7 +172,7 @@ public:
 	Nsc  getNscPrevScpDecide(Nsc nsc, ScpEndType noedge);
 	Nsc  getNscNextScpDecide(Nsc nsc, ScpEndType noedge);
 	Nsc  getNscNextScpOutput(Nsc nsc, ScpEndType noedge);
-// ˆÊ’u‚É‘Î‰‚·‚éƒf[ƒ^æ“¾ˆ—
+// ä½ç½®ã«å¯¾å¿œã™ã‚‹ãƒ‡ãƒ¼ã‚¿å–å¾—å‡¦ç†
 	Nrf  getNrfLogoFromMsec(Msec msec_target, LogoEdgeType edge);
 	Nsc  getNscFromNrf(Nrf nrf_target, Msec msec_th, ScpChapType chap_th, bool flat=false);
 	Nsc  getNscFromMsecFull(Msec msec_target, Msec msec_th, ScpChapType chap_th, ScpEndType noedge);
@@ -181,12 +182,12 @@ public:
 	Nsc  getNscFromWideMsecFull(WideMsec wmsec_target, ScpChapType chap_th, ScpEndType noedge);
 	Nsc  getNscFromWideMsecByChap(WideMsec wmsec_target, ScpChapType chap_th);
 	bool getRangeNscFromRangeMsec(RangeNsc &rnsc, RangeMsec rmsec);
-// ó‘Ôİ’è
+// çŠ¶æ…‹è¨­å®š
 	void setLevelUseLogo(int level);
 	int  getLevelUseLogo();
 	void setFlagSetupAdj(bool flag);
 	void setFlagAutoMode(bool flag);
-// ó‘Ô”»’è
+// çŠ¶æ…‹åˆ¤å®š
 	bool isExistLogo();
 	bool isUnuseLogo();
 	bool isUnuseLevelLogo();
@@ -207,7 +208,7 @@ public:
 	bool isSmuteFromMsec(Msec msec_target);
 	bool isSmuteSameArea(Nsc nsc1, Nsc nsc2);
 	bool limitWideMsecFromRange(WideMsec wmsec, RangeMsec rmsec);
-// Term\¬ˆ—
+// Termæ§‹æˆå‡¦ç†
 	void setTermEndtype(Term &term, ScpEndType endtype);
 	bool getTermNext(Term &term);
 	bool getTermPrev(Term &term);
@@ -218,14 +219,14 @@ public:
 	bool isScpArstatCmUnit(Term term);
 	bool checkScopeTerm(Term term, RangeMsec scope);
 	bool checkScopeRange(RangeMsec bounds, RangeMsec scope);
-// ƒf[ƒ^‘}“ü
+// ãƒ‡ãƒ¼ã‚¿æŒ¿å…¥
 	Nsc  insertLogo(Msec msec_st, Msec msec_ed, bool overlap, bool confirm, bool unit);
 	Nsc  insertScpos(Msec msec_dst_s, Msec msec_dst_bk, Nsc nsc_mute, ScpPriorType stat_scpos_dst);
 	Nsc  getNscForceMsec(Msec msec_in, LogoEdgeType edge);
-// \¬“à‚ÌƒƒS•\¦ŠúŠÔ‚Ìæ“¾
+// æ§‹æˆå†…ã®ãƒ­ã‚´è¡¨ç¤ºæœŸé–“ã®å–å¾—
 	Sec  getSecLogoComponent(Msec msec_s, Msec msec_e);
 	Sec  getSecLogoComponentFromLogo(Msec msec_s, Msec msec_e);
-// o—Íì¬
+// å‡ºåŠ›ä½œæˆ
 	void outputResultTrimGen();
 	void outputResultDetailReset();
 	bool outputResultDetailGetLine(string &strBuf);
@@ -234,8 +235,8 @@ public:
 	void setMsecTotalMax(int msec){ m_msecTotalMax = msec; };
 	int  getMsecTotalMax(){ return m_msecTotalMax; };
 
-	CnvStrTime		cnv;				// •ÏŠ·ˆ—
-	JlsDataset		*pdata;				// ©•ª©g‚Ö‚Ìƒ|ƒCƒ“ƒ^
+	CnvStrTime		cnv;				// å¤‰æ›å‡¦ç†
+	JlsDataset		*pdata;				// è‡ªåˆ†è‡ªèº«ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 
 private:
 	int getSecLogoComponentFromElg(int msec_s, int msec_e);
@@ -244,30 +245,31 @@ private:
 	void outputResultDetailGetLineLabel(string &strBuf, ScpArType arstat, ScpArExtType arext);
 
 public:
-	// ŒÅ’èŠúŠÔİ’è
+	// å›ºå®šæœŸé–“è¨­å®š
 	int		msecValExact;		// 100ms
 	int		msecValNear1;		// 180ms
 	int		msecValNear2;		// 350ms
 	int		msecValNear3;		// 1200ms
-	int		msecValLap1;		// 700ms   d•¡ˆµ‚¢ŠúŠÔi–³‰¹SCŠÔŠuj
-	int		msecValLap2;		// 2500ms  d•¡ˆµ‚¢ŠúŠÔi\¬j
-	int		msecValSpc;			// 1200ms  ƒƒSŒŸõ—p
+	int		msecValLap1;		// 700ms   é‡è¤‡æ‰±ã„æœŸé–“ï¼ˆç„¡éŸ³SCé–“éš”ï¼‰
+	int		msecValLap2;		// 2500ms  é‡è¤‡æ‰±ã„æœŸé–“ï¼ˆæ§‹æˆï¼‰
+	int		msecValSpc;			// 1200ms  ãƒ­ã‚´æ¤œç´¢ç”¨
 
-	// İ’è’l
-	DtExtOptRecord				extOpt;			// ŠO•”İ’èƒIƒvƒVƒ‡ƒ“
-	RecordHoldFromCmd 			recHold;		// ƒRƒ}ƒ“ƒh‚©‚çŒˆ’è‚³‚ê‚éİ’è’l
-	vector<int>					resultTrim;		// o—ÍŒ‹‰ÊiƒJƒbƒgˆÊ’uj
+	// è¨­å®šå€¤
+	DtExtOptRecord				extOpt;			// å¤–éƒ¨è¨­å®šã‚ªãƒ—ã‚·ãƒ§ãƒ³
+	RecordHoldFromCmd 			recHold;		// ã‚³ãƒãƒ³ãƒ‰ã‹ã‚‰æ±ºå®šã•ã‚Œã‚‹è¨­å®šå€¤
+	vector<int>					resultTrim;		// å‡ºåŠ›çµæœï¼ˆã‚«ãƒƒãƒˆä½ç½®ï¼‰
 
 private:
-	// Ši”[ƒf[ƒ^
+	// æ ¼ç´ãƒ‡ãƒ¼ã‚¿
 	vector<DataScpRecord>		m_scp;
 	vector<DataLogoRecord>		m_logo;
 	int							m_config[SIZE_CONFIG_VAR];
-	int							m_msecTotalMax;			// Å‘åƒtƒŒ[ƒ€ŠúŠÔ
-	// ƒZƒbƒgƒAƒbƒvó‘ÔŠi”[
+	int							m_msecTotalMax;			// æœ€å¤§ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+	// ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—çŠ¶æ…‹æ ¼ç´
 	int		m_levelUseLogo;
 	bool	m_flagSetupAdj;
 	int		m_flagSetupAuto;
-	// Œ‹‰Êo—Í—p
+	// çµæœå‡ºåŠ›ç”¨
 	int		m_nscOutDetail;
 };
+#endif

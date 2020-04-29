@@ -1,29 +1,30 @@
 //
-// JLƒXƒNƒŠƒvƒg—pƒRƒ}ƒ“ƒh“à—eŠi”[ƒf[ƒ^
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆç”¨ã‚³ãƒãƒ³ãƒ‰å†…å®¹æ ¼ç´ãƒ‡ãƒ¼ã‚¿
 //
-#pragma once
+#ifndef __JLSCMDSET__
+#define __JLSCMDSET__
 
 ///////////////////////////////////////////////////////////////////////
 //
-// JLƒXƒNƒŠƒvƒgƒRƒ}ƒ“ƒhİ’è’l
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚³ãƒãƒ³ãƒ‰è¨­å®šå€¤
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsCmdArg
 {
 private:
-	struct CmdArgTack {						// İ’è“à—e‘g‚İ‡‚í‚¹‚©‚çŒˆ’è‚³‚ê‚éÀs—pİ’è
-		bool	floatBase;					// 0:ƒƒSˆÊ’uŠî€  1:Œ‹‰ÊˆÊ’uŠî€
-		bool	virtualLogo;				// 0:ÀÛ‚ÌƒƒS  1:„‘ªƒƒSˆµ‚¢ƒƒS
-		bool	ignoreComp;					// 0:’Êí  1:ƒƒSŠm’èó‘Ô‚Å‚àÀs
-		bool	limitByLogo;				// 0:’Êí  1:—×ÚƒƒS‚Ü‚Å‚É§ŒÀ
-		bool	onePoint;					// 0:’Êí  1:ƒƒS‚P‰ÓŠ‚É§ŒÀ
-		bool	needAuto;					// 0:’Êí  1:Auto\¬•K—v
+	struct CmdArgTack {						// è¨­å®šå†…å®¹çµ„ã¿åˆã‚ã›ã‹ã‚‰æ±ºå®šã•ã‚Œã‚‹å®Ÿè¡Œç”¨è¨­å®š
+		bool	floatBase;					// 0:ãƒ­ã‚´ä½ç½®åŸºæº–  1:çµæœä½ç½®åŸºæº–
+		bool	virtualLogo;				// 0:å®Ÿéš›ã®ãƒ­ã‚´  1:æ¨æ¸¬ãƒ­ã‚´æ‰±ã„ãƒ­ã‚´
+		bool	ignoreComp;					// 0:é€šå¸¸  1:ãƒ­ã‚´ç¢ºå®šçŠ¶æ…‹ã§ã‚‚å®Ÿè¡Œ
+		bool	limitByLogo;				// 0:é€šå¸¸  1:éš£æ¥ãƒ­ã‚´ã¾ã§ã«åˆ¶é™
+		bool	onePoint;					// 0:é€šå¸¸  1:ãƒ­ã‚´ï¼‘ç®‡æ‰€ã«åˆ¶é™
+		bool	needAuto;					// 0:é€šå¸¸  1:Autoæ§‹æˆå¿…è¦
 	};
-	struct CmdArgCond {						// ‰ğÍ‚Ìó‘Ô
-		int		posStr;						// ƒVƒXƒeƒ€ƒRƒ}ƒ“ƒh—p•¶š—ñˆÊ’u
-		bool	flagCond;					// IF•¶—p‚ÌğŒ”»’f
+	struct CmdArgCond {						// è§£ææ™‚ã®çŠ¶æ…‹
+		int		posStr;						// ã‚·ã‚¹ãƒ†ãƒ ã‚³ãƒãƒ³ãƒ‰ç”¨æ–‡å­—åˆ—ä½ç½®
+		bool	flagCond;					// IFæ–‡ç”¨ã®æ¡ä»¶åˆ¤æ–­
 	};
-	struct CmdArgSc {					// -SCŒn‚ÌƒIƒvƒVƒ‡ƒ“ƒf[ƒ^
+	struct CmdArgSc {					// -SCç³»ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿
 		int		type;
 		Msec	min;
 		Msec	max;
@@ -32,54 +33,54 @@ private:
 public:
 	JlsCmdArg();
 	void	clear();
-// ˆê”ÊƒIƒvƒVƒ‡ƒ“—p
+// ä¸€èˆ¬ã‚ªãƒ—ã‚·ãƒ§ãƒ³ç”¨
 	void	setOpt(int dselect, int val);
 	bool	isSetOpt(int dselect);
 	int		getOpt(int dselect);
-// -SCŒnƒRƒ}ƒ“ƒh—p
+// -SCç³»ã‚³ãƒãƒ³ãƒ‰ç”¨
 	void	addScOpt(int numdata, int min, int max);
 	JlOptionArgScType	getScOptType(int num);
 	bool	isScOptRelative(int num);
 	Msec	getScOptMin(int num);
 	Msec	getScOptMax(int num);
 	int		sizeScOpt();
-// -LGŒnƒRƒ}ƒ“ƒh—p
+// -LGç³»ã‚³ãƒãƒ³ãƒ‰ç”¨
 	void	addLgOpt(int nlg);
 	int		getLgOpt(int num);
 	int		sizeLgOpt();
 
 public:
-// ƒRƒ}ƒ“ƒh
-	JlcmdSelType		cmdsel;				// ƒRƒ}ƒ“ƒh‘I‘ğ
-	JlcmdCategoryType	category;			// Às‚ÌƒRƒ}ƒ“ƒhí—Ş
-	WideMsec			wmsecDst;			// ‘ÎÛ‘I‘ğ”ÍˆÍ
+// ã‚³ãƒãƒ³ãƒ‰
+	JlcmdSelType		cmdsel;				// ã‚³ãƒãƒ³ãƒ‰é¸æŠ
+	JlcmdCategoryType	category;			// å®Ÿè¡Œæ™‚ã®ã‚³ãƒãƒ³ãƒ‰ç¨®é¡
+	WideMsec			wmsecDst;			// å¯¾è±¡é¸æŠç¯„å›²
 	LogoEdgeType		selectEdge;			// S/E/B
 	JlcmdSubType		selectAutoSub;		// TR/SP/EC
-// “à•”ó‘Ô
-	CmdArgTack			tack;				// İ’è“à—e‘g‚İ‡‚í‚¹‚©‚çŒˆ’è‚³‚ê‚éÀs—pİ’è
-	CmdArgCond			cond;				// ‰ğÍ‚Ìó‘Ô
+// å†…éƒ¨çŠ¶æ…‹
+	CmdArgTack			tack;				// è¨­å®šå†…å®¹çµ„ã¿åˆã‚ã›ã‹ã‚‰æ±ºå®šã•ã‚Œã‚‹å®Ÿè¡Œç”¨è¨­å®š
+	CmdArgCond			cond;				// è§£ææ™‚ã®çŠ¶æ…‹
 
 private:
-// ˆê”ÊƒIƒvƒVƒ‡ƒ“•Û‘¶
+// ä¸€èˆ¬ã‚ªãƒ—ã‚·ãƒ§ãƒ³ä¿å­˜
 	int					optdata[SIZE_JLOPT_DATA];
 	int					flagset[SIZE_JLOPT_DATA];
-// ƒŠƒXƒg•Û‘¶
-	vector<CmdArgSc>	listScOpt;	// -SCŒnƒIƒvƒVƒ‡ƒ“•Û
-	vector<int>			listLgVal;	// ƒƒS”Ô†î•ñ•Û‘¶
-	vector<Msec>		listTLOpt;	// -TLƒIƒvƒVƒ‡ƒ“•Û
+// ãƒªã‚¹ãƒˆä¿å­˜
+	vector<CmdArgSc>	listScOpt;	// -SCç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ä¿æŒ
+	vector<int>			listLgVal;	// ãƒ­ã‚´ç•ªå·æƒ…å ±ä¿å­˜
+	vector<Msec>		listTLOpt;	// -TLã‚ªãƒ—ã‚·ãƒ§ãƒ³ä¿æŒ
 };
 
 
 
 ///////////////////////////////////////////////////////////////////////
 //
-// JLƒXƒNƒŠƒvƒgƒRƒ}ƒ“ƒhİ’è”½‰f—p
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚³ãƒãƒ³ãƒ‰è¨­å®šåæ˜ ç”¨
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsCmdLimit
 {
 private:
-	enum CmdProcessFlag {					// İ’èó‘Ô‹L‰¯—p
+	enum CmdProcessFlag {					// è¨­å®šçŠ¶æ…‹è¨˜æ†¶ç”¨
 		ARG_PROCESS_HEADTAIL    = 0x01,
 		ARG_PROCESS_FRAMELIMIT  = 0x02,
 		ARG_PROCESS_VALIDLOGO   = 0x04,
@@ -88,7 +89,7 @@ private:
 		ARG_PROCESS_SCPENABLE   = 0x20,
 		ARG_PROCESS_RESULT      = 0x40,
 	};
-	struct ArgValidLogo {					// —LŒøƒƒSƒŠƒXƒgæ“¾—p
+	struct ArgValidLogo {					// æœ‰åŠ¹ãƒ­ã‚´ãƒªã‚¹ãƒˆå–å¾—ç”¨
 		Msec			msec;
 		LogoEdgeType	edge;
 	};
@@ -129,33 +130,34 @@ private:
 	void			signalInternalError(CmdProcessFlag flags);
 
 private:
-	RangeMsec		rmsecHeadTail;			// $HEADTIME/$TAILTIME§–ñ
-	RangeMsec		rmsecFrameLimit;		// -FƒIƒvƒVƒ‡ƒ“§–ñ
-	vector<ArgValidLogo>	listValidLogo;	// —LŒøƒƒSˆÊ’uˆê——
-	Nrf				nrfBase;				// Šî€ˆÊ’u‚ÌÀƒƒS”Ô†
-	Nsc				nscBase;				// Šî€ˆÊ’u‚Ì„‘ª\¬ƒƒSˆµ‚¢–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-	LogoEdgeType	edgeBase;				// Šî€ˆÊ’u‚ÌƒGƒbƒW‘I‘ğ
-	WideMsec		wmsecTarget;			// ‘ÎÛˆÊ’u”ÍˆÍ
-	Msec			msecTargetFc;			// ‹­§İ’è—p‘ÎÛˆÊ’u
-	bool			fromLogo;				// ƒƒSî•ñ‚©‚ç‚Ì‘ÎÛˆÊ’u”ÍˆÍ
-	vector<RangeMsec>	listTLRange;		// ‘ÎÛˆÊ’u‚Æ‚µ‚Ä‹–‰Â‚·‚é”ÍˆÍƒŠƒXƒg
-	vector<bool>	listScpEnable;			// –³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‘I‘ğ
-	Nsc				nscSel;					// ‘ÎÛˆÊ’u–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-	Nsc				nscEnd;					// -endlen‚É‘Î‰‚·‚é–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
+	RangeMsec		rmsecHeadTail;			// $HEADTIME/$TAILTIMEåˆ¶ç´„
+	RangeMsec		rmsecFrameLimit;		// -Fã‚ªãƒ—ã‚·ãƒ§ãƒ³åˆ¶ç´„
+	vector<ArgValidLogo>	listValidLogo;	// æœ‰åŠ¹ãƒ­ã‚´ä½ç½®ä¸€è¦§
+	Nrf				nrfBase;				// åŸºæº–ä½ç½®ã®å®Ÿãƒ­ã‚´ç•ªå·
+	Nsc				nscBase;				// åŸºæº–ä½ç½®ã®æ¨æ¸¬æ§‹æˆãƒ­ã‚´æ‰±ã„ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+	LogoEdgeType	edgeBase;				// åŸºæº–ä½ç½®ã®ã‚¨ãƒƒã‚¸é¸æŠ
+	WideMsec		wmsecTarget;			// å¯¾è±¡ä½ç½®ç¯„å›²
+	Msec			msecTargetFc;			// å¼·åˆ¶è¨­å®šç”¨å¯¾è±¡ä½ç½®
+	bool			fromLogo;				// ãƒ­ã‚´æƒ…å ±ã‹ã‚‰ã®å¯¾è±¡ä½ç½®ç¯„å›²
+	vector<RangeMsec>	listTLRange;		// å¯¾è±¡ä½ç½®ã¨ã—ã¦è¨±å¯ã™ã‚‹ç¯„å›²ãƒªã‚¹ãƒˆ
+	vector<bool>	listScpEnable;			// ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸é¸æŠ
+	Nsc				nscSel;					// å¯¾è±¡ä½ç½®ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+	Nsc				nscEnd;					// -endlenã«å¯¾å¿œã™ã‚‹ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
 
-	int				process;				// İ’èó‘Ô•Û
+	int				process;				// è¨­å®šçŠ¶æ…‹ä¿æŒ
 };
 
 
 
 ///////////////////////////////////////////////////////////////////////
 //
-// JLƒXƒNƒŠƒvƒgƒRƒ}ƒ“ƒh‘S‘Ì
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚³ãƒãƒ³ãƒ‰å…¨ä½“
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsCmdSet
 {
 public:
-	JlsCmdArg		arg;			// İ’è’l
-	JlsCmdLimit		limit;			// İ’è”½‰f
+	JlsCmdArg		arg;			// è¨­å®šå€¤
+	JlsCmdLimit		limit;			// è¨­å®šåæ˜ 
 };
+#endif

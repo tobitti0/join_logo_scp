@@ -1,7 +1,8 @@
 //
-// join_logo_scp �f�[�^�\�������␳
+// join_logo_scp データ構成初期補正
 //
-#pragma once
+#ifndef __JLSREFORMDATA__
+#define __JLSREFORMDATA__
 
 class JlsDataset;
 
@@ -25,6 +26,8 @@ private:
 	int  getMsec30fpsFromFrm(int frm);
 
 private:
-	//--- �֐��|�C���^�쐬 ---
+	//--- 関数ポインタ作成 ---
 	JlsDataset *pdata;
 };
+
+#endif
