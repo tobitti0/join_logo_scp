@@ -1,168 +1,168 @@
-# join_logo_scp�p�̎��s���e�X�N���v�g
+# join_logo_scp用の実行内容スクリプト
 #
-# ���e�F�t���O�ݒ�����g���ĕs�v�����̃J�b�g���s��
-#       �W���Ɗ�{�\���͓����A����L�q���Ńt���O�w�蓮���ǉ��ŋL��
+# 内容：フラグ設定情報を使って不要部分のカットを行う
+#       標準と基本構成は同じ、動作記述内でフラグ指定動作を追加で記載
 #
 #
 #----------------------------------------------
-# �J�n�E�I���}�[�W���̐ݒ�
+# 開始・終了マージンの設定
 #----------------------------------------------
-#--- �J�n�}�[�W���̐ݒ� ---
-Default base               -1     # �J�n�}�[�W���̃t���[���i-1�̎��͎������o�j
-Default param_zone_first   0.0    # �ŏ�����w����ԓ��ɑS�̂����܂�\���̓��S�Ȃ������Ƃ���
-Default param_lgcut_first  12.0   # �ŏ����烍�S����̎��J�n�}�[�W���ő���ԁi-1�̎��̓��S�Ȃ��Ɠ����j
+#--- 開始マージンの設定 ---
+Default base               -1     # 開始マージンのフレーム（-1の時は自動検出）
+Default param_zone_first   0.0    # 最初から指定期間内に全体が収まる構成はロゴなし扱いとする
+Default param_lgcut_first  12.0   # 最初からロゴありの時開始マージン最大期間（-1の時はロゴなしと同じ）
 
-#--- �I���}�[�W���̐ݒ� ---
-Default param_wcomp_last   30.5   # �Ō�\�����S�Ȃ������Ƃ���ő����
-Default param_zone_last    0.0    # �Ōォ��w����ԓ��ɑS�̂����܂�\���̓��S�Ȃ������Ƃ���i-1�̎��͍Ō�\���̕�����}���j
+#--- 終了マージンの設定 ---
+Default param_wcomp_last   30.5   # 最後構成ロゴなし扱いとする最大期間
+Default param_zone_last    0.0    # 最後から指定期間内に全体が収まる構成はロゴなし扱いとする（-1の時は最後構成の分解を抑制）
 
 #----------------------------------------------
-# �ԑg�\�����画�f����J�b�g�ʒu�ݒ�
+# 番組構成から判断するカット位置設定
 #----------------------------------------------
-#----- ���S���̗D��x ---
-Default logo_level    6     # �������̃��S�g�p�i1:�Ȃ� 2-8:���S���g�p-�傫�������S���D��j
-Default logo_revise   23    # ���S�g�p�֘A�̍\���ύX�i0-4:���S�[�̍폜-�傫�����폜 +10:���S���폜���� +20:���S�O�L��폜����j
+#----- ロゴ情報の優先度 ---
+Default logo_level    6     # 推測時のロゴ使用（1:なし 2-8:ロゴ情報使用-大きい程ロゴ情報優先）
+Default logo_revise   23    # ロゴ使用関連の構成変更（0-4:ロゴ端の削除-大きい程削除 +10:ロゴ内削除あり +20:ロゴ外広域削除あり）
 
-#----- ���S�Ȃ����̃J�b�g -----
-Default autocm_code   6     # ���S�Ȃ�����15�b�P��CM���o�i0:�Ȃ� 1-10:CM���o-�傫�����������o�j
-Default autocm_sub    10    # ���S�Ȃ����̕⏕�ݒ�i0:�Ȃ� 1:�擪15�b�P�ʍ\���͏����ł�CM�� +10:45�b�͊܂߂Ȃ��j
-Default autocm_scope  40    # �Ōォ��w��b�ȍ~�̈ʒu���܂ޒZ���ԍ\���͎�O��CM�����Ȃ�CM�p��
-Default autocm_scopex 0     # �Ōォ��w��b�ȍ~�̈ʒu�Ɋ܂܂��60/90/120�b�\����CM����
-Default use_autocmtr  1     # ���S�Ȃ����̗\�����o�g���i0:�Ȃ� 1:����j
+#----- ロゴなし時のカット -----
+Default autocm_code   6     # ロゴなし時の15秒単位CM検出（0:なし 1-10:CM検出-大きい程強く検出）
+Default autocm_sub    10    # ロゴなし時の補助設定（0:なし 1:先頭15秒単位構成は少数でもCM化 +10:45秒は含めない）
+Default autocm_scope  40    # 最後から指定秒以降の位置を含む短時間構成は手前がCM扱いならCM継続
+Default autocm_scopex 0     # 最後から指定秒以降の位置に含まれる60/90/120秒構成はCM扱い
+Default use_autocmtr  1     # ロゴなし時の予告検出拡張（0:なし 1:あり）
 
-#----- �J�b�g�L���I�� -----
-Default param_adduc   0     # ���S�Ȃ��s���\���i0:����Ȃ� 1:�c���j
-Default param_cuttr   0     # �\�����I����̃��S�t��15�b�P�ʍ\���i0:�c�� 1:�J�b�g�j
-Default param_cutsp   0     # �ԑg�񋟃J�b�g�i0:�c�� 1:�J�b�g�j���댟�o�̉\������c���𐄏�
-Default param_nosc    0     # �V�[���`�F���W�Ȃ������ʒu��CM���f�i0:���� 1:�g�p���Ȃ� 2:�g�p����j
-Default param_cntsc   0     # �����V�[���`�F���W���������\�����̕����i0:�Ȃ� 1:����j
+#----- カット有無選択 -----
+Default param_adduc   0     # ロゴなし不明構成（0:制御なし 1:残す）
+Default param_cuttr   0     # 予告等終了後のロゴ付き15秒単位構成（0:残す 1:カット）
+Default param_cutsp   0     # 番組提供カット（0:残す 1:カット）※誤検出の可能性から残すを推奨
+Default param_nosc    0     # シーンチェンジなし無音位置のCM判断（0:自動 1:使用しない 2:使用する）
+Default param_cntsc   0     # 無音シーンチェンジ数が多い構成内の分離（0:なし 1:あり）
 
-#----- �t�@�C���Ō�̗\���ʒu�F�� -----
-Default cuttr_code    2    # ����ݒ�i0:���o�Ȃ� 1:CM�������琔���� 2:CM�����^CM���O������ 3:CM���O���琔����j
-Default cuttr_limit   1    # �\���ƔF��������\�����i0:�\���Ȃ� 1�`:�\�����j
-Default use_addtr     1    # �\����������Ȃ����̃��S�Ȃ��\�����o�i0:���o���Ȃ� 1:���o����j
+#----- ファイル最後の予告位置認識 -----
+Default cuttr_code    2    # 動作設定（0:検出なし 1:CM明けから数える 2:CM明け／CM直前を自動 3:CM直前から数える）
+Default cuttr_limit   1    # 予告と認識させる構成数（0:予告なし 1～:構成数）
+Default use_addtr     1    # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
 
-#--- �G���h�J�[�h�̔F���i15�b�����\���̃J�b�g�ʒu���o�j ---
+#--- エンドカードの認識（15秒未満構成のカット位置検出） ---
 If $NOLOGO
-  Default addec_code1   11003 # �G���h�J�[�h���o1-�D��x1�i���S�Ȃ����̐���ɂ߂�j
+  Default addec_code1   11003 # エンドカード検出1-優先度1（ロゴなし時の制約緩める）
 EndIf
-Default cutec_code    1     # �J�b�g����ݒ�i0:�J�b�g�Ȃ� 1:�J�b�g����j
-Default addec_code1   31303 # �G���h�J�[�h���o1-�D��x1
-Default addec_code2   11223 # �G���h�J�[�h���o2-�D��x2
-Default addec_code3   11023 # �G���h�J�[�h���o3-�D��x3
-Default addec_code4   11203 # �G���h�J�[�h���o4-�D��x4
-Default addec_code5   0     # �G���h�J�[�h���o5-�D��x5
-Default addec_period1 5     # �G���h�J�[�h���o1�̍\���w��b��
-Default addec_period2 5     # �G���h�J�[�h���o2�̍\���w��b��
-Default addec_period3 3     # �G���h�J�[�h���o3�̍\���w��b��
-Default addec_period4 10    # �G���h�J�[�h���o4�̍\���w��b��
-Default addec_period5 5     # �G���h�J�[�h���o5�̍\���w��b��
+Default cutec_code    1     # カット動作設定（0:カットなし 1:カットあり）
+Default addec_code1   31303 # エンドカード検出1-優先度1
+Default addec_code2   11223 # エンドカード検出2-優先度2
+Default addec_code3   11023 # エンドカード検出3-優先度3
+Default addec_code4   11203 # エンドカード検出4-優先度4
+Default addec_code5   0     # エンドカード検出5-優先度5
+Default addec_period1 5     # エンドカード検出1の構成指定秒数
+Default addec_period2 5     # エンドカード検出2の構成指定秒数
+Default addec_period3 3     # エンドカード検出3の構成指定秒数
+Default addec_period4 10    # エンドカード検出4の構成指定秒数
+Default addec_period5 5     # エンドカード検出5の構成指定秒数
 #
-#�iaddec_code*�̐ݒ�j
-#   0     : ���o���Ȃ�
-#   3     : �\��period�b�ȉ��i��2���ځ�0�̎��A�\���E�ԑg�񋟂ɗאځj
-#  +20    : �\���E�ԑg�񋟂��猟��90�b�ȓ��Ɋg��
-#  +200   : ���S�t���̂݌���
-#  +300   : �אڂ܂Ŋ܂߃��S�Ȃ��̂݌���
-#  +1000  : �\���E�ԑg�񋟂̌㑤�Ɍ���
-#  +10000 : �\������13�b�ȉ��ōŏ��Ɍ��ƂȂ�ʒu����
-#  +20000 : �����\����30�b�ȏ゠�鎞�͖����Ƃ���
-#  +30000 : +10000��+20000�̗���
-# ��̓I�ȑz��
-#   31303 : �ԑg�񋟒���̗אڂŔԑg�񋟁E�G���h�J�[�h���Ƀ��S�Ȃ��A�\����30�b����
-#   11303 : �ԑg�񋟒���̗אڂŔԑg�񋟁E�G���h�J�[�h���Ƀ��S�Ȃ�
-#   11223 : �\���E�ԑg�񋟂���90�b�ȓ��̃��S����ŏ��̒Z���ԍ\��
-#   11023 : �\���E�ԑg�񋟂���90�b�ȓ��̍ŏ��̒Z���ԍ\��
-#   11203 : �\���E�ԑg�񋟒���̗אڂŃ��S����
+#（addec_code*の設定）
+#   0     : 検出しない
+#   3     : 構成period秒以下（下2桁目＝0の時、予告・番組提供に隣接）
+#  +20    : 予告・番組提供から検索90秒以内に拡張
+#  +200   : ロゴ付きのみ検索
+#  +300   : 隣接まで含めロゴなしのみ検索
+#  +1000  : 予告・番組提供の後側に限定
+#  +10000 : 構成期間13秒以下で最初に候補となる位置限定
+#  +20000 : 既存予告が30秒以上ある時は無効とする
+#  +30000 : +10000と+20000の両方
+# 具体的な想定
+#   31303 : 番組提供直後の隣接で番組提供・エンドカード共にロゴなし、予告は30秒未満
+#   11303 : 番組提供直後の隣接で番組提供・エンドカード共にロゴなし
+#   11223 : 予告・番組提供から90秒以内のロゴあり最初の短期間構成
+#   11023 : 予告・番組提供から90秒以内の最初の短期間構成
+#   11203 : 予告・番組提供直後の隣接でロゴあり
 #
 
-#----- �ԑg�񋟔F���ݒ� -----
-Default addsph_code1  1001  # �擪�ԑg��-�D��x1
-Default addsph_code2  21    # �擪�ԑg��-�D��x2
-Default addsph_code3  1004  # �擪�ԑg��-�D��x3
-Default addsph_code4  206   # �擪�ԑg��-�D��x4
-Default addsph_code5  0     # �擪�ԑg��-�D��x5
-Default addspt_code1  421   # �Ō�ԑg��-�D��x1
-Default addspt_code2  1004  # �Ō�ԑg��-�D��x2
-Default addspt_code3  206   # �Ō�ԑg��-�D��x3
-Default addspt_code4  4001  # �Ō�ԑg��-�D��x4
-Default addspt_code5  0     # �Ō�ԑg��-�D��x5
-Default addsph_scope  60    # �擪�ԑg�񋟂̊��Ԏw�莞�����b��
-Default addspt_scope  120   # �Ō�ԑg�񋟂̊��Ԏw�莞�����b��
+#----- 番組提供認識設定 -----
+Default addsph_code1  1001  # 先頭番組提供-優先度1
+Default addsph_code2  21    # 先頭番組提供-優先度2
+Default addsph_code3  1004  # 先頭番組提供-優先度3
+Default addsph_code4  206   # 先頭番組提供-優先度4
+Default addsph_code5  0     # 先頭番組提供-優先度5
+Default addspt_code1  421   # 最後番組提供-優先度1
+Default addspt_code2  1004  # 最後番組提供-優先度2
+Default addspt_code3  206   # 最後番組提供-優先度3
+Default addspt_code4  4001  # 最後番組提供-優先度4
+Default addspt_code5  0     # 最後番組提供-優先度5
+Default addsph_scope  60    # 先頭番組提供の期間指定時検索秒数
+Default addspt_scope  120   # 最後番組提供の期間指定時検索秒数
 
-#�i�ԑg�񋟔F���̎�Ȑݒ�l�j
+#（番組提供認識の主な設定値）
 # [code]
-#    0 : ���o���Ȃ�
-#    1 : ����6-13�b�i�אځj�������i��2���ځ�0�̎��A�\���i�Ȃ���΃��S�j�ɗאڕ����j
-#   21 : ����6-13�b�i�͈�90�b�j�i��2���ځ�2�̎��A�����͈͂�\���i�Ȃ���΃��S�j����90�b�ȓ��ɍL����j
-#  206 : ����15�b�i�אځE���S�t���j�������i��3���ځ�2�̎��A���S�t���Ɍ���B��1����6�͊���15�b����j
-#  421 : ����6-13�b�i�͈�90�b�E�J�b�g�ʒu��܂ށj�i��3���ځ�4�̎��AAutoCut�ɂ��J�b�g�ʒu��������j
-# 1001 : ����6-13�b�i���S�I�����אځj�������i��4���ځ�1�̎��A�O���i���S�J�n���j�͌�₩��O���j
-# 1004 : ����5-13�b�i�אځj�������i��1����4�̎��A����5�b��ǉ��j
-# 4001 : ����6-13�b�i�\���ƔF�������ŏ��̓��e��ԑg�񋟉��{�\�������ɂ��炷�j
+#    0 : 検出しない
+#    1 : 期間6-13秒（隣接）を検索（下2桁目＝0の時、予告（なければロゴ）に隣接部分）
+#   21 : 期間6-13秒（範囲90秒）（下2桁目＝2の時、検索範囲を予告（なければロゴ）から90秒以内に広げる）
+#  206 : 期間15秒（隣接・ロゴ付き）を検索（下3桁目＝2の時、ロゴ付きに限定。下1桁＝6は期間15秒限定）
+#  421 : 期間6-13秒（範囲90秒・カット位置後含む）（下3桁目＝4の時、AutoCutによるカット位置後も検索）
+# 1001 : 期間6-13秒（ロゴ終了側隣接）を検索（下4桁目＝1の時、前側（ロゴ開始側）は候補から外す）
+# 1004 : 期間5-13秒（隣接）を検索（下1桁＝4の時、期間5秒を追加）
+# 4001 : 期間6-13秒（予告と認識した最初の内容を番組提供化＋予告を後ろにずらす）
 # [scope]
-#   ��2���ڂŌ����͈͎w�莞�ɏ�L����90�b�̏���b���ύX
+#   下2桁目で検索範囲指定時に上記説明90秒の所を秒数変更
 #
 
 #----------------------------------------------
-# �e���S���ԋ��ʂ̊J�n�E�I�������J�b�g
+# 各ロゴ期間共通の開始・終了部分カット
 #----------------------------------------------
-Default edgest_code   0         # �e���S�J�n�����̃J�b�g����i0:�J�b�g�Ȃ� 2:�w��b�\�����J�b�g�j
-Default edgest_period 15        # �e���S�J�n�����̃J�b�g����b��
-Default edgeed_code   0         # �e���S�I�������̃J�b�g����i0:�J�b�g�Ȃ� 2:�w��b�\�����J�b�g�j
-Default edgeed_period 15        # �e���S�I�������̃J�b�g����b��
+Default edgest_code   0         # 各ロゴ開始部分のカット動作（0:カットなし 2:指定秒構成時カット）
+Default edgest_period 15        # 各ロゴ開始部分のカットする秒数
+Default edgeed_code   0         # 各ロゴ終了部分のカット動作（0:カットなし 2:指定秒構成時カット）
+Default edgeed_period 15        # 各ロゴ終了部分のカットする秒数
 
-#----- �ŏ��̃��S�擪�����J�b�g -----
-Default cut1st_code   0   # ����ݒ�i0:�J�b�g�Ȃ� 2:�w��b���̍\�����J�b�g�j
-Default cut1st_period 3   # �J�b�g�b���w��
-
-#----------------------------------------------
-# ���S�ʒu���
-#----------------------------------------------
-OptDefault -CutMrgWI 2          # CutMrgIn�l�̎g�p���f�i0:�w��l 1:�w��l��0�̂Q�_���画�f 2:�������f�j
-OptDefault -CutMrgWO 2          # CutMrgOut�l�̎g�p���f�i0:�w��l 1:�w��l��0�̂Q�_���画�f 2:�������f�j
+#----- 最初のロゴ先頭部分カット -----
+Default cut1st_code   0   # 動作設定（0:カットなし 2:指定秒数の構成時カット）
+Default cut1st_period 3   # カット秒数指定
 
 #----------------------------------------------
-# �����p�����[�^���
+# ロゴ位置情報
 #----------------------------------------------
-Default param_wlogo_trmax  00:02:10   # �\���Ԑ镔���ƔF������ő働�S����
-Default param_wcomp_trmax  00:01:10   # �\���Ԑ镔���ƔF������P�\��������ő����
-Default param_wlogo_sftmrg 3.5        # ���S���Ԃ��ʏ��菭���Z���ꍇ�ɉ����␳����ő����
-Default param_wlogo_summin 00:00:20   # ���S���ԍ��v���w����Ԃ��Z���ꍇ�̓��S�Ȃ��Ƃ���
-Default param_wlogo_lgmin  20.0       # �������̃��S�L���m��ƔF���������
-Default param_wlogo_cmmin  40.0       # �������̃��S�����m��ƔF���������
-Default param_wlogo_revmin 125.0      # CM�\���ł͂Ȃ����S�Ȃ����Ԃ��s���\���ƔF������\���ŏ�����
-Default param_mgn_cmdetect 0.25       # CM�\����15�b�P�ʂł͂Ȃ��\���ƔF������덷�t���[������
-Default param_mgn_cmdivide 0.1        # CM�\�������̕�����������덷�t���[������
-#--- �J�n�}�[�W���ڍ� ---
-Default cutbaselogo        1          # �O�ԑg���瑱�����S�i0:����Ȃ� 1:�J�b�g���j
-Default param_pos_first    $base      # �J�n�}�[�W���ʒu
-Default param_lvpos_first  $cutbaselogo # �J�n�}�[�W���ݒ�i0:����Ȃ� 1:�擪����̃��S���� 2:�w��ʒu�ŗD�� 3:Select�ʒu�D��j
-Default param_wcomp_first  30.0       # �擪�\�����S�Ȃ��Ƃ���ő����
-
-
-############# �ȍ~�͏ڍאݒ�Ǝ��ۂ̓���L�q ############
+OptDefault -CutMrgWI 2          # CutMrgIn値の使用判断（0:指定値 1:指定値と0の２点から判断 2:自動判断）
+OptDefault -CutMrgWO 2          # CutMrgOut値の使用判断（0:指定値 1:指定値と0の２点から判断 2:自動判断）
 
 #----------------------------------------------
-# �t���O�܂Ƃߐݒ�
+# 内部パラメータ情報
 #----------------------------------------------
-#***************** �t���O���e ********************************************
-#   ANIMAX   : ANIMAX�p�ݒ�
+Default param_wlogo_trmax  00:02:10   # 予告番宣部分と認識する最大ロゴ期間
+Default param_wcomp_trmax  00:01:10   # 予告番宣部分と認識する１構成あたり最大期間
+Default param_wlogo_sftmrg 3.5        # ロゴ期間が通常より少し短い場合に延長補正する最大期間
+Default param_wlogo_summin 00:00:20   # ロゴ期間合計が指定期間より短い場合はロゴなしとする
+Default param_wlogo_lgmin  20.0       # 推測時のロゴ有情報確定と認識する期間
+Default param_wlogo_cmmin  40.0       # 推測時のロゴ無情報確定と認識する期間
+Default param_wlogo_revmin 125.0      # CM構成ではないロゴなし期間が不明構成と認識する構成最小期間
+Default param_mgn_cmdetect 0.25       # CM構成で15秒単位ではない可能性と認識する誤差フレーム期間
+Default param_mgn_cmdivide 0.1        # CM構成内部の分割を許可する誤差フレーム期間
+#--- 開始マージン詳細 ---
+Default cutbaselogo        1          # 前番組から続くロゴ（0:制御なし 1:カット許可）
+Default param_pos_first    $base      # 開始マージン位置
+Default param_lvpos_first  $cutbaselogo # 開始マージン設定（0:制御なし 1:先頭からのロゴ無視 2:指定位置最優先 3:Select位置優先）
+Default param_wcomp_first  30.0       # 先頭構成ロゴなしとする最大期間
+
+
+############# 以降は詳細設定と実際の動作記述 ############
+
+#----------------------------------------------
+# フラグまとめ設定
+#----------------------------------------------
+#***************** フラグ内容 ********************************************
+#   ANIMAX   : ANIMAX用設定
 #*************************************************************************
-# �EANIMAX�p�̐ݒ�
+# ・ANIMAX用の設定
 If ANIMAX
-  Set ASPN     1               # �ԑg�񋟂Ȃ�
-#  Set TWTR15A  1              # �\����������Ȃ����A15�b�ȉ��\���Ŏ��\����10�b�Ȃ�\���ɂ���
-  OptSet -CutMrgIn   150       # �؂�ւ�肩�烍�S�\���J�n�܂ł̊���
-  OptSet -CutMrgOut  150       # ���S�\���I������؂�ւ��܂ł̊���
+  Set ASPN     1               # 番組提供なし
+#  Set TWTR15A  1              # 予告が見つからない時、15秒以下構成で次構成が10秒なら予告にする
+  OptSet -CutMrgIn   150       # 切り替わりからロゴ表示開始までの期間
+  OptSet -CutMrgOut  150       # ロゴ表示終了から切り替わりまでの期間
   If $NOLOGO
-    Set NLANIMAX      1        # ���S�Ȃ�ANIMAX�ݒ�
-    Set autocm_scopex 120      # �Ōォ��w��b�ȍ~�̈ʒu�Ɋ܂܂��60/90/120�b�\����CM����
+    Set NLANIMAX      1        # ロゴなしANIMAX設定
+    Set autocm_scopex 120      # 最後から指定秒以降の位置に含まれる60/90/120秒構成はCM扱い
   EndIf
 EndIf
 
 #----------------------------------------------
-# �����p�����[�^�ݒ�
+# 内部パラメータ設定
 #----------------------------------------------
 SetParam CutTR       $param_cuttr
 SetParam CutSP       $param_cutsp
@@ -190,10 +190,10 @@ SetParam LogoRevise  $logo_revise
 SetParam AutoCmSub   $autocm_sub
 
 #----------------------------------------------
-# �J�n�}�[�W���I�𓮍�
+# 開始マージン選択動作
 #----------------------------------------------
-# �ߋ��݊��p(SetParam LvPosFirst 3)
-# �J�n�}�[�W���t�߂Ɍ�₪����ΊJ�n�ʒu�Ƃ��ėD�悳����
+# 過去互換用(SetParam LvPosFirst 3)
+# 開始マージン付近に候補があれば開始位置として優先させる
 #If $cutbaselogo
 #  Select S 0 -2.2 2.2 -fromabs $base -logoext 0 $base+2.2
 #Else
@@ -201,16 +201,16 @@ SetParam AutoCmSub   $autocm_sub
 #EndIf
 
 #----------------------------------------------
-# �Ō�̃��S�Ȃ������̗\����ǉ��F��
+# 最後のロゴなし部分の予告を追加認識
 #----------------------------------------------
-Default ti_scope      60.0  # �������郍�S����̈ʒu�i�b���w��̏ꍇ�͏����t���ŋL�ځj
+Default ti_scope      60.0  # 検索するロゴからの位置（秒数指定の場合は小数付きで記載）
 
-#***************** �t���O���e ********************************************
-#   TI25    : �ŏI���S�I������60�b���ꂽ�\��25�b�����S����Ƃ��Ēǉ�
-#   TI15    : �ŏI���S�I������60�b���ꂽ�\��15�b�����S����Ƃ��Ēǉ�
-#   TIB     : �ŏI���S�I������60�b���ꂽ���ɂ���3,5,10�b�����S����Ƃ��Ēǉ�
-#   HI210   : �擪���S����210�b�̓��S����Ƃ���
-#   HI240   : �擪���S����240�b�̓��S����Ƃ���
+#***************** フラグ内容 ********************************************
+#   TI25    : 最終ロゴ終了から60秒離れた構成25秒をロゴありとして追加
+#   TI15    : 最終ロゴ終了から60秒離れた構成15秒をロゴありとして追加
+#   TIB     : 最終ロゴ終了から60秒離れた所にある3,5,10秒をロゴありとして追加
+#   HI210   : 先頭ロゴから210秒はロゴありとする
+#   HI240   : 先頭ロゴから240秒はロゴありとする
 #*************************************************************************
 If TI25
   MkLogo E $ti_scope $ti_scope-0.2 $ti_scope+0.2 -N -1 -EndLen 25.0 24.8 25.2 -Ftail 00:00:00 00:07:00 -noedge
@@ -235,46 +235,46 @@ If HI240
 EndIf
 
 #----------------------------------------------
-# ���S�Ȃ�����15�b�P��CM���o
+# ロゴなし時の15秒単位CM検出
 #----------------------------------------------
-Default autocm_maxprd 60    # �w��b�𒴂���\����15�b�P�ʂł�CM�����ɂ��Ȃ�
+Default autocm_maxprd 60    # 指定秒を超える構成は15秒単位でもCM扱いにしない
 
-#--- ���S�Ȃ����̂�15�b�P�ʍ\����CM�� ---
+#--- ロゴなし時のみ15秒単位構成をCM化 ---
 AutoCM B -code $autocm_code -scope $autocm_scope -scopex $autocm_scopex -maxprd $autocm_maxprd
 
 #----------------------------------------------
-# �ŏ��̃��S�����J�b�g�E����
+# 最初のロゴ部分カット・延長
 #----------------------------------------------
-Default addsph_period1 5       # �擪�ԑg�񋟂̍\�����Ԍ��莞�p�i�D�揇��1�̂݁j
-Default addsph_maxprd1 13      # �擪�ԑg�񋟂̍\�����Ԍ��莞�p�i�D�揇��1�̂݁j
-Default fhead_st     $base     # �ŏ��̔ԑg�񋟂ƔF������擪�t���[������̈ʒu�i�N�_�j
-Default fhead_ed     00:13:30  # �ŏ��̔ԑg�񋟂ƔF������擪�t���[������̈ʒu�i�I�_�j
-Default fhead_name   -Fhead    # �ʒu��O���ɍi��
-Default cut1st_direct  0.0     # �����\���Ō�����Ȃ����̍ŏ��̃��S�擪�����J�b�g����
+Default addsph_period1 5       # 先頭番組提供の構成期間限定時用（優先順位1のみ）
+Default addsph_maxprd1 13      # 先頭番組提供の構成期間限定時用（優先順位1のみ）
+Default fhead_st     $base     # 最初の番組提供と認識する先頭フレームからの位置（起点）
+Default fhead_ed     00:13:30  # 最初の番組提供と認識する先頭フレームからの位置（終点）
+Default fhead_name   -Fhead    # 位置を前半に絞る
+Default cut1st_direct  0.0     # 推測構成で見つからない時の最初のロゴ先頭部分カット期間
 
-#***************** �t���O���e ********************************************
-#   ASPL   : �ԑg�񋟂�16�`25�b������
-#   ASPA   : �ԑg�񋟂�6�`13�b�̂ݔF��
-#   ASPN   : �ԑg�񋟂Ȃ�
-#   HC10   : �ŏ���10�b�͕s�v
-#   HC5    : �ŏ���5�b�͕s�v
-#   HC4    : �ŏ���4�b�͕s�v
-#   HC3    : �ŏ���3�b�͕s�v
-#   HCA    : �ŏ���3�`10�b�Ŗ����V�[���`�F���W������Εs�v
-#   HCCM   : �ŏ��ɕs�v�J�b�g���郍�S�t�Ԑ�i15�b��30�b�j����n�܂�
-#   HCSP   : �ŏ��̔ԑg�񋟔F�������Ȃ�
-#   HRSP15 : �ŏ��̔ԑg�񋟂�15�b�ŗD��Ō���
-#   HFSPL  : �ŏ��̔ԑg�񋟔F���ʒu��20���߂��܂Ŋg��
+#***************** フラグ内容 ********************************************
+#   ASPL   : 番組提供は16～25秒を検索
+#   ASPA   : 番組提供は6～13秒のみ認識
+#   ASPN   : 番組提供なし
+#   HC10   : 最初の10秒は不要
+#   HC5    : 最初の5秒は不要
+#   HC4    : 最初の4秒は不要
+#   HC3    : 最初の3秒は不要
+#   HCA    : 最初の3～10秒で無音シーンチェンジがあれば不要
+#   HCCM   : 最初に不要カットするロゴ付番宣（15秒か30秒）から始まる
+#   HCSP   : 最初の番組提供認識をしない
+#   HRSP15 : 最初の番組提供を15秒最優先で検索
+#   HFSPL  : 最初の番組提供認識位置を20分近くまで拡張
 #*************************************************************************
 
-# �E�ԑg�񋟂�16�`25�b�Ō���
+# ・番組提供を16～25秒で検索
 If ASPL
   Set addsph_code1    5
   Set addsph_period1  16
   Set addsph_maxprd1  25
 EndIf
 
-# �E�ԑg�񋟂�6�`13�b�̂ݔF��
+# ・番組提供は6～13秒のみ認識
 If ASPA
   Set addsph_code1  1001
   Set addsph_code2  21
@@ -283,51 +283,51 @@ If ASPA
   Set addsph_code5  0
 EndIf
 
-# �E�ԑg�񋟂�15�b�Ō���
+# ・番組提供を15秒で検索
 If HRSP15
   Set addsph_code1    6
 EndIf
 
-# �E�ŏ��Ƀ��S�t�Ԑ邪�����Ă���ꍇ�̃J�b�g�i�ő�30�b��30�b��15�b�\�����J�b�g�j
+# ・最初にロゴ付番宣が入っている場合のカット（最大30秒で30秒か15秒構成をカット）
 If HCCM
   AutoEdge S -N 1 -code 1002 -scope 30 -period 30
   AutoEdge S -N 1 -code 1002 -scope 30 -period 15 -else
-  Set cut1st_code 0     # ����ݒ�i0:�J�b�g�Ȃ��j
+  Set cut1st_code 0     # 動作設定（0:カットなし）
 EndIf
 
-# �E�ŏ��̃��S�\���J�n�����10�b�����V�[���`�F���W�̓J�b�g�i�ǃ^�C�g����z��j
+# ・最初のロゴ表示開始直後の10秒無音シーンチェンジはカット（局タイトルを想定）
 If HC10
-  Set cut1st_code   2   # ����ݒ�i2:�w��b���̍\�����J�b�g�j
-  Set cut1st_period 10  # �J�b�g�b���w��
+  Set cut1st_code   2   # 動作設定（2:指定秒数の構成時カット）
+  Set cut1st_period 10  # カット秒数指定
 EndIf
 
-# �E�ŏ��̃��S�\���J�n�����5�b�����V�[���`�F���W�̓J�b�g�i�ǃ^�C�g����z��j
+# ・最初のロゴ表示開始直後の5秒無音シーンチェンジはカット（局タイトルを想定）
 If HC5
-  Set cut1st_code   2   # ����ݒ�i2:�w��b���̍\�����J�b�g�j
-  Set cut1st_period 5   # �J�b�g�b���w��
-  Set cut1st_direct 5.0 # �����\���Ō�����Ȃ����̃J�b�g���Ԏw��
+  Set cut1st_code   2   # 動作設定（2:指定秒数の構成時カット）
+  Set cut1st_period 5   # カット秒数指定
+  Set cut1st_direct 5.0 # 推測構成で見つからない時のカット期間指定
 EndIf
 
-# �E�ŏ��̃��S�\���J�n�����3�b�����V�[���`�F���W�̓J�b�g�i�ǃ^�C�g����z��j
+# ・最初のロゴ表示開始直後の3秒無音シーンチェンジはカット（局タイトルを想定）
 If HC4
-  Set cut1st_code   2   # ����ݒ�i2:�w��b���̍\�����J�b�g�j
-  Set cut1st_period 4   # �J�b�g�b���w��
-  Set cut1st_direct 4.0 # �����\���Ō�����Ȃ����̃J�b�g���Ԏw��
+  Set cut1st_code   2   # 動作設定（2:指定秒数の構成時カット）
+  Set cut1st_period 4   # カット秒数指定
+  Set cut1st_direct 4.0 # 推測構成で見つからない時のカット期間指定
 EndIf
 
-# �E�ŏ��̃��S�\���J�n�����3�b�����V�[���`�F���W�̓J�b�g�i�ǃ^�C�g����z��j
+# ・最初のロゴ表示開始直後の3秒無音シーンチェンジはカット（局タイトルを想定）
 If HC3
-  Set cut1st_code   2   # ����ݒ�i2:�w��b���̍\�����J�b�g�j
-  Set cut1st_period 3   # �J�b�g�b���w��
-  Set cut1st_direct 3.0 # �����\���Ō�����Ȃ����̃J�b�g���Ԏw��
+  Set cut1st_code   2   # 動作設定（2:指定秒数の構成時カット）
+  Set cut1st_period 3   # カット秒数指定
+  Set cut1st_direct 3.0 # 推測構成で見つからない時のカット期間指定
 EndIf
 
-# �E�ŏ��̃��S�\���J�n�����3-10�b�����V�[���`�F���W�̓J�b�g
+# ・最初のロゴ表示開始直後の3-10秒無音シーンチェンジはカット
 If HCA
-  Set cut1st_code   1   # ����ݒ�i1:3-10�b�̍\�����J�b�g�j
+  Set cut1st_code   1   # 動作設定（1:3-10秒の構成時カット）
 EndIf
 
-# �E�ŏ��̔ԑg�񋟔F�������Ȃ�
+# ・最初の番組提供認識をしない
 If HCSP ASPN
   Set addsph_code1  0
   Set addsph_code2  0
@@ -336,23 +336,23 @@ If HCSP ASPN
   Set addsph_code5  0
 EndIf
 
-# �E�ŏ��̔ԑg�񋟔F���ʒu��20���߂��܂Ŋg��
+# ・最初の番組提供認識位置を20分近くまで拡張
 If HFSPL
-  Set fhead_ed     00:20:00  # �ŏ��̗\���ƔF������擪�t���[������̈ʒu�i�I�_�j
-  Set fhead_name   -F        # �O������Ȃ�
+  Set fhead_ed     00:20:00  # 最初の予告と認識する先頭フレームからの位置（終点）
+  Set fhead_name   -F        # 前半縛りなし
 EndIf
 
-#***************** �����܂Ńt���O���e *****************
+#***************** ここまでフラグ内容 *****************
 
-#--- �擪���S�̃J�b�g ---
+#--- 先頭ロゴのカット ---
 AutoEdge S -N 1 -code $cut1st_code -period $cut1st_period
-If !$LASTEXE                 # �J�b�g���Ȃ������ꍇ
-  If $cut1st_direct > 0.0    # �����\�����g�킸�J�b�g�������\���ɔ��f���鏈��
+If !$LASTEXE                 # カットしなかった場合
+  If $cut1st_direct > 0.0    # 推測構成を使わずカットし推測構成に反映する処理
     Find S $cut1st_direct -0.5+$cut1st_direct 0.5+$cut1st_direct -N 1 -autochg
   EndIf
 EndIf
 
-#--- �t�@�C���擪�����̔ԑg�񋟔F�� ---
+#--- ファイル先頭部分の番組提供認識 ---
 AutoAdd SP $fhead_name $fhead_st $fhead_ed -code $addsph_code1 -limit 1 -scope $addsph_scope -period $addsph_period1 -maxprd $addsph_maxprd1
 AutoAdd SP $fhead_name $fhead_st $fhead_ed -code $addsph_code2 -limit 1 -scope $addsph_scope
 AutoAdd SP $fhead_name $fhead_st $fhead_ed -code $addsph_code3 -limit 1 -scope $addsph_scope
@@ -360,114 +360,114 @@ AutoAdd SP $fhead_name $fhead_st $fhead_ed -code $addsph_code4 -limit 1 -scope $
 AutoAdd SP $fhead_name $fhead_st $fhead_ed -code $addsph_code5 -limit 1 -scope $addsph_scope
 
 #----------------------------------------------
-# �Ō�̃��S�ʒu�J�b�g
+# 最後のロゴ位置カット
 #----------------------------------------------
-Default cuttr_trscope  27   # �\����CM���O���猟������ꍇ��CM�O�ő匟���b��
-Default cuttr_tr1stprd 45   # �\���J�n�ƔF������\���̍ő�b���i�w��b���ȉ��̍\���������܂ŗ\���ɂ��Ȃ��j
-Default cutec_limit    0    # �G���h�J�[�h�J�b�g�ʒu�w��i0:�ǉ��Ȃ� 1:1�\���c�� -1:�Ō�̂P�����I�ɃJ�b�g�j
-Default cutec_period   5    # �G���h�J�[�h�J�b�g���Ɋ��Ԏw�肷��ꍇ�̕b��
-Default addec_scope1   90   # �G���h�J�[�h���o1�̊��Ԏw�莞�����I���b��(code��2����=2�ȏ�̎��g�p)
-Default addec_scope2   90   # �G���h�J�[�h���o2�̊��Ԏw�莞�����I���b��(code��2����=2�ȏ�̎��g�p)
-Default addec_scope3   90   # �G���h�J�[�h���o3�̊��Ԏw�莞�����I���b��(code��2����=2�ȏ�̎��g�p)
-Default addec_scope4   90   # �G���h�J�[�h���o4�̊��Ԏw�莞�����I���b��(code��2����=2�ȏ�̎��g�p)
-Default addec_scope5   90   # �G���h�J�[�h���o5�̊��Ԏw�莞�����I���b��(code��2����=2�ȏ�̎��g�p)
-Default addec_scopen1  0    # �G���h�J�[�h���o1�̊��Ԏw�莞�����J�n�b��(code��2����=2�ȏ�̎��g�p)
-Default addec_scopen2  0    # �G���h�J�[�h���o2�̊��Ԏw�莞�����J�n�b��(code��2����=2�ȏ�̎��g�p)
-Default addec_scopen3  0    # �G���h�J�[�h���o3�̊��Ԏw�莞�����J�n�b��(code��2����=2�ȏ�̎��g�p)
-Default addec_scopen4  0    # �G���h�J�[�h���o4�̊��Ԏw�莞�����J�n�b��(code��2����=2�ȏ�̎��g�p)
-Default addec_scopen5  0    # �G���h�J�[�h���o5�̊��Ԏw�莞�����J�n�b��(code��2����=2�ȏ�̎��g�p)
-Default addec_trsumprd 30   # �G���h�J�[�h���o�Ŋ����\�����Ԃɂ�蒆�~����ꍇ�̎w��b��
-Default addtr_code1    21   # �\����������Ȃ����̃��S�Ȃ��\�����o1�i0:���o���Ȃ� 1:�א�15�b���� 21:����60�b�n�_�\��15�b�����j
-Default addtr_code2    25   # �\����������Ȃ����̃��S�Ȃ��\�����o2�i0:���o���Ȃ� 25:����60�b�n�_�\��16�`29�b�j
-Default addtr_limit    $cuttr_limit    # �\����������Ȃ��Ɣ��f����K�v�\���\�����i0:�����Ȃ� 1�`:�\�����j
-Default addtr_scope    65   # �\����������Ȃ����̃��S�Ȃ��\�����o�����b���i�ő�j
-Default addtr_scopen   58   # �\����������Ȃ����̃��S�Ȃ��\�����o�����b���i�J�n�אڑ��j
-Default addtr_secnext  0    # ���S�Ȃ��\���̎��̍\����b���w��Ō��肷��i0�̎��w�肵�Ȃ��j
-Default addtr_period1  1    # ���S�Ȃ��\�����o1�̊��Ԏw�莞�\���ŏ��b��(code��1��=5�̎�)
-Default addtr_maxprd1  14   # ���S�Ȃ��\�����o1�̊��Ԏw�莞�\���ő�b��(code��1��=5�̎�)
-Default addtr_period2  16   # ���S�Ȃ��\�����o2�̊��Ԏw�莞�\���ŏ��b��(code��1��=5�̎�)
-Default addtr_maxprd2  29   # ���S�Ȃ��\�����o2�̊��Ԏw�莞�\���ő�b��(code��1��=5�̎�)
-Default addspt_period1 5    # �Ō�ԑg�񋟂̍\�����Ԍ��莞�p�i�D�揇��1�̂݁j
-Default addspt_maxprd1 13   # �Ō�ԑg�񋟂̍\�����Ԍ��莞�p�i�D�揇��1�̂݁j
-Default addspt_scopen  0    # �Ō�ԑg�񋟂̊��Ԏw�莞�����J�n�b��
-Default use_add0tr     0    # �ǉ��̗\����������Ȃ����̃��S�Ȃ��\�����o�i0:���o���Ȃ� 1:���o����j
-Default add0tr_code1   0    # �ǉ��̗\����������Ȃ����̃��S�Ȃ��\�����o1�i0:���o���Ȃ� 1:�א�15�b���� 21:����60�b�n�_�\��15�b�����j
-Default add0tr_code2   0    # �ǉ��̗\����������Ȃ����̃��S�Ȃ��\�����o2�i0:���o���Ȃ� 25:����60�b�n�_�\��16�`29�b�j
-Default add0tr_limit   $cuttr_limit    # �ǉ��̗\����������Ȃ��Ɣ��f����K�v�\���\�����i0:�����Ȃ� 1�`:�\�����j
-Default add0tr_scope   65   # �ǉ��̗\����������Ȃ����̃��S�Ȃ��\�����o�����b���i�ő�j
-Default add0tr_scopen  58   # �ǉ��̗\����������Ȃ����̃��S�Ȃ��\�����o�����b���i�J�n�אڑ��j
-Default add0tr_secnext 0    # �ǉ��̃��S�Ȃ��\���̎��̍\����b���w��Ō��肷��i0�̎��w�肵�Ȃ��j
-Default add0tr_period1 1    # �ǉ��̃��S�Ȃ��\�����o1�̊��Ԏw�莞�\���ŏ��b��(code��1��=5�̎�)
-Default add0tr_maxprd1 14   # �ǉ��̃��S�Ȃ��\�����o1�̊��Ԏw�莞�\���ő�b��(code��1��=5�̎�)
-Default add0tr_period2 16   # �ǉ��̃��S�Ȃ��\�����o2�̊��Ԏw�莞�\���ŏ��b��(code��1��=5�̎�)
-Default add0tr_maxprd2 29   # �ǉ��̃��S�Ȃ��\�����o2�̊��Ԏw�莞�\���ő�b��(code��1��=5�̎�)
-Default acmtr_code1    4063 # ���S�Ȃ����g���\�����o
-Default acmtr_period   45   # ���S�Ȃ����g���\�����o���̍\���ő�b��(code��1��=3�̎�)
-Default acmtr_scope1   60   # ���S�Ȃ����g���\�����o���̌����ʒu1
-Default acmtr_scope2   90   # ���S�Ȃ����g���\�����o���̌����ʒu2
-Default acmtr_code2    4043 # ���S�Ȃ����g���\�����o2
-Default ftail_st      00:00:00  # �Ō�̗\���ȍ~�ƔF������ŏI�t���[������̈ʒu�i�N�_�j
-Default ftail_ed      00:07:00  # �Ō�̗\���ȍ~�ƔF������ŏI�t���[������̈ʒu�i�I�_�j
+Default cuttr_trscope  27   # 予告をCM直前から検索する場合のCM前最大検索秒数
+Default cuttr_tr1stprd 45   # 予告開始と認識する構成の最大秒数（指定秒数以下の構成が現れるまで予告にしない）
+Default cutec_limit    0    # エンドカードカット位置指定（0:追加なし 1:1構成残す -1:最後の１つ強制的にカット）
+Default cutec_period   5    # エンドカードカット時に期間指定する場合の秒数
+Default addec_scope1   90   # エンドカード検出1の期間指定時検索終了秒数(code下2桁目=2以上の時使用)
+Default addec_scope2   90   # エンドカード検出2の期間指定時検索終了秒数(code下2桁目=2以上の時使用)
+Default addec_scope3   90   # エンドカード検出3の期間指定時検索終了秒数(code下2桁目=2以上の時使用)
+Default addec_scope4   90   # エンドカード検出4の期間指定時検索終了秒数(code下2桁目=2以上の時使用)
+Default addec_scope5   90   # エンドカード検出5の期間指定時検索終了秒数(code下2桁目=2以上の時使用)
+Default addec_scopen1  0    # エンドカード検出1の期間指定時検索開始秒数(code下2桁目=2以上の時使用)
+Default addec_scopen2  0    # エンドカード検出2の期間指定時検索開始秒数(code下2桁目=2以上の時使用)
+Default addec_scopen3  0    # エンドカード検出3の期間指定時検索開始秒数(code下2桁目=2以上の時使用)
+Default addec_scopen4  0    # エンドカード検出4の期間指定時検索開始秒数(code下2桁目=2以上の時使用)
+Default addec_scopen5  0    # エンドカード検出5の期間指定時検索開始秒数(code下2桁目=2以上の時使用)
+Default addec_trsumprd 30   # エンドカード検出で既存予告期間により中止する場合の指定秒数
+Default addtr_code1    21   # 予告が見つからない時のロゴなし予告検出1（0:検出しない 1:隣接15秒未満 21:検索60秒地点構成15秒未満）
+Default addtr_code2    25   # 予告が見つからない時のロゴなし予告検出2（0:検出しない 25:検索60秒地点構成16～29秒）
+Default addtr_limit    $cuttr_limit    # 予告が見つからないと判断する必要予告構成数（0:制限なし 1～:構成数）
+Default addtr_scope    65   # 予告が見つからない時のロゴなし予告検出検索秒数（最大）
+Default addtr_scopen   58   # 予告が見つからない時のロゴなし予告検出検索秒数（開始隣接側）
+Default addtr_secnext  0    # ロゴなし予告の次の構成を秒数指定で限定する（0の時指定しない）
+Default addtr_period1  1    # ロゴなし予告検出1の期間指定時構成最小秒数(code下1桁=5の時)
+Default addtr_maxprd1  14   # ロゴなし予告検出1の期間指定時構成最大秒数(code下1桁=5の時)
+Default addtr_period2  16   # ロゴなし予告検出2の期間指定時構成最小秒数(code下1桁=5の時)
+Default addtr_maxprd2  29   # ロゴなし予告検出2の期間指定時構成最大秒数(code下1桁=5の時)
+Default addspt_period1 5    # 最後番組提供の構成期間限定時用（優先順位1のみ）
+Default addspt_maxprd1 13   # 最後番組提供の構成期間限定時用（優先順位1のみ）
+Default addspt_scopen  0    # 最後番組提供の期間指定時検索開始秒数
+Default use_add0tr     0    # 追加の予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+Default add0tr_code1   0    # 追加の予告が見つからない時のロゴなし予告検出1（0:検出しない 1:隣接15秒未満 21:検索60秒地点構成15秒未満）
+Default add0tr_code2   0    # 追加の予告が見つからない時のロゴなし予告検出2（0:検出しない 25:検索60秒地点構成16～29秒）
+Default add0tr_limit   $cuttr_limit    # 追加の予告が見つからないと判断する必要予告構成数（0:制限なし 1～:構成数）
+Default add0tr_scope   65   # 追加の予告が見つからない時のロゴなし予告検出検索秒数（最大）
+Default add0tr_scopen  58   # 追加の予告が見つからない時のロゴなし予告検出検索秒数（開始隣接側）
+Default add0tr_secnext 0    # 追加のロゴなし予告の次の構成を秒数指定で限定する（0の時指定しない）
+Default add0tr_period1 1    # 追加のロゴなし予告検出1の期間指定時構成最小秒数(code下1桁=5の時)
+Default add0tr_maxprd1 14   # 追加のロゴなし予告検出1の期間指定時構成最大秒数(code下1桁=5の時)
+Default add0tr_period2 16   # 追加のロゴなし予告検出2の期間指定時構成最小秒数(code下1桁=5の時)
+Default add0tr_maxprd2 29   # 追加のロゴなし予告検出2の期間指定時構成最大秒数(code下1桁=5の時)
+Default acmtr_code1    4063 # ロゴなし時拡張予告検出
+Default acmtr_period   45   # ロゴなし時拡張予告検出時の構成最大秒数(code下1桁=3の時)
+Default acmtr_scope1   60   # ロゴなし時拡張予告検出時の検索位置1
+Default acmtr_scope2   90   # ロゴなし時拡張予告検出時の検索位置2
+Default acmtr_code2    4043 # ロゴなし時拡張予告検出2
+Default ftail_st      00:00:00  # 最後の予告以降と認識する最終フレームからの位置（起点）
+Default ftail_ed      00:07:00  # 最後の予告以降と認識する最終フレームからの位置（終点）
 If use_addtr
-  Default cuttr_addcode  100  # CM�������O�̃��S�Ȃ������i0:�����Ȃ� 100:�\�����ɒǉ����j
+  Default cuttr_addcode  100  # CM明け直前のロゴなし部分（0:検索なし 100:予告候補に追加許可）
 Else
-  Default cuttr_addcode  0    # CM�������O�̃��S�Ȃ������i0:�����Ȃ� 100:�\�����ɒǉ����j
+  Default cuttr_addcode  0    # CM明け直前のロゴなし部分（0:検索なし 100:予告候補に追加許可）
 EndIf
 
-#***************** �t���O���e ********************************************
-#   ASPL   : �ԑg�񋟂�16�`25�b������
-#   ASPA   : �ԑg�񋟂�6�`13�b�̂ݔF��
-#   ASPN   : �ԑg�񋟂Ȃ�
-#   TCFULL : �Ō�̃��S�����͂��ׂăJ�b�g����i�\���F�������ȍ~�����ׂăJ�b�g�j
-#   TCLAST : �Ō�̃��S�����͂��ׂăJ�b�g����i�\�����o�O�Ɏ��s�j
-#   TCLF30 : �Ō�̃��S�������Ōォ��30�b�ȓ��Ɏn�܂�ꍇ�J�b�g����i�\�����o�O�Ɏ��s�j
-#   TCL60  : �Ō�̃��S��Ԃ�60�b���������J�b�g�i�\�����o�O�Ɏ��s�j
-#   TC5    : �Ō��5�b�͕s�v
-#   TCB    : �Ō�͎����ł��邪�A�I�����O��15�b�����P�\�����J�b�g
-#   TCSP   : �Ō�̔ԑg�񋟂�F�������Ȃ�
-#   TCCM   : �Ō�͕s�v�J�b�g���郍�S�t�Ԑ�i15�b��30�b�j�ŏI���
-#   TCE    : �G���h�J�[�h�Ȃ��Ƃ���
-#   TREB   : ���S�L���Ɋ֌W�Ȃ�15�b�����P�\�����G���h�J�[�h�Ƃ��Ďc��
-#   TRE    : ���S�L���Ɋ֌W�Ȃ�5�b�ȉ��P�\�����G���h�J�[�h�Ƃ��Ďc��
-#   TLE    : �G���h�J�[�h�̓��S����̂݌��o
-#   TN     : ���S�ʂ�ɏo��
-#   TWTRLOW   : �\�����o�����͎キ����
-#   TRSP15    : �Ō�̔ԑg�񋟂�15�b�ŗD��Ō���
-#   TWSP15    : �Ō�̔ԑg�񋟂�������Ȃ���15�b�Ō���
-#   TRSP15EN  : �Ō�̔ԑg�񋟂�\���ォ���S�I�������15�b�Ō���
-#   TSC15     : �\�������̃��S�J�n����15�b�̓J�b�g�i�\�����o�O�Ɏ��s�j
-#   TEC15     : �\�������̃��S�I�����O15�b�̓J�b�g�i�\�����o�O�Ɏ��s�j
-#   TPTRLIM0  : �\���\����=0
-#   TPTRLIM2  : �\���\����=2
-#   TPCUTTR0  : �\�����I����̃��S�t��15�b�P�ʍ\�����c��
-#   TPCUTTR1  : �\�����I����̃��S�t��15�b�P�ʍ\�����J�b�g
-#   TWSP15R60 : �\������60�b���ꂽ���ɂ���15�b�\����ԑg�񋟂�������Ȃ����c��
-#   TWTR15R60 : �\����������Ȃ����̃��S�Ȃ��\�����o��15�b�\�����܂߂�
-#   TWTR15A   : TWTR15R60�{�����ǉ��i���̍\����10�b�A�����͈͍͂L����j
-#   TRE5R180  : ���S�L���Ɋ֌W�Ȃ�5�b�P�\�����G���h�J�[�h�Ƃ��Ďc���i���S����R���ȓ��j
-#   TRTRNL15R0 : �i���S�Ȃ����̂݁j�ŏI���S�����I������̍\��15�b��\���i�Q�񌟍��j
-#   TRTRNLR0   : �i���S�Ȃ����̂݁j�ŏI���S�����I������̍\��15/30�b��\��
-#   TRTRNLR30  : �i���S�Ȃ����̂݁j�ŏI���S�����I������30�b���ꂽ�\��15/30�b��\��
-#   TRTRNLR60  : �i���S�Ȃ����̂݁j�ŏI���S�����I������60�b���ꂽ�\��15/30�b��\��
-#   TRTRNLR90  : �i���S�Ȃ����̂݁j�ŏI���S�����I������90�b���ꂽ�\��15/30�b��\��
-#   TRTRNLR120 : �i���S�Ȃ����̂݁j�ŏI���S�����I������120�b���ꂽ�\��15/30�b��\��
-#   TRTRNLR150 : �i���S�Ȃ����̂݁j�ŏI���S�����I������150�b���ꂽ�\��15/30�b��\��
+#***************** フラグ内容 ********************************************
+#   ASPL   : 番組提供は16～25秒を検索
+#   ASPA   : 番組提供は6～13秒のみ認識
+#   ASPN   : 番組提供なし
+#   TCFULL : 最後のロゴ部分はすべてカットする（予告認識部分以降をすべてカット）
+#   TCLAST : 最後のロゴ部分はすべてカットする（予告検出前に実行）
+#   TCLF30 : 最後のロゴ部分が最後から30秒以内に始まる場合カットする（予告検出前に実行）
+#   TCL60  : 最後のロゴ区間が60秒だった時カット（予告検出前に実行）
+#   TC5    : 最後の5秒は不要
+#   TCB    : 最後は自動であるが、終了直前の15秒未満１構成をカット
+#   TCSP   : 最後の番組提供を認識をしない
+#   TCCM   : 最後は不要カットするロゴ付番宣（15秒か30秒）で終わる
+#   TCE    : エンドカードなしとする
+#   TREB   : ロゴ有無に関係なく15秒未満１構成をエンドカードとして残す
+#   TRE    : ロゴ有無に関係なく5秒以下１構成をエンドカードとして残す
+#   TLE    : エンドカードはロゴありのみ検出
+#   TN     : ロゴ通りに出力
+#   TWTRLOW   : 予告検出推測は弱くする
+#   TRSP15    : 最後の番組提供を15秒最優先で検索
+#   TWSP15    : 最後の番組提供が見つからない時15秒で検索
+#   TRSP15EN  : 最後の番組提供を予告後かつロゴ終了直後の15秒で検索
+#   TSC15     : 予告部分のロゴ開始直後15秒はカット（予告検出前に実行）
+#   TEC15     : 予告部分のロゴ終了直前15秒はカット（予告検出前に実行）
+#   TPTRLIM0  : 予告構成数=0
+#   TPTRLIM2  : 予告構成数=2
+#   TPCUTTR0  : 予告等終了後のロゴ付き15秒単位構成を残す
+#   TPCUTTR1  : 予告等終了後のロゴ付き15秒単位構成をカット
+#   TWSP15R60 : 予告から60秒離れた所にある15秒構成を番組提供が見つからない時残す
+#   TWTR15R60 : 予告が見つからない時のロゴなし予告検出に15秒構成を含める
+#   TWTR15A   : TWTR15R60＋条件追加（次の構成が10秒、検索範囲は広げる）
+#   TRE5R180  : ロゴ有無に関係なく5秒１構成をエンドカードとして残す（ロゴから３分以内）
+#   TRTRNL15R0 : （ロゴなし時のみ）最終ロゴ扱い終了直後の構成15秒を予告（２回検索）
+#   TRTRNLR0   : （ロゴなし時のみ）最終ロゴ扱い終了直後の構成15/30秒を予告
+#   TRTRNLR30  : （ロゴなし時のみ）最終ロゴ扱い終了から30秒離れた構成15/30秒を予告
+#   TRTRNLR60  : （ロゴなし時のみ）最終ロゴ扱い終了から60秒離れた構成15/30秒を予告
+#   TRTRNLR90  : （ロゴなし時のみ）最終ロゴ扱い終了から90秒離れた構成15/30秒を予告
+#   TRTRNLR120 : （ロゴなし時のみ）最終ロゴ扱い終了から120秒離れた構成15/30秒を予告
+#   TRTRNLR150 : （ロゴなし時のみ）最終ロゴ扱い終了から150秒離れた構成15/30秒を予告
 #*************************************************************************
 #
-# �E�Ō�Ƀ��S�t�Ԑ邪�����Ă���ꍇ�̃J�b�g�i�ő�30�b��30�b��15�b�\�����J�b�g�j
+# ・最後にロゴ付番宣が入っている場合のカット（最大30秒で30秒か15秒構成をカット）
 If TCCM
   AutoEdge E -NR -1 -code 1002 -scope 30 -period 30
   AutoEdge E -NR -1 -code 1002 -scope 30 -period 15 -else
 EndIf
 
-# �E�ԑg�񋟂�16�`25�b�Ō���
+# ・番組提供を16～25秒で検索
 If ASPL
   Set addspt_code1    5
   Set addspt_period1  16
   Set addspt_maxprd1  25
 EndIf
 
-# �E�ԑg�񋟂�6�`13�b�̂ݔF��
+# ・番組提供は6～13秒のみ認識
 If ASPA
   Set addspt_code1  21
   Set addspt_code2  0
@@ -476,38 +476,38 @@ If ASPA
   Set addspt_code5  0
 EndIf
 
-# �E�ԑg�񋟂�15�b�Ō���
+# ・番組提供を15秒で検索
 If TRSP15
   Set addspt_code1  6
-  Set ftail_ed      00:10:00  # �Ō�̗\���ȍ~�ƔF������ŏI�t���[������̈ʒu�i�I�_�j
+  Set ftail_ed      00:10:00  # 最後の予告以降と認識する最終フレームからの位置（終点）
 EndIf
 
-# �E�ԑg�񋟂�������Ȃ���15�b�Ō���
+# ・番組提供が見つからない時15秒で検索
 If TWSP15
   Set addspt_code5  6
-  Set ftail_ed      00:10:00  # �Ō�̗\���ȍ~�ƔF������ŏI�t���[������̈ʒu�i�I�_�j
+  Set ftail_ed      00:10:00  # 最後の予告以降と認識する最終フレームからの位置（終点）
 EndIf
 
-# �E�ԑg�񋟂�\���ォ���S�I�������15�b�Ō���
+# ・番組提供を予告後かつロゴ終了直後の15秒で検索
 If TRSP15EN
-  Set addspt_code1  1146      # �\����(1000)���S�Ȃ�(100)���S�א�(40)15�b(6)
-  Set addspt_code2  1106      # �\����(1000)���S�Ȃ�(100)�\���א�(00)15�b(6)
-  Set ftail_ed      00:10:00  # �Ō�̗\���ȍ~�ƔF������ŏI�t���[������̈ʒu�i�I�_�j
+  Set addspt_code1  1146      # 予告後(1000)ロゴなし(100)ロゴ隣接(40)15秒(6)
+  Set addspt_code2  1106      # 予告後(1000)ロゴなし(100)予告隣接(00)15秒(6)
+  Set ftail_ed      00:10:00  # 最後の予告以降と認識する最終フレームからの位置（終点）
 EndIf
 
-# �ECM�����ȍ~�Ō�̃��S�����͂��ׂăJ�b�g����
+# ・CM明け以降最後のロゴ部分はすべてカットする
 If TCFULL
-  Set cuttr_code    1    # ����ݒ�i1:CM�������琔����j
-  Set cuttr_limit   0    # �\���Ƃ��Ďc���\�����i0:�\���Ȃ��j
-  Set use_addtr     0    # �\����������Ȃ����̃��S�Ȃ��\�����o�i0:���o���Ȃ��j
-  Set cutec_code    1    # �J�b�g����ݒ�i1:�J�b�g����j
-  Set addec_code1   0    # �G���h�J�[�h���o1�i0:���o���Ȃ��j
-  Set addec_code2   0    # �G���h�J�[�h���o2�i0:���o���Ȃ��j
-  Set addec_code3   0    # �G���h�J�[�h���o3�i0:���o���Ȃ��j
-  Set addec_code4   0    # �G���h�J�[�h���o4�i0:���o���Ȃ��j
-  Set addec_code5   0    # �G���h�J�[�h���o5�i0:���o���Ȃ��j
-  Set addtr_limit   0     # �\����������Ȃ��Ɣ��f����K�v�\���\�����i0:�\���Ȃ� 1�`:�\�����j
-  Set cutec_limit   0    # �J�b�g�ʒu�w��i0:�ǉ��Ȃ��j
+  Set cuttr_code    1    # 動作設定（1:CM明けから数える）
+  Set cuttr_limit   0    # 予告として残す構成数（0:予告なし）
+  Set use_addtr     0    # 予告が見つからない時のロゴなし予告検出（0:検出しない）
+  Set cutec_code    1    # カット動作設定（1:カットあり）
+  Set addec_code1   0    # エンドカード検出1（0:検出しない）
+  Set addec_code2   0    # エンドカード検出2（0:検出しない）
+  Set addec_code3   0    # エンドカード検出3（0:検出しない）
+  Set addec_code4   0    # エンドカード検出4（0:検出しない）
+  Set addec_code5   0    # エンドカード検出5（0:検出しない）
+  Set addtr_limit   0     # 予告が見つからないと判断する必要予告構成数（0:予告なし 1～:構成数）
+  Set cutec_limit   0    # カット位置指定（0:追加なし）
   Set addspt_code1  0
   Set addspt_code2  0
   Set addspt_code3  0
@@ -515,87 +515,87 @@ If TCFULL
   Set addspt_code5  0
 EndIf
 
-# �E�Ō�̃��S�����͂��ׂăJ�b�g����i�\�����o�O�Ɏ��s�j
+# ・最後のロゴ部分はすべてカットする（予告検出前に実行）
 If TCLAST
   AutoEdge E -N -1 -Ftail $ftail_st $ftail_ed -code 1003 -period 00:07:00
 EndIf
 
-# �E�Ō�̃��S�������Ōォ��30�b�ȓ��Ɏn�܂�ꍇ�J�b�g����i�\�����o�O�Ɏ��s�j
+# ・最後のロゴ部分が最後から30秒以内に始まる場合カットする（予告検出前に実行）
 If TCLF30
   AutoEdge S -N -1 -Ftail 00:00:00 00:00:30 -code 1003 -period 00:07:00
-  # ���S�Ȃ����͍Ōォ��30�b�𖳌��ɂ���
+  # ロゴなし時は最後から30秒を無効にする
   If $NOLOGO
-    Set ftail_st      00:00:30  # �Ō�̗\���ȍ~�ƔF������ŏI�t���[������̈ʒu�i�N�_�j
+    Set ftail_st      00:00:30  # 最後の予告以降と認識する最終フレームからの位置（起点）
   EndIf
 EndIf
 
-# �E�Ō�̃��S��Ԃ�60�b���������J�b�g�i�\�����o�O�Ɏ��s�j
+# ・最後のロゴ区間が60秒だった時カット（予告検出前に実行）
 If TCL60
   AutoEdge E -N -1 -Ftail $ftail_st $ftail_ed -LenP 58.0 62.0 -code 1003 -period 62.0
 EndIf
 
-# �E�Ō�̃��S��Ԃ�120�b���������J�b�g�i�\�����o�O�Ɏ��s�j
+# ・最後のロゴ区間が120秒だった時カット（予告検出前に実行）
 If TCL120
   AutoEdge E -N -1 -Ftail $ftail_st $ftail_ed -code 1005 -period 118.0 -maxprd 122.0
 EndIf
 
 
-# �E�Ō��5�b�̓J�b�g
+# ・最後の5秒はカット
 If TC5
-  Set cutec_code   21   # �G���h�J�[�h�J�b�g����ݒ�i21:�Ō�period�b�\���̓J�b�g�j
-  Set cutec_period 5    # �G���h�J�[�h�J�b�g���Ɋ��Ԏw�肷��ꍇ�̕b��
+  Set cutec_code   21   # エンドカードカット動作設定（21:最後period秒構成はカット）
+  Set cutec_period 5    # エンドカードカット時に期間指定する場合の秒数
 EndIf
 
-# �E�Ō�̃��S�̔ԑg��`���O15�b�����P�\�����J�b�g
+# ・最後のロゴの番組宣伝直前15秒未満１構成をカット
 If TCB
-  Set cutec_code   11   # �G���h�J�[�h�J�b�g����ݒ�i11:�Ō�̂P�\���͋����I�ɃJ�b�g�j
+  Set cutec_code   11   # エンドカードカット動作設定（11:最後の１構成は強制的にカット）
 EndIf
 
-# �E�G���h�J�[�h�Ȃ��Ƃ���
+# ・エンドカードなしとする
 If TCE
-  Set cutec_code    1    # �J�b�g����ݒ�i1:�J�b�g����j
-  Set addec_code1   0    # �G���h�J�[�h���o1�i0:���o���Ȃ��j
-  Set addec_code2   0    # �G���h�J�[�h���o2�i0:���o���Ȃ��j
-  Set addec_code3   0    # �G���h�J�[�h���o3�i0:���o���Ȃ��j
-  Set addec_code4   0    # �G���h�J�[�h���o4�i0:���o���Ȃ��j
-  Set addec_code5   0    # �G���h�J�[�h���o5�i0:���o���Ȃ��j
-  Set cutec_limit   0    # �G���h�J�[�h�J�b�g�ʒu�w��i0:�ǉ��Ȃ��j
+  Set cutec_code    1    # カット動作設定（1:カットあり）
+  Set addec_code1   0    # エンドカード検出1（0:検出しない）
+  Set addec_code2   0    # エンドカード検出2（0:検出しない）
+  Set addec_code3   0    # エンドカード検出3（0:検出しない）
+  Set addec_code4   0    # エンドカード検出4（0:検出しない）
+  Set addec_code5   0    # エンドカード検出5（0:検出しない）
+  Set cutec_limit   0    # エンドカードカット位置指定（0:追加なし）
 EndIf
 
-# �E���S�L���Ɋ֌W�Ȃ�15�b�����P�\�����G���h�J�[�h�Ƃ��Ďc��
+# ・ロゴ有無に関係なく15秒未満１構成をエンドカードとして残す
 If TREB
-  Set cutec_code     1     # �J�b�g����ݒ�i0:�J�b�g�Ȃ� 1:�J�b�g����j
-  Set addec_code1    11023 # �G���h�J�[�h���o1�i23:����90�b�ȓ��\��5�b�ȉ� +10000:�\������13�b�ȉ��Ō��ƂȂ�ʒu�Ɍ���j
-  Set addec_period1  13    # �G���h�J�[�h���o1�̍\���w��b��(�\��5�b�̏���b���ύX)
-  Set addec_scope1   90    # �G���h�J�[�h���o1�̊��Ԏw�莞�����I���b��(code��2����=2�ȏ�̎��g�p)
-  Set addec_scopen1  0     # �G���h�J�[�h���o1�̊��Ԏw�莞�����J�n�b��(code��2����=2�ȏ�̎��g�p)
+  Set cutec_code     1     # カット動作設定（0:カットなし 1:カットあり）
+  Set addec_code1    11023 # エンドカード検出1（23:検索90秒以内構成5秒以下 +10000:構成期間13秒以下で候補となる位置に限定）
+  Set addec_period1  13    # エンドカード検出1の構成指定秒数(構成5秒の所を秒数変更)
+  Set addec_scope1   90    # エンドカード検出1の期間指定時検索終了秒数(code下2桁目=2以上の時使用)
+  Set addec_scopen1  0     # エンドカード検出1の期間指定時検索開始秒数(code下2桁目=2以上の時使用)
 EndIf
 
-# �E���S�L���Ɋ֌W�Ȃ�5�b�i�ύX�j�ȉ��P�\�����G���h�J�[�h�Ƃ��Ďc��
+# ・ロゴ有無に関係なく5秒（変更可）以下１構成をエンドカードとして残す
 If TRE
-  Set cutec_code     1     # �J�b�g����ݒ�i0:�J�b�g�Ȃ� 1:�J�b�g����j
-  Set addec_code1    11023 # �G���h�J�[�h���o1�i23:����90�b�ȓ��\��5�b�ȉ� +10000:�\������13�b�ȉ��Ō��ƂȂ�ʒu�Ɍ���j
-#  Set addec_period1  5     # �G���h�J�[�h���o1�̍\���w��b��(�\��5�b�̏���b���ύX)
-  Set addec_scope1   90    # �G���h�J�[�h���o1�̊��Ԏw�莞�����I���b��(code��2����=2�ȏ�̎��g�p)
-  Set addec_scopen1  0     # �G���h�J�[�h���o1�̊��Ԏw�莞�����J�n�b��(code��2����=2�ȏ�̎��g�p)
+  Set cutec_code     1     # カット動作設定（0:カットなし 1:カットあり）
+  Set addec_code1    11023 # エンドカード検出1（23:検索90秒以内構成5秒以下 +10000:構成期間13秒以下で候補となる位置に限定）
+#  Set addec_period1  5     # エンドカード検出1の構成指定秒数(構成5秒の所を秒数変更)
+  Set addec_scope1   90    # エンドカード検出1の期間指定時検索終了秒数(code下2桁目=2以上の時使用)
+  Set addec_scopen1  0     # エンドカード検出1の期間指定時検索開始秒数(code下2桁目=2以上の時使用)
 EndIf
 
-# �E�G���h�J�[�h�̓��S����̂݌��o
+# ・エンドカードはロゴありのみ検出
 If TLE
-  Set cutec_code    1     # �J�b�g����ݒ�i0:�J�b�g�Ȃ� 1:�J�b�g����j
-  Set addec_code1   0     # �G���h�J�[�h���o1-�D��x1
-  Set addec_code2   11223 # �G���h�J�[�h���o2-�D��x2
-  Set addec_code3   11223 # �G���h�J�[�h���o3-�D��x3
-  Set addec_code4   11203 # �G���h�J�[�h���o4-�D��x4
-  Set addec_code5   0     # �G���h�J�[�h���o5-�D��x5
-  Set addec_period1 5     # �G���h�J�[�h���o1�̍\���w��b��
-  Set addec_period2 5     # �G���h�J�[�h���o2�̍\���w��b��
-  Set addec_period3 3     # �G���h�J�[�h���o3�̍\���w��b��
-  Set addec_period4 10    # �G���h�J�[�h���o4�̍\���w��b��
-  Set addec_period5 5     # �G���h�J�[�h���o5�̍\���w��b��
+  Set cutec_code    1     # カット動作設定（0:カットなし 1:カットあり）
+  Set addec_code1   0     # エンドカード検出1-優先度1
+  Set addec_code2   11223 # エンドカード検出2-優先度2
+  Set addec_code3   11223 # エンドカード検出3-優先度3
+  Set addec_code4   11203 # エンドカード検出4-優先度4
+  Set addec_code5   0     # エンドカード検出5-優先度5
+  Set addec_period1 5     # エンドカード検出1の構成指定秒数
+  Set addec_period2 5     # エンドカード検出2の構成指定秒数
+  Set addec_period3 3     # エンドカード検出3の構成指定秒数
+  Set addec_period4 10    # エンドカード検出4の構成指定秒数
+  Set addec_period5 5     # エンドカード検出5の構成指定秒数
 EndIf
 
-# �E�ԑg�񋟔F�������Ȃ�
+# ・番組提供認識をしない
 If TCSP ASPN
   Set addspt_code1  0
   Set addspt_code2  0
@@ -604,7 +604,7 @@ If TCSP ASPN
   Set addspt_code5  0
 EndIf
 
-# �E���S�ʂ�ɏo��
+# ・ロゴ通りに出力
 If TN
   If !$NOLOGO
     Set cuttr_code   0
@@ -623,169 +623,169 @@ If TN
   EndIf
 EndIf
 
-# �ETWTRLOW   : �\�����o�����͎キ����
+# ・TWTRLOW   : 予告検出推測は弱くする
 If TWTRLOW
-  Set use_addtr     0     # �\����������Ȃ����̃��S�Ȃ��\�����o�i0:���o���Ȃ� 1:���o����j
-  Set use_autocmtr  0     # ���S�Ȃ����̗\�����o�g���i0:�Ȃ� 1:����j
+  Set use_addtr     0     # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+  Set use_autocmtr  0     # ロゴなし時の予告検出拡張（0:なし 1:あり）
 EndIf
 
-# �ETPTRLIM0 : �\���\����=0
+# ・TPTRLIM0 : 予告構成数=0
 If TPTRLIM0
-  Set cuttr_limit   0     # �\���ƔF��������\�����i0:�\���Ȃ� 1�`:�\�����j
-  Set use_addtr     0     # �\����������Ȃ����̃��S�Ȃ��\�����o�i0:���o���Ȃ� 1:���o����j
-  Set use_autocmtr  0     # ���S�Ȃ����̗\�����o�g���i0:�Ȃ� 1:����j
+  Set cuttr_limit   0     # 予告と認識させる構成数（0:予告なし 1～:構成数）
+  Set use_addtr     0     # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+  Set use_autocmtr  0     # ロゴなし時の予告検出拡張（0:なし 1:あり）
 EndIf
 
-# �ETPTRLIM2 : �\���\����=2
+# ・TPTRLIM2 : 予告構成数=2
 If TPTRLIM2
-  Set cuttr_limit   2     # �\���ƔF��������\�����i0:�\���Ȃ� 1�`:�\�����j
-  Set addtr_limit   2     # �\����������Ȃ��Ɣ��f����K�v�\���\�����i0:�����Ȃ� 1�`:�\�����j
+  Set cuttr_limit   2     # 予告と認識させる構成数（0:予告なし 1～:構成数）
+  Set addtr_limit   2     # 予告が見つからないと判断する必要予告構成数（0:制限なし 1～:構成数）
 EndIf
 
-#   TPCUTTR0  : �\�����I����̃��S�t��15�b�P�ʍ\�����c��
+#   TPCUTTR0  : 予告等終了後のロゴ付き15秒単位構成を残す
 If TPCUTTR0
-  Set param_cuttr   0     # �\�����I����̃��S�t��15�b�P�ʍ\���i0:�c�� 1:�J�b�g�j
+  Set param_cuttr   0     # 予告等終了後のロゴ付き15秒単位構成（0:残す 1:カット）
   SetParam CutTR    $param_cuttr
 EndIf
 
-#   TPCUTTR1  : �\�����I����̃��S�t��15�b�P�ʍ\�����J�b�g
+#   TPCUTTR1  : 予告等終了後のロゴ付き15秒単位構成をカット
 If TPCUTTR1
-  Set param_cuttr   1     # �\�����I����̃��S�t��15�b�P�ʍ\���i0:�c�� 1:�J�b�g�j
+  Set param_cuttr   1     # 予告等終了後のロゴ付き15秒単位構成（0:残す 1:カット）
   SetParam CutTR    $param_cuttr
 EndIf
 
-# �E�\�������̃��S�J�n����15�b�̓J�b�g�i�\�����o�O�Ɏ��s�j
+# ・予告部分のロゴ開始直後15秒はカット（予告検出前に実行）
 If TSC15
   AutoEdge S -Ftail $ftail_st $ftail_ed -code 2 -period 15 -LenN 00:00:15 00:02:00
 EndIf
 
-# �E�\�������̃��S�I�����O15�b�̓J�b�g�i�\�����o�O�Ɏ��s�j
+# ・予告部分のロゴ終了直前15秒はカット（予告検出前に実行）
 If TEC15
 #  AutoEdge E -Ftail $ftail_st $ftail_ed -code 2 -period 15 -LenP 00:00:15 -1
   AutoEdge E -Ftail $ftail_st $ftail_ed -code 5 -period 14 -maxprd 16 -LenP 00:00:15 -1
 EndIf
 
-# �E�\������60�b���ꂽ���ɂ���15�b�\����ԑg�񋟂�������Ȃ����c��
+# ・予告から60秒離れた所にある15秒構成を番組提供が見つからない時残す
 If TWSP15R60
-  Set addspt_code5   36   # �Ō�ԑg��-�D��x5
-  Set addspt_scope   60   # �Ō�ԑg�񋟂̊��Ԏw�莞�����b��
+  Set addspt_code5   36   # 最後番組提供-優先度5
+  Set addspt_scope   60   # 最後番組提供の期間指定時検索秒数
 EndIf
 
-# �E�\����������Ȃ����̃��S�Ȃ��\�����o��15�b�\�����܂߂�
+# ・予告が見つからない時のロゴなし予告検出に15秒構成を含める
 If TWTR15R60
-  Set addtr_code1    25   # �\����������Ȃ����̃��S�Ȃ��\�����o1�i0:���o���Ȃ� 1:�א�15�b���� 25:����60�b�n�_�\���w��b�j
-  Set addtr_period1  1    # ���S�Ȃ��\�����o1�̊��Ԏw�莞�\���ŏ��b��(code��1��=5�̎�)
-  Set addtr_maxprd1  15   # ���S�Ȃ��\�����o1�̊��Ԏw�莞�\���ő�b��(code��1��=5�̎�)
+  Set addtr_code1    25   # 予告が見つからない時のロゴなし予告検出1（0:検出しない 1:隣接15秒未満 25:検索60秒地点構成指定秒）
+  Set addtr_period1  1    # ロゴなし予告検出1の期間指定時構成最小秒数(code下1桁=5の時)
+  Set addtr_maxprd1  15   # ロゴなし予告検出1の期間指定時構成最大秒数(code下1桁=5の時)
 EndIf
 
-# �E�\����������Ȃ����̃��S�Ȃ��\�����o��15�b�\�����܂߂�i���̍\����10�b�A�����͈͍͂L����j
+# ・予告が見つからない時のロゴなし予告検出に15秒構成を含める（次の構成が10秒、検索範囲は広げる）
 If TWTR15A
-  Set addtr_code1    1025 # �\����������Ȃ����̃��S�Ȃ��\�����o1�i0:���o���Ȃ� 1:�א�15�b���� 25:����60�b�n�_�\���w��b�j
-  Set addtr_code2    1025 # �\����������Ȃ����̃��S�Ȃ��\�����o1�i0:���o���Ȃ� 1:�א�15�b���� 25:����60�b�n�_�\���w��b�j
-  Set addtr_period1  3    # ���S�Ȃ��\�����o1�̊��Ԏw�莞�\���ŏ��b��(code��1��=5�̎�)
-  Set addtr_period2  3    # ���S�Ȃ��\�����o1�̊��Ԏw�莞�\���ŏ��b��(code��1��=5�̎�)
-  Set addtr_maxprd1  10   # ���S�Ȃ��\�����o1�̊��Ԏw�莞�\���ő�b��(code��1��=5�̎�)
-  Set addtr_maxprd2  15   # ���S�Ȃ��\�����o1�̊��Ԏw�莞�\���ő�b��(code��1��=5�̎�)
-  Set addtr_scope    125  # �\����������Ȃ����̃��S�Ȃ��\�����o�����b���i�ő�j
-  Set addtr_scopen   0    # �\����������Ȃ����̃��S�Ȃ��\�����o�����b���i�J�n�אڑ��j
-  Set addtr_secnext  10   # ���̍\����b���w��Ō��肷��i0�̎��w�肵�Ȃ��j
+  Set addtr_code1    1025 # 予告が見つからない時のロゴなし予告検出1（0:検出しない 1:隣接15秒未満 25:検索60秒地点構成指定秒）
+  Set addtr_code2    1025 # 予告が見つからない時のロゴなし予告検出1（0:検出しない 1:隣接15秒未満 25:検索60秒地点構成指定秒）
+  Set addtr_period1  3    # ロゴなし予告検出1の期間指定時構成最小秒数(code下1桁=5の時)
+  Set addtr_period2  3    # ロゴなし予告検出1の期間指定時構成最小秒数(code下1桁=5の時)
+  Set addtr_maxprd1  10   # ロゴなし予告検出1の期間指定時構成最大秒数(code下1桁=5の時)
+  Set addtr_maxprd2  15   # ロゴなし予告検出1の期間指定時構成最大秒数(code下1桁=5の時)
+  Set addtr_scope    125  # 予告が見つからない時のロゴなし予告検出検索秒数（最大）
+  Set addtr_scopen   0    # 予告が見つからない時のロゴなし予告検出検索秒数（開始隣接側）
+  Set addtr_secnext  10   # 次の構成を秒数指定で限定する（0の時指定しない）
 EndIf
 
-# �E���S�L���Ɋ֌W�Ȃ�5�b�P�\�����G���h�J�[�h�Ƃ��Ďc���i���S����R���ȓ��j
+# ・ロゴ有無に関係なく5秒１構成をエンドカードとして残す（ロゴから３分以内）
 If TRE5R180
-  Set cutec_code     1     # �J�b�g����ݒ�i0:�J�b�g�Ȃ� 1:�J�b�g����j
-  Set addec_code1    1022  # �G���h�J�[�h���o1�i22:�����w��b�ȓ��\��5�b�j
-  Set addec_period1  5     # �G���h�J�[�h���o1�̍\���w��b��(�\��5�b�̏���b���ύX)
-  Set addec_scope1   180   # �G���h�J�[�h���o1�̊��Ԏw�莞�����I���b��(code��2����=2�ȏ�̎��g�p)
-  Set addec_scopen1  0     # �G���h�J�[�h���o1�̊��Ԏw�莞�����J�n�b��(code��2����=2�ȏ�̎��g�p)
+  Set cutec_code     1     # カット動作設定（0:カットなし 1:カットあり）
+  Set addec_code1    1022  # エンドカード検出1（22:検索指定秒以内構成5秒）
+  Set addec_period1  5     # エンドカード検出1の構成指定秒数(構成5秒の所を秒数変更)
+  Set addec_scope1   180   # エンドカード検出1の期間指定時検索終了秒数(code下2桁目=2以上の時使用)
+  Set addec_scopen1  0     # エンドカード検出1の期間指定時検索開始秒数(code下2桁目=2以上の時使用)
 EndIf
 
 #
-# �E���S�Ȃ��������̓���
+# ・ロゴなし時だけの動作
 #
 If $NOLOGO
-# �E�ŏI���S�����I������̍\��15�b��\���i�Q�񌟍��j
+# ・最終ロゴ扱い終了直後の構成15秒を予告（２回検索）
   If TRTRNL15R0
-    Set use_add0tr      1      # �\����������Ȃ����̃��S�Ȃ��\�����o�i0:���o���Ȃ� 1:���o����j
-    Set add0tr_code1    1102   # �㑤(1000)���S�Ȃ�(100)�אڎw�����(2)
-    Set add0tr_code2    1102   # �㑤(1000)���S�Ȃ�(100)�אڎw�����(2)
-    Set add0tr_period1  15     # �w����ԕb��
-    Set add0tr_period2  15     # �w����ԕb��
-    Set use_addtr       1      # �\����������Ȃ����̃��S�Ȃ��\�����o�i0:���o���Ȃ� 1:���o����j
-    Set addtr_code1     1102   # �㑤(1000)���S�Ȃ�(100)�אڎw�����(2)
-    Set addtr_code2     1102   # �㑤(1000)���S�Ȃ�(100)�אڎw�����(2)
-    Set addtr_period1   15     # �w����ԕb��
-    Set addtr_period2   15     # �w����ԕb��
+    Set use_add0tr      1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set add0tr_code1    1102   # 後側(1000)ロゴなし(100)隣接指定期間(2)
+    Set add0tr_code2    1102   # 後側(1000)ロゴなし(100)隣接指定期間(2)
+    Set add0tr_period1  15     # 指定期間秒数
+    Set add0tr_period2  15     # 指定期間秒数
+    Set use_addtr       1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set addtr_code1     1102   # 後側(1000)ロゴなし(100)隣接指定期間(2)
+    Set addtr_code2     1102   # 後側(1000)ロゴなし(100)隣接指定期間(2)
+    Set addtr_period1   15     # 指定期間秒数
+    Set addtr_period2   15     # 指定期間秒数
   EndIf
-# �E�ŏI���S�����I������̍\��15�b�܂���30�b��\��
+# ・最終ロゴ扱い終了直後の構成15秒または30秒を予告
   If TRTRNLR0
-    Set use_add0tr      1      # �\����������Ȃ����̃��S�Ȃ��\�����o�i0:���o���Ȃ� 1:���o����j
-    Set add0tr_code1    1102   # �㑤(1000)���S�Ȃ�(100)�אڎw�����(2)
-    Set add0tr_code2    1102   # �㑤(1000)���S�Ȃ�(100)�אڎw�����(2)
-    Set add0tr_period1  15     # �w����ԕb��
-    Set add0tr_period2  30     # �w����ԕb��
+    Set use_add0tr      1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set add0tr_code1    1102   # 後側(1000)ロゴなし(100)隣接指定期間(2)
+    Set add0tr_code2    1102   # 後側(1000)ロゴなし(100)隣接指定期間(2)
+    Set add0tr_period1  15     # 指定期間秒数
+    Set add0tr_period2  30     # 指定期間秒数
   EndIf
-# �E�ŏI���S�����I������30�b���ꂽ�\��15�b�܂���30�b��\��
+# ・最終ロゴ扱い終了から30秒離れた構成15秒または30秒を予告
   If TRTRNLR30
-    Set use_add0tr      1      # �\����������Ȃ����̃��S�Ȃ��\�����o�i0:���o���Ȃ� 1:���o����j
-    Set add0tr_code1    1132   # �㑤(1000)���S�Ȃ�(100)�w�茟���ʒu(30)�w�����(2)
-    Set add0tr_code2    1132   # �㑤(1000)���S�Ȃ�(100)�w�茟���ʒu(30)�w�����(2)
-    Set add0tr_period1  15     # �w����ԕb��
-    Set add0tr_period2  30     # �w����ԕb��
-    Set add0tr_scope    30     # �w�茟���ʒu�b��
+    Set use_add0tr      1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set add0tr_code1    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_code2    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_period1  15     # 指定期間秒数
+    Set add0tr_period2  30     # 指定期間秒数
+    Set add0tr_scope    30     # 指定検索位置秒数
   EndIf
-# �E�ŏI���S�����I������60�b���ꂽ�\��15�b�܂���30�b��\��
+# ・最終ロゴ扱い終了から60秒離れた構成15秒または30秒を予告
   If TRTRNLR60
-    Set use_add0tr      1      # �\����������Ȃ����̃��S�Ȃ��\�����o�i0:���o���Ȃ� 1:���o����j
-    Set add0tr_code1    1132   # �㑤(1000)���S�Ȃ�(100)�w�茟���ʒu(30)�w�����(2)
-    Set add0tr_code2    1132   # �㑤(1000)���S�Ȃ�(100)�w�茟���ʒu(30)�w�����(2)
-    Set add0tr_period1  15     # �w����ԕb��
-    Set add0tr_period2  30     # �w����ԕb��
-    Set add0tr_scope    60     # �w�茟���ʒu�b��
+    Set use_add0tr      1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set add0tr_code1    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_code2    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_period1  15     # 指定期間秒数
+    Set add0tr_period2  30     # 指定期間秒数
+    Set add0tr_scope    60     # 指定検索位置秒数
   EndIf
-# �E�ŏI���S�����I������90�b���ꂽ�\��15�b�܂���30�b��\��
+# ・最終ロゴ扱い終了から90秒離れた構成15秒または30秒を予告
   If TRTRNLR90
-    Set use_add0tr      1      # �\����������Ȃ����̃��S�Ȃ��\�����o�i0:���o���Ȃ� 1:���o����j
-    Set add0tr_code1    1132   # �㑤(1000)���S�Ȃ�(100)�w�茟���ʒu(30)�w�����(2)
-    Set add0tr_code2    1132   # �㑤(1000)���S�Ȃ�(100)�w�茟���ʒu(30)�w�����(2)
-    Set add0tr_period1  15     # �w����ԕb��
-    Set add0tr_period2  30     # �w����ԕb��
-    Set add0tr_scope    90     # �w�茟���ʒu�b��
+    Set use_add0tr      1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set add0tr_code1    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_code2    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_period1  15     # 指定期間秒数
+    Set add0tr_period2  30     # 指定期間秒数
+    Set add0tr_scope    90     # 指定検索位置秒数
   EndIf
-# �E�ŏI���S�����I������120�b���ꂽ�\��15�b�܂���30�b��\��
+# ・最終ロゴ扱い終了から120秒離れた構成15秒または30秒を予告
   If TRTRNLR120
-    Set use_add0tr      1      # �\����������Ȃ����̃��S�Ȃ��\�����o�i0:���o���Ȃ� 1:���o����j
-    Set add0tr_code1    1132   # �㑤(1000)���S�Ȃ�(100)�w�茟���ʒu(30)�w�����(2)
-    Set add0tr_code2    1132   # �㑤(1000)���S�Ȃ�(100)�w�茟���ʒu(30)�w�����(2)
-    Set add0tr_period1  15     # �w����ԕb��
-    Set add0tr_period2  30     # �w����ԕb��
-    Set add0tr_scope    120    # �w�茟���ʒu�b��
+    Set use_add0tr      1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set add0tr_code1    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_code2    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_period1  15     # 指定期間秒数
+    Set add0tr_period2  30     # 指定期間秒数
+    Set add0tr_scope    120    # 指定検索位置秒数
   EndIf
-# �E�ŏI���S�����I������150�b���ꂽ�\��15�b�܂���30�b��\��
+# ・最終ロゴ扱い終了から150秒離れた構成15秒または30秒を予告
   If TRTRNLR150
-    Set use_add0tr      1      # �\����������Ȃ����̃��S�Ȃ��\�����o�i0:���o���Ȃ� 1:���o����j
-    Set add0tr_code1    1132   # �㑤(1000)���S�Ȃ�(100)�w�茟���ʒu(30)�w�����(2)
-    Set add0tr_code2    1132   # �㑤(1000)���S�Ȃ�(100)�w�茟���ʒu(30)�w�����(2)
-    Set add0tr_period1  15     # �w����ԕb��
-    Set add0tr_period2  30     # �w����ԕb��
-    Set add0tr_scope    150    # �w�茟���ʒu�b��
+    Set use_add0tr      1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set add0tr_code1    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_code2    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_period1  15     # 指定期間秒数
+    Set add0tr_period2  30     # 指定期間秒数
+    Set add0tr_scope    150    # 指定検索位置秒数
   EndIf
 EndIf
 
-# �E���S�Ȃ��ł�ANIMAX�␳
+# ・ロゴなしでのANIMAX補正
 If NLANIMAX
-  # �擪��10�܂���5�b�ACM���O��5�b�̓J�b�g
+  # 先頭の10または5秒、CM直前の5秒はカット
   AutoEdge S -Fhead -00:01:00 00:02:00 -code 1022 -period 10 -LenN 00:01:15 -1
   AutoEdge S -Fhead -00:01:00 00:02:00 -code 1022 -period 5  -LenN 00:01:15 -1 -else
   AutoEdge E -code 1022 -period 5 -LenP 00:03:00 -1
-  Set addtr_maxprd2  30    # ���S�Ȃ��\�����o2�̊��Ԏw�莞�\���ő�b��(code��1��=5�̎�)
+  Set addtr_maxprd2  30    # ロゴなし予告検出2の期間指定時構成最大秒数(code下1桁=5の時)
 EndIf
 
 
-#***************** �t���O���e ********************************************
-#   ALSP   : �ԑg�񋟂̓��S����Ɍ���
+#***************** フラグ内容 ********************************************
+#   ALSP   : 番組提供はロゴありに限定
 #*************************************************************************
-# �E�ԑg�񋟂̓��S����Ɍ���i�擪�����j�R���ڂ̂ݕύX��+1,+2��������+2�����߂Ēǉ�
+# ・番組提供はロゴありに限定（先頭部分）３桁目のみ変更で+1,+2を消して+2を改めて追加
 If ALSP
   EvalNum addsph_code1  200+(${addsph_code1}/1000*1000)+(${addsph_code1}%100)+((${addsph_code1}/100%10&4)*100)
   EvalNum addsph_code2  200+(${addsph_code2}/1000*1000)+(${addsph_code2}%100)+((${addsph_code2}/100%10&4)*100)
@@ -793,7 +793,7 @@ If ALSP
   EvalNum addsph_code4  200+(${addsph_code4}/1000*1000)+(${addsph_code4}%100)+((${addsph_code4}/100%10&4)*100)
   EvalNum addsph_code5  200+(${addsph_code5}/1000*1000)+(${addsph_code5}%100)+((${addsph_code5}/100%10&4)*100)
 EndIf
-# �E�ԑg�񋟂̓��S����Ɍ���i�Ō㕔���j
+# ・番組提供はロゴありに限定（最後部分）
 If ALSP
   EvalNum addspt_code1  200+(${addspt_code1}/1000*1000)+(${addspt_code1}%100)+((${addspt_code1}/100%10&4)*100)
   EvalNum addspt_code2  200+(${addspt_code2}/1000*1000)+(${addspt_code2}%100)+((${addspt_code2}/100%10&4)*100)
@@ -802,9 +802,9 @@ If ALSP
   EvalNum addspt_code5  200+(${addspt_code5}/1000*1000)+(${addspt_code5}%100)+((${addspt_code5}/100%10&4)*100)
 EndIf
 
-#***************** �����܂Ńt���O���e *****************
+#***************** ここまでフラグ内容 *****************
 
-#--- �t�@�C���Ō㕔���̃J�b�g�ݒ� ---
+#--- ファイル最後部分のカット設定 ---
 AutoCut TR -Ftail $ftail_st $ftail_ed -code $cuttr_code+$cuttr_addcode -limit $cuttr_limit -trscope $cuttr_trscope -tr1stprd $cuttr_tr1stprd
 If use_add0tr
   AutoAdd TR -Ftail $ftail_st $ftail_ed -code $add0tr_code1 -limit $add0tr_limit -period $add0tr_period1 -maxprd $add0tr_maxprd1 -scope $add0tr_scope -scopen $add0tr_scopen -secnext $add0tr_secnext
@@ -835,49 +835,49 @@ If use_autocmtr
 EndIf
 
 #----------------------------------------------
-# �e���S�̊J�n�E�I���ʒu�J�b�g
+# 各ロゴの開始・終了位置カット
 #----------------------------------------------
-Default edgest_frmmin 00:02:00  # �e���S�J�n�����̃J�b�g�ΏۂƂ��郍�S�Œ����
-Default edgeed_frmmin 00:02:00  # �e���S�I�������̃J�b�g�ΏۂƂ��郍�S�Œ����
-Default fmid_st       00:10:00  # ���ԕ����̔F���J�n�ʒu
-Default fmid_ed       00:10:00  # ���ԕ����̔F���I���ʒu
+Default edgest_frmmin 00:02:00  # 各ロゴ開始部分のカット対象とするロゴ最低期間
+Default edgeed_frmmin 00:02:00  # 各ロゴ終了部分のカット対象とするロゴ最低期間
+Default fmid_st       00:10:00  # 中間部分の認識開始位置
+Default fmid_ed       00:10:00  # 中間部分の認識終了位置
 
-#***************** �t���O���e ********************************************
-#   SC15   : �r���̃��S�J�n�����15�b�s�v��������J�b�g����
-#   EC15   : �r���̃��S�I�����O��15�b�s�v��������J�b�g����
-#   SC30HT : �r���i���Ԃ�����j�̃��S�J�n�����30�b�s�v��������J�b�g����
-#   EC30HT : �r���i���Ԃ�����j�̃��S�I�����O��30�b�s�v��������J�b�g����
+#***************** フラグ内容 ********************************************
+#   SC15   : 途中のロゴ開始直後に15秒不要部分ありカットする
+#   EC15   : 途中のロゴ終了直前に15秒不要部分ありカットする
+#   SC30HT : 途中（中間あたり）のロゴ開始直後に30秒不要部分ありカットする
+#   EC30HT : 途中（中間あたり）のロゴ終了直前に30秒不要部分ありカットする
 #*************************************************************************
-# �E�r���Ԑ邪�����Ă���ꍇ�̃J�b�g�i���S�J�n����j
+# ・途中番宣が入っている場合のカット（ロゴ開始直後）
 If SC15
   Set edgest_code   2
   Set edgest_period 15
   Set edgest_frmmin 00:02:00
 EndIf
 
-# �E�r���Ԑ邪�����Ă���ꍇ�̃J�b�g�i���S�I�����O�j
+# ・途中番宣が入っている場合のカット（ロゴ終了直前）
 If EC15
   Set edgeed_code   2
   Set edgeed_period 15
   Set edgeed_frmmin 00:02:00
 EndIf
 
-# �E�r��30�b�Ԑ邪���Ԃ�����ɓ����Ă���ꍇ�̃J�b�g�i���S�J�n����j
+# ・途中30秒番宣が中間あたりに入っている場合のカット（ロゴ開始直後）
 If SC30HT
   Set fmid_st    00:10:00
   Set fmid_ed    00:08:00
   AutoEdge S -Fmid $fmid_st $fmid_ed -code 1002 -period 30 -LenN $edgest_frmmin -1
 EndIf
 
-# �E�r��30�b�Ԑ邪���Ԃ�����ɓ����Ă���ꍇ�̃J�b�g�i���S�I�����O�j
+# ・途中30秒番宣が中間あたりに入っている場合のカット（ロゴ終了直前）
 If EC30HT
   Set fmid_st    00:10:00
   Set fmid_ed    00:08:00
   AutoEdge E -Fmid $fmid_st $fmid_ed -code 1002 -period 30 -LenP $edgeed_frmmin -1
 EndIf
 
-#***************** �����܂Ńt���O���e *****************
+#***************** ここまでフラグ内容 *****************
 
-#--- ���S�̊J�n�E�I���ʒu�̃J�b�g ---
+#--- ロゴの開始・終了位置のカット ---
 AutoEdge S -code $edgest_code -period $edgest_period -LenN $edgest_frmmin -1
 AutoEdge E -code $edgeed_code -period $edgeed_period -LenP $edgeed_frmmin -1
