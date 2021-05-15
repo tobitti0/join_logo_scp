@@ -62,6 +62,7 @@ private:
 	int  readScpos(const std::string &fname);
 	void outputResultTrim(const std::string &outfile);
 	void outputResultDetail(const std::string &outscpfile);
+	void outputResultDiv(const std::string &outdivfile);
 	// データ処理
 	void pushRecordLogo(DataLogoIF &dt);
 	void pushRecordScp(DataScpIF &dt);
@@ -87,6 +88,7 @@ private:
 	std::string m_cmdfile;			// JLスクリプトファイル名
 	std::string m_outfile;			// 出力結果ファイル名
 	std::string m_outscpfile;		// 詳細情報出力ファイル名
+	std::string m_outdivfile;		// 分割情報出力ファイル名
 };
 
 #endif

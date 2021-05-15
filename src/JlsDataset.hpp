@@ -92,6 +92,13 @@ private:
 		// 内部保持パラメータ
 		int		flagNoLogo;				// 0:通常 1:ロゴを読み込まない場合
 		int		oldAdjust;				// 0:旧方式調整なし 1:旧方式調整あり
+		// 追加
+		int     fixVLine;				// 0:vLine指定なし  1:vLine指定あり
+		int     fixSubList;				// 0:subDir指定なし 1:subDir指定あり
+		int     fixSubPath;				// 0:subPath指定なし 1:subPath指定あり
+		int     vLine;					// 読み込み行表示用
+		string  subList;				// サブフォルダリスト指定
+		string  subPath;				// サブフォルダパス指定
 	};
 	//--- 各行実行時の保持パラメータ ---
 	struct RecordHoldFromCmd {			// コマンドで設定される値で持ち続ける値
@@ -207,7 +214,7 @@ public:
 	bool isStillFromMsec(Msec msec_target);
 	bool isSmuteFromMsec(Msec msec_target);
 	bool isSmuteSameArea(Nsc nsc1, Nsc nsc2);
-	bool limitWideMsecFromRange(WideMsec wmsec, RangeMsec rmsec);
+	bool limitWideMsecFromRange(WideMsec& wmsec, RangeMsec rmsec);
 // Term構成処理
 	void setTermEndtype(Term &term, ScpEndType endtype);
 	bool getTermNext(Term &term);
@@ -258,6 +265,7 @@ public:
 	DtExtOptRecord				extOpt;			// 外部設定オプション
 	RecordHoldFromCmd 			recHold;		// コマンドから決定される設定値
 	vector<int>					resultTrim;		// 出力結果（カット位置）
+	vector<int>         divFile;    // ファイル分割位置
 
 private:
 	// 格納データ

@@ -1,5 +1,5 @@
 PROGRAM = join_logo_scp
-OBJS = CnvStrTime.o JlsAutoReform.o JlsAutoScript.o JlsCmdSet.o JlsDataset.o JlsIF.o JlsReformData.o JlsScript.o JlsTop.o
+OBJS = CnvStrTime.o JlsAutoReform.o JlsAutoScript.o JlsCmdSet.o JlsDataset.o JlsIF.o JlsReformData.o JlsScript.o JlsTop.o JlsScrMem.o JlsScriptDecode.o JlsScrGlobal.o JlsScriptState.o JlsScrReg.o JlsScriptLimit.o
 
 CC = gcc
 CFLAGS = -O2

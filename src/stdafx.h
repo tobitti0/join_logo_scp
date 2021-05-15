@@ -17,11 +17,16 @@
 // TODO: プログラムに必要な追加ヘッダーをここで参照してください
 #include <string>
 #include <fstream>
+#include <climits>
 #include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
+#include <unordered_map>
 #include <memory>
+#include <algorithm>
 #include <stdlib.h>
 #include <string.h>
 
 #endif
+
