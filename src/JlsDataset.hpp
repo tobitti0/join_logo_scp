@@ -111,6 +111,7 @@ public:
 // 初期設定
 	JlsDataset();
 	void initData();
+	void clearDataLogoAll();
 // 動作設定の保存・読み出し
 	void setConfig(ConfigVarType tp, int val);
 	int  getConfig(ConfigVarType tp);
