@@ -21,8 +21,11 @@ JlsReformData::JlsReformData(JlsDataset *pdata){
 void JlsReformData::adjustData(){
 	pdata->setFlagSetupAdj( true );
 	adjustScpos();
-	detectCutmrg();
-	updateCutmrg();
+	//--- ロゴマージン調整 ---
+	if ( (pdata->extOpt.nLgExact & 0x01) == 0 ){
+		detectCutmrg();
+		updateCutmrg();
+	}
 	adjustLogo();
 }
 
