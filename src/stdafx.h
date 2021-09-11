@@ -14,6 +14,8 @@
 #endif
 #include <stdio.h>
 
+
+
 // TODO: プログラムに必要な追加ヘッダーをここで参照してください
 #include <string>
 #include <fstream>
@@ -24,6 +26,7 @@
 #include <queue>
 #include <unordered_map>
 #include <memory>
+#include <regex>
 #include <algorithm>
 #include <stdlib.h>
 #include <string.h>
