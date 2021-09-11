@@ -49,7 +49,10 @@ bool JlsScript::getEnvString(string& strVal, const string& strEnvName){
 	//--- 環境変数から取得 ---
 	// getenvは unsafe warning が出るので getenv_s
 	// VS2005以降対応、標準では C11 対応でC++は個別対応みたい
-#ifdef OLD_UNSAFE
+  // MEMO by.tobitti0
+  // getenv_sはK付随書関数(MSのオリジナル)であり一般的に実装されていない
+  // __STDC_LIB_EXT1__で実装を確認できる
+#ifndef __STDC_LIB_EXT1__
 	const char *pstr = getenv(strEnvName.c_str());
 	if ( pstr != nullptr ){
 		strVal = pstr;
