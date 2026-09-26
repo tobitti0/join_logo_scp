@@ -1,5 +1,5 @@
-//
-#include "stdafx.h"
+﻿//
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsIF.hpp"
 #include "JlsScript.hpp"
@@ -12,6 +12,45 @@ JlsIF::JlsIF(){
 	//--- データ本体作成 ---
 	m_funcDataset.reset(new JlsDataset);
 	this->pdata = m_funcDataset->pdata;
+}
+
+JlsIF::~JlsIF() = default;
+
+
+//---------------------------------------------------------------------
+// 動作開始
+//---------------------------------------------------------------------
+int JlsIF::start(int argc, char *argv[]) {
+	int ret;
+	try{
+		clear();
+		setArgFull(argc, argv);		// 引数読み込み
+		ret = runScript();			// 実行
+	}
+	catch(std::bad_alloc& e){
+		lcout << "error:bad_alloc " << LStr.getUtf8String(e.what()) << endl;
+		return 3;
+	}
+	catch(std::runtime_error& e){
+		lcout << "error:runtime_error " << LStr.getUtf8String(e.what()) << endl;
+		return 3;
+	}
+	catch(std::logic_error& e){
+		lcout << "error:logic_error " << LStr.getUtf8String(e.what()) << endl;
+		return 3;
+	}
+	catch(std::exception& e){
+		lcout << "error:exception at c++ class " << LStr.getUtf8String(e.what()) << endl;
+		return 3;
+	}
+	catch(...){
+		// compile with: /EHa
+		lcout << "error:exception (forced exit)" << endl;
+		return 3;
+	}
+	return ret;
+}
+void JlsIF::clear(){
 
 	//--- 初期化 ---
 	m_logofile.clear();
@@ -21,13 +60,9 @@ JlsIF::JlsIF(){
 	m_outscpfile.clear();
 }
 
-JlsIF::~JlsIF() = default;
-
-
 //=====================================================================
 // 実行コマンド
 //=====================================================================
-
 //---------------------------------------------------------------------
 // オプション読み込み
 // 入力：
@@ -36,12 +71,14 @@ JlsIF::~JlsIF() = default;
 //---------------------------------------------------------------------
 void JlsIF::setArgFull(int argc, char *argv[]) {
 	m_listarg.clear();
+	//--- 必要ならWindowsワイドバイトで取得して最終的にUTF-8で取り込む処理 ---
+	vector<string> listArg = LSys.getMainArg(argc, argv);
 	//--- argv[1]から後を設定 ---
 	for(int i=1; i<argc; i++){
-		m_listarg.push_back(argv[i]);
+		m_listarg.push_back(listArg[i]);
 	}
 }
-
+// 未使用（必要ならsetArgFullと同じ処理を作成）
 void JlsIF::setArgEach(char *str) {
 	m_listarg.push_back(str);
 }
@@ -62,19 +99,20 @@ int JlsIF::runScript() {
 
 	//--- check filename ---
 	if (m_logofile.empty()) {
-		fprintf(stderr, "warning: not found logo file(-inlogo filename)\n");
+//		outputMesErr("warning: not found logo file(-inlogo filename)\n");	// 表示は後で行う
+		pdata->extOpt.errNoLogo = 1;
 		pdata->extOpt.flagNoLogo = 1;
 	}
 	if (m_scpfile.empty()) {
-		fprintf(stderr, "error: need -inscp filename\n");
+		outputMesErr("error: need -inscp filename\n");
 		return ERROPT_SETTING;
 	}
 	if (m_cmdfile.empty()) {
-		fprintf(stderr, "error: need -incmd filename\n");
+		outputMesErr("error: need -incmd filename\n");
 		return ERROPT_SETTING;
 	}
 	if (m_outfile.empty()) {
-		fprintf(stderr, "error: need -o filename\n");
+		outputMesErr("error: need -o filename\n");
 		return ERROPT_SETTING;
 	}
 
@@ -117,6 +155,20 @@ int JlsIF::expandArg(JlsScript &funcScript, vector <string> &listin){
 	if (argc <= 0){
 		return ERROPT_NONE;
 	}
+	//--- 標準エラー文字コードは最初に設定しておく ---
+	for(int k = 0; k < argc-1; k++){
+		const char* strv = listin[k].c_str();
+		if (isStrCaseSame(strv, "-syscode")){
+			const char* str1 = listin[k+1].c_str();
+			const char* str2 = nullptr;
+			expandArgOne(funcScript, 2, strv, str1, str2);
+		}
+		else if (isStrCaseSame(strv, "-stdcode")){
+			const char* str1 = listin[k+1].c_str();
+			const char* str2 = nullptr;
+			expandArgOne(funcScript, 2, strv, str1, str2);
+		}
+	}
 	//--- 引数読み込み ---
 	int i = 0;
 	while(i >= 0 && i < argc){
@@ -157,12 +209,12 @@ int JlsIF::expandArgFromFile(JlsScript &funcScript, const string &fname){
 	if (fname.empty() == false){
 		string strBuf;
 		string strWord;
-		ifstream ifs(fname);
-		if (ifs.fail()){
-			cerr << "error: failed to open " << fname << "\n";
+		LocalIfs ifs(fname);
+		if ( !ifs.is_open() ){
+			outputMesErr("error: failed to open " + fname + "\n");
 			return 2;
 		}
-		while( getline(ifs, strBuf) ){
+		while( ifs.getline(strBuf) ){
 			if (strBuf[0] != '#'){
 				int pos = 0;
 				while(pos >= 0){
@@ -197,15 +249,15 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 	}
 	int numarg = 0;
 	if(strv[0] == '-' && strv[1] != '\0') {
-		if(!_stricmp(strv, "-v")){
+		if(isStrCaseSame(strv, "-v")){
 			pdata->extOpt.verbose = 1;
 			numarg = 1;
 		}
-		else if (!_stricmp(strv, "-ver")){
-			printf("join_logo_scp ver4.1\n");
+		else if (isStrCaseSame(strv, "-ver")){
+			lcout << "join_logo_scp ver5.1.1" << endl;
 			return GETONE_EXIT;
 		}
-		else if (!_stricmp(strv, "-F")){
+		else if (isStrCaseSame(strv, "-F")){
 			int erropt = expandArgFromFile(funcScript, str1);
 			if (erropt == ERROPT_EXIT){
 				return GETONE_EXIT;
@@ -215,68 +267,75 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			}
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-inlogo")){
+		else if (isStrCaseSame(strv, "-inlogo")){
 			if (!exist2){
-				fprintf(stderr, "-inlogo needs an argument\n");
+				outputMesErr("-inlogo needs an argument\n");
 				return GETONE_ERR;
 			}
 			m_logofile = str1;
 			numarg = 2;
+			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// 名前保管のみ
 		}
-		else if (!_stricmp(strv, "-inscp")){
+		else if (isStrCaseSame(strv, "-inscp")){
 			if (!exist2){
-				fprintf(stderr, "-inscp needs an argument\n");
+				outputMesErr("-inscp needs an argument\n");
 				return GETONE_ERR;
 			}
 			m_scpfile = str1;
 			numarg = 2;
+			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// 名前保管のみ
 		}
-		else if (!_stricmp(strv, "-incmd")){
+		else if (isStrCaseSame(strv, "-incmd")){
 			if (!exist2){
-				fprintf(stderr, "-incmd needs an argument\n");
+				outputMesErr("-incmd needs an argument\n");
 				return GETONE_ERR;
 			}
 			m_cmdfile = str1;
 			numarg = 2;
+			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// 名前保管のみ
 		}
-		else if (!_stricmp(strv, "-o")){
+		else if (isStrCaseSame(strv, "-o")){
 			if (!exist2){
-				fprintf(stderr, "-o needs an argument\n");
+				outputMesErr("-o needs an argument\n");
 				return GETONE_ERR;
 			}
 			m_outfile = str1;
 			numarg = 2;
+			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// 名前保管のみ
 		}
-		else if (!_stricmp(strv, "-oscp")){
+		else if (isStrCaseSame(strv, "-oscp")){
 			if (!exist2){
-				fprintf(stderr, "-oscp needs an argument\n");
+				outputMesErr("-oscp needs an argument\n");
 				return GETONE_ERR;
 			}
 			m_outscpfile = str1;
 			numarg = 2;
+			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// 名前保管のみ
 		}
-		else if (!_stricmp(strv, "-lastcut")){
+		else if (isStrCaseSame(strv, "-lastcut")){
 			if (!exist2){
-				fprintf(stderr, "-lastcut needs an argument\n");
+				outputMesErr("-lastcut needs an argument\n");
 				return GETONE_ERR;
 			}
 			pdata->extOpt.frmLastcut = atoi(str1);
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-odiv")) {
+		else if (isStrCaseSame(strv, "-odiv")) {
 			if (!exist2) {
-				fprintf(stderr, "-odiv needs an argument\n");
+				outputMesErr("-odiv needs an argument\n");
 				return GETONE_ERR;
 			}
 			m_outdivfile = str1;
 			numarg = 2;
+			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// 名前保管のみ
 		}
 		else{
 			bool overwrite = true;
 			numarg = funcScript.setOptionsGetOne(argrest, strv, str1, str2, overwrite);
 			if (numarg <= 0){
 				if (numarg == 0){
-					fprintf(stderr, "unknown option(%s)\n", strv);
+					string mes = strv;
+					outputMesErr("unknown option(" + mes + ")\n");
 				}
 				return GETONE_ERR;
 			}
@@ -284,7 +343,8 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 		}
 	}
 	else{
-		fprintf(stderr, "unknown argument(%s)\n", strv);
+		string mes = strv;
+		outputMesErr("unknown argument(" + mes + ")\n");
 		return GETONE_ERR;
 	}
 	return numarg;
@@ -306,12 +366,12 @@ int JlsIF::readLogoframe(const string &fname){
 	int set_rise = 0;
 	int line = 0;
 	clearRecord( dtlogo );
-	ifstream ifs(fname.c_str());
-	if (ifs.fail()){
-		cerr << "error: failed to open " << fname << "\n";
+	LocalIfs ifs(fname.c_str());
+	if ( !ifs.is_open() ){
+		outputMesErr("error: failed to open " + fname + "\n");;
 		return 2;
 	}
-	while( getline(ifs, strBuf) ){
+	while( ifs.getline(strBuf) ){
 		line ++;
 		if (strBuf[0] != '#'){
 			pos = 0;
@@ -372,7 +432,7 @@ int JlsIF::readLogoframe(const string &fname){
 					clearRecord( dtlogo );					// clear
 				}
 				else{
-					cerr << "error:ignored line" << line << ":'" << strBuf << "'\n";
+					outputMesErr("error:ignored line" + to_string(line) + ":'" + strBuf + "'\n");
 				}
 			}
 		}
@@ -382,7 +442,8 @@ int JlsIF::readLogoframe(const string &fname){
 	}
 
 	if (emptyDataLogo() != 0){
-		cerr << "warning: no logo information found in '" << fname << "'\n";
+		pdata->extOpt.errNoLogo = 2;
+//		outputMesErr("warning: no logo information found in '" + fname + "'\n");	// 表示は後で行う
 	}
 	return 0;
 }
@@ -412,12 +473,12 @@ int JlsIF::readScpos(const string &fname){
 	int msec_smute_s = -1;
 	int msec_smute_w = -1;
 
-	ifstream ifs(fname.c_str());
-	if (ifs.fail()){
-		cerr << "error: failed to open " << fname << "\n";
+	LocalIfs ifs(fname.c_str());
+	if ( !ifs.is_open() ){
+		outputMesErr("error: failed to open " + fname + "\n");
 		return 2;
 	}
-	while( getline(ifs, strBuf) ){
+	while( ifs.getline(strBuf) ){
 		// 無音範囲情報
 		n = (int) strBuf.find("NAME=");
 		if (n >= 0){
@@ -449,7 +510,10 @@ int JlsIF::readScpos(const string &fname){
 					dtscp.msbk = ptcnv->getMsecAdjustFrmFromMsec( dtscp.msec, -1 );
 				}
 				// シーンチェンジ変化情報
-				n2 = (int) strBuf.find("＿");	// マーク検出
+				n2 = (int) strBuf.find(ChapterStrStill);	// マーク検出（"＿"）
+				if (n2 < 0 || n2 >= n){
+					n2 = (int) strBuf.find(ChapterStrStillAscii);	// マーク検出（"_"）
+				}
 				if (n2 >= 0 && n2 < n){			// マークがSCPos:より前
 					dtscp.still = 1;			// シーンチェンジ変化なしフラグ付加
 				}
@@ -563,21 +627,21 @@ void JlsIF::outputResultTrim(const string &outfile){
 	//--- 結果作成 ---
 	pdata->outputResultTrimGen();
 	//--- 結果出力 ---
-	ofstream ofs(outfile.c_str());
-	if (ofs.fail()){
-		cerr << "error:failed to open " << outfile << "\n";
+	LocalOfs ofs(outfile.c_str());
+	if ( !ofs.is_open() ){
+		outputMesErr("error:failed to open " + outfile + "\n");
 		return;
 	}
 	int num_data = (int) pdata->resultTrim.size();
 	for(int i=0; i<num_data-1; i+=2){
 		if (i > 0){
-			ofs << " ++ ";
+			ofs.write(" ++ ");
 		}
 		int frm_st = ptcnv->getFrmFromMsec( pdata->resultTrim[i] );
 		int frm_ed = ptcnv->getFrmFromMsec( pdata->resultTrim[i+1] );
-		ofs << "Trim(" << frm_st << "," << frm_ed << ")";
+		ofs.write("Trim(" + to_string(frm_st) + "," + to_string(frm_ed) + ")");
 	}
-	ofs << endl;
+	ofs.write("\n");
 }
 
 //---------------------------------------------------------------------
@@ -589,9 +653,9 @@ void JlsIF::outputResultDetail(const string &outscpfile){
 	}
 
 	//--- ファイル設定 ---
-	ofstream ofs(outscpfile.c_str());
-	if (ofs.fail()){
-		cerr << "error:failed to open " << outscpfile << "\n";
+	LocalOfs ofs(outscpfile.c_str());
+	if ( !ofs.is_open() ){
+		outputMesErr("error:failed to open " + outscpfile + "\n");
 		return;
 	}
 	//--- 初期化 ---
@@ -600,7 +664,7 @@ void JlsIF::outputResultDetail(const string &outscpfile){
 	//--- データ読み込み・出力 ---
 	string strBuf;
 	while( pdata->outputResultDetailGetLine(strBuf) == 0){
-		ofs << strBuf << endl;
+		ofs.write(strBuf + "\n");
 	}
 }
 
@@ -614,15 +678,15 @@ void JlsIF::outputResultDiv(const string &outdivfile) {
 
 	//--- 結果出力 ---
 	CnvStrTime *ptcnv = &(pdata->cnv);
-	ofstream ofs(outdivfile.c_str());
-	if (ofs.fail()) {
-		cerr << "error:failed to open " << outdivfile << "\n";
+	LocalOfs ofs(outdivfile.c_str());
+	if ( !ofs.is_open() ) {
+		outputMesErr("error:failed to open " + outdivfile + "\n");
 		return;
 	}
 	int num_data = (int)pdata->divFile.size();
 	for (int i = 0; i<num_data; ++i) {
 		int frm = ptcnv->getFrmFromMsec(pdata->divFile[i]);
-		ofs << frm << std::endl;
+		ofs.write(to_string(frm) + "\n");
 	}
 }
 
@@ -753,4 +817,10 @@ void JlsIF::setRecordScp(DataScpIF &dtbs, int nsc){
 		dtscp.still    = ( dtbs.still != 0 )? true : false;
 		pdata->setRecordScp(dtscp, nsc);
 	}
+}
+//---------------------------------------------------------------------
+// エラー出力
+//---------------------------------------------------------------------
+void JlsIF::outputMesErr(const string& mes){
+	lcerr << mes;
 }

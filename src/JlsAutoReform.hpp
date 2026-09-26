@@ -1,8 +1,7 @@
-//
+﻿//
 // join_logo_scp : Auto系CM構成推測処理
 //
-#ifndef __ALSAUTOREFORM__
-#define __ALSAUTOREFORM__
+#pragma once
 
 class JlsDataset;
 class JlsCmdArg;
@@ -184,4 +183,3 @@ private:
 
 };
 
-#endif

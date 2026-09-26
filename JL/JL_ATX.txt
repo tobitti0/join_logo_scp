@@ -1,4 +1,4 @@
-# join_logo_scp用の実行内容スクリプト
+﻿# join_logo_scp用の実行内容スクリプト
 #
 # 内容：ロゴを使わず無音シーンチェンジだけで前後をカット
 #       ATXを想定した設定
@@ -11,6 +11,11 @@
 Default base      -1          # 開始マージンのフレーム（-1の時は自動設定）
 Default lastbase  -1          # 終了マージンのフレーム（-1の時は自動設定）
 Default autobase  00:00:30    # 開始マージンの自動設定で検索する最大時間
+
+#--- 優先検索設定 ---
+Default end30pmin   00:22:30  # 30分番組終了検索時間（最小）
+Default end30pavg   00:23:00  # 30分番組終了検索時間（優先）
+Default end30pmax   00:30:30  # 30分番組終了検索時間（最大）
 
 #--- 複数話検出処理の設定 ---
 Default divuse      0         # 複数話分割（0=自動 1=期間固定値分割 2=期間ファイル読込可変分割）
@@ -46,7 +51,9 @@ Default len_enddetect_bef -1.1   # 実際の終了付近と認識する無音期
 Default sft_c   00:03:00       # 終了位置検索範囲（優先位置）
 Default sft_l   00:08:00       # 終了位置検索範囲（手前）
 Default sft_r   00:00:10       # 終了位置検索範囲（最終）
-Default sft_m   $sft_l         # 終了位置検索範囲（無音検索優先位置）
+Default sft_mc  $sft_l         # 終了位置検索範囲（無音検索優先位置・優先）
+Default sft_ml  $sft_l         # 終了位置検索範囲（無音検索優先位置・手前）
+Default sft_mr  $sft_r         # 終了位置検索範囲（無音検索優先位置・最終）
 
 # 複数話期間を自動検出する時の期間位置設定値
 Default len_divdetp_max   00:39:30  # 自動検出する期間検索の最大
@@ -94,6 +101,7 @@ Memory mdiv_period_select
     ReadData "${file_period_list}" -RegList period_list
   EndIf
 }
+EndMemory
 
 #------------------------------------------------------------------
 # 複数話構成の分割を検出
@@ -470,16 +478,16 @@ MemCall mbase_first
 
 If $base == -1
   # 設定ない時の開始マージン自動検索
-  Select S 0 0 0 -N 1 -Shift 0 0 $autobase -logoext 0 $autobase+1.3 -SMA 0 $len_headmute
+  #Select S 0 0 0 -N 1 -Shift 0 0 $autobase -logoext 0 $autobase+1.3 -SMA 0 $len_headmute
+  Select S 0 0 $autobase -logoext 0 $autobase+1.3 -RSMA 0 $len_headmute
 Else
   # 開始マージン付近に候補があれば優先選択
-  #Select S 0 -1.3 1.3 -fromabs $base -logoext 0 $base+1.3
-  Select S 0 -$base 1.3 -fromabs $base -logoext 0 $base+1.3 -SMA 0 $len_headmute
+  Select S $base 0 $base+1.3 -N 1 -logoext 0 $base+1.3 -RSMA 0 $len_headmute
 EndIf
 
 # 終了マージン指定あれば候補を探し優先選択（終了側の自動検索は何も設定しない）
 If ${lastbase}>0
-  Select E 0 -1.3 ${lastbase} -fromabs ${MAXTIME}-${lastbase} -logoext -${lastbase}-1.3 0 -SMA 0 $len_headmute
+  Select E -${lastbase} -${lastbase}-1.3 0 -logoext -${lastbase}-1.3 0
 EndIf
 
 #----------------------------------------------
@@ -533,9 +541,17 @@ If ${stay_endloc_sft}==0
   EndIf
 
   # 優先する無音位置検索用
-  Set sft_m $sft_l             # 終了位置（無音検索優先位置）
-  If ($eachframe>=00:22:30 && $eachframe<=00:30:30)  # 短い終了区間の補正
-    EvalTime sft_m $eachframe-00:22:30
+  Set sft_mc $sft_c             # 終了位置（無音検索優先位置・優先）
+  Set sft_ml $sft_l             # 終了位置（無音検索優先位置・手前）
+  Set sft_mr $sft_r             # 終了位置（無音検索優先位置・最終）
+  If ($eachframe-$sft_mr>=$end30pavg && $eachframe<=$end30pmax)  # 対象区間の補正
+    EvalTime sft_mc $eachframe-$end30pavg
+    If $sft_ml>=$eachframe-$end30pmin
+      EvalTime sft_ml $eachframe-$end30pmin
+      If $sft_l<$sft_ml         # $end30pmin設定で短い30分番組対応した場合
+        Set $sft_l $sft_ml
+      EndIf
+    EndIf
   EndIf
 EndIf
 
@@ -543,7 +559,8 @@ EndIf
 Default divend_short  0        # 未設定時は0
 If ${divend_short}==1
     Set sft_r   00:00:00       # 終了位置（最終）
-    Set sft_m   00:01:00       # 終了位置（無音検索優先位置）
+    Set sft_mc  00:01:00       # 終了位置（無音検索優先位置・優先）
+    Set sft_mr  $sft_r         # 終了位置（無音検索優先位置・最終）
 EndIf
 
 # ・45分以上で分割なければ終了位置を多めに検索
@@ -553,7 +570,8 @@ If ${stay_endloc_sft}==0
       Set sft_c   00:03:00       # 終了位置（優先位置）
       Set sft_l   00:14:00       # 終了位置（手前）
 #     Set sft_r   00:00:10       # 終了位置（最終）
-      Set sft_m   $sft_l         # 終了位置（無音検索優先位置）
+      Set sft_mc  $sft_l         # 終了位置（無音検索優先位置・優先）
+      Set sft_ml  $sft_l         # 終了位置（無音検索優先位置・手前）
     EndIf
   EndIf
 EndIf
@@ -591,7 +609,7 @@ MemCall mbase_header_after
 # 終了位置検出
 #------------------------------------
 # 終了付近の位置認識
-GetList E -$sft_m -$sft_l -$sft_r -RSMA $len_enddetect_bef $len_enddetect_aft
+GetList E -$sft_mc -$sft_ml -$sft_mr -RSMA $len_enddetect_bef $len_enddetect_aft
 # Echo $LISTHOLD
 
 #---（設定挿入）番組終了部分処理直前 ---
@@ -612,46 +630,46 @@ EndIf
 #---（設定挿入）終了位置のメイン検索開始場所 ---
 MemCall mbase_main_start
 
-# ・10秒前に無音シーンチェンジがあり、10秒間無音SCなく、-10〜5秒まで無音が続くシーンチェンジ位置
+# ・10秒前に無音シーンチェンジがあり、10秒間無音SCなく、-10～5秒まで無音が続くシーンチェンジ位置
 Find $endcommon -SC -10.2 -9.8 -NoSC -9.5 -0.5 -SMA -10.0 5.0
 
-# ・10秒前に無音シーンチェンジがあり、10秒間無音SCなく、-10〜0,31〜35秒まで無音が続くシーンチェンジ位置
+# ・10秒前に無音シーンチェンジがあり、10秒間無音SCなく、-10～0,31～35秒まで無音が続くシーンチェンジ位置
 Find $endcommon -SC -10.2 -9.8 -NoSC -9.5 -0.5 -SMA -10.0 0.0 -SMA 31.0 35.0
 
-# ・４秒前、１秒後に無音シーンチェンジがあり、-4〜10秒まで無音が続くシーンチェンジ位置
+# ・４秒前、１秒後に無音シーンチェンジがあり、-4～10秒まで無音が続くシーンチェンジ位置
 Find $endcommon -SC -4.2 -3.8 -SC 0.8 1.2 -SMA -5.0 10.0
 
-# ・５秒前に無音シーンチェンジがあり、-5〜9秒まで無音が続くシーンチェンジ位置
+# ・５秒前に無音シーンチェンジがあり、-5～9秒まで無音が続くシーンチェンジ位置
 Find $endcommon -SC -5.2 -4.8 -SMA -5.0 9.0
 
-# ・６秒前に無音シーンチェンジがあり、６秒間無音SCなく、-6〜10秒まで無音が続くシーンチェンジ位置
+# ・６秒前に無音シーンチェンジがあり、６秒間無音SCなく、-6～10秒まで無音が続くシーンチェンジ位置
 Find $endcommon -SC -6.2 -5.8 -NoSC -5.5 -0.5 -SMA -5.9 10.0
 
 # ・無音開始から１秒以内で、4,5,6秒後に無音SCなく、10秒以上無音が続くシーンチェンジ位置
 Find $endcommon -SMA 0.0 10.0 -NoSM -1.0 -1.0 -NoSC 3.8 4.2 -NoSC 4.8 5.2 -NoSC 5.8 6.2
 
-# ・５秒前に無音シーンチェンジがあり、１秒前になく、-5〜8秒まで無音が続くシーンチェンジ位置
+# ・５秒前に無音シーンチェンジがあり、１秒前になく、-5～8秒まで無音が続くシーンチェンジ位置
 Find $endcommon -SC -5.2 -4.8 -NoSC -1.2 -0.8 -SMA -5.0 8.0
 
 # ・無音開始から２秒以内で、4,5,6秒後に無音SCなく、10秒以上無音が続くシーンチェンジ位置
 Find $endcommon -SMA 0.0 10.0 -NoSM -2.0 -2.0 -NoSC 3.8 4.2 -NoSC 4.8 5.2 -NoSC 5.8 6.2
 
-# ・５秒前に無音シーンチェンジがあり、１秒前になく、-5〜7秒まで無音が続くシーンチェンジ位置
+# ・５秒前に無音シーンチェンジがあり、１秒前になく、-5～7秒まで無音が続くシーンチェンジ位置
 Find $endcommon -SC -5.2 -4.8 -NoSC -1.2 -0.8 -SMA -5.0 7.0
 
 # ・無音開始から３秒以内で、4,5,6秒後に無音SCなく、10秒以上無音が続くシーンチェンジ位置
 Find $endcommon -SMA 0.0 10.0 -NoSM -3.0 -3.0 -NoSC 3.8 4.2 -NoSC 4.8 5.2 -NoSC 5.8 6.2
 
-# ・３秒前、１秒後に無音シーンチェンジがあり、-3〜7秒まで無音が続くシーンチェンジ位置
+# ・３秒前、１秒後に無音シーンチェンジがあり、-3～7秒まで無音が続くシーンチェンジ位置
 Find $endcommon -SC -3.2 -2.8 -SC 0.8 1.2 -SMA -3.0 7.0
 
-# ・４秒前、１秒後に無音シーンチェンジがあり、-4〜7秒まで無音が続くシーンチェンジ位置
+# ・４秒前、１秒後に無音シーンチェンジがあり、-4～7秒まで無音が続くシーンチェンジ位置
 Find $endcommon -SC -4.2 -3.8 -SC 0.8 1.2 -SMA -4.0 7.0
 
-# ・５秒前に無音シーンチェンジがあり、-5〜6秒まで無音が続くシーンチェンジ位置
+# ・５秒前に無音シーンチェンジがあり、-5～6秒まで無音が続くシーンチェンジ位置
 Find $endcommon -SC -5.2 -4.8 -SMA -5.0 6.0
 
-# ・６秒前に無音シーンチェンジがあり、-6〜6秒まで無音が続くシーンチェンジ位置
+# ・６秒前に無音シーンチェンジがあり、-6～6秒まで無音が続くシーンチェンジ位置
 Find $endcommon -SC -6.2 -5.8 -SMA -5.9 6.0
 
 # ・無音開始から１秒以内で、5秒以上無音が続くシーンチェンジ位置
@@ -699,7 +717,7 @@ Find E 0 -120.0 0
 #----------------------------------------------
 #--- ファイル最後部分の予告検出用 ---
 Default cuttr_code     3    # 動作設定（0:検出なし 1:CM明けから数える 2:CM明け／CM直前を自動 3:CM直前から数える）
-Default cuttr_limit    5    # 予告と認識させる構成数（0:予告なし 1〜:構成数）
+Default cuttr_limit    5    # 予告と認識させる構成数（0:予告なし 1～:構成数）
 Default cuttr_trscope  42   # 予告をCM直前から検索する場合のCM前最大検索秒数
 
 #---（設定挿入）Auto構成変換直前 ---

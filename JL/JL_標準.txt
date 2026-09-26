@@ -1,4 +1,4 @@
-# join_logo_scp用の実行内容スクリプト
+﻿# join_logo_scp用の実行内容スクリプト
 #
 # 内容：汎用性を保ちつつ不要部分のカットを行う
 #
@@ -38,7 +38,7 @@ Default param_cntsc   0     # 無音シーンチェンジ数が多い構成内�
 
 #----- ファイル最後の予告位置認識 -----
 Default cuttr_code    2     # 動作設定（0:検出なし 1:CM明けから数える 2:CM明け／CM直前を自動 3:CM直前から数える）
-Default cuttr_limit   1     # 予告と認識させる構成数（0:予告なし 1〜:構成数）
+Default cuttr_limit   1     # 予告と認識させる構成数（0:予告なし 1～:構成数）
 Default use_addtr     1     # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
 
 #--- エンドカードの認識（15秒未満構成のカット位置検出） ---
@@ -248,8 +248,8 @@ Default addec_scopen4  0    # エンドカード検出4の期間指定時検索�
 Default addec_scopen5  0    # エンドカード検出5の期間指定時検索開始秒数(code下2桁目=2以上の時使用)
 Default addec_trsumprd 30   # エンドカード検出で既存予告期間により中止する場合の指定秒数
 Default addtr_code1    21   # 予告が見つからない時のロゴなし予告検出1（0:検出しない 1:隣接15秒未満 21:検索60秒地点構成15秒未満）
-Default addtr_code2    25   # 予告が見つからない時のロゴなし予告検出2（0:検出しない 25:検索60秒地点構成16〜29秒）
-Default addtr_limit    $cuttr_limit    # 予告が見つからないと判断する必要予告構成数（0:制限なし 1〜:構成数）
+Default addtr_code2    25   # 予告が見つからない時のロゴなし予告検出2（0:検出しない 25:検索60秒地点構成16～29秒）
+Default addtr_limit    $cuttr_limit    # 予告が見つからないと判断する必要予告構成数（0:制限なし 1～:構成数）
 Default addtr_scope    65   # 予告が見つからない時のロゴなし予告検出検索秒数（最大）
 Default addtr_scopen   58   # 予告が見つからない時のロゴなし予告検出検索秒数（開始隣接側）
 Default addtr_secnext  0    # ロゴなし予告の次の構成を秒数指定で限定する（0の時指定しない）
@@ -262,8 +262,8 @@ Default addspt_maxprd1 13   # 最後番組提供の構成期間限定時用（�
 Default addspt_scopen  0    # 最後番組提供の期間指定時検索開始秒数
 Default use_add0tr     0    # 追加の予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
 Default add0tr_code1   0    # 追加の予告が見つからない時のロゴなし予告検出1（0:検出しない 1:隣接15秒未満 21:検索60秒地点構成15秒未満）
-Default add0tr_code2   0    # 追加の予告が見つからない時のロゴなし予告検出2（0:検出しない 25:検索60秒地点構成16〜29秒）
-Default add0tr_limit   $cuttr_limit    # 追加の予告が見つからないと判断する必要予告構成数（0:制限なし 1〜:構成数）
+Default add0tr_code2   0    # 追加の予告が見つからない時のロゴなし予告検出2（0:検出しない 25:検索60秒地点構成16～29秒）
+Default add0tr_limit   $cuttr_limit    # 追加の予告が見つからないと判断する必要予告構成数（0:制限なし 1～:構成数）
 Default add0tr_scope   65   # 追加の予告が見つからない時のロゴなし予告検出検索秒数（最大）
 Default add0tr_scopen  58   # 追加の予告が見つからない時のロゴなし予告検出検索秒数（開始隣接側）
 Default add0tr_secnext 0    # 追加のロゴなし予告の次の構成を秒数指定で限定する（0の時指定しない）

@@ -1,7 +1,7 @@
-//
+﻿//
 // join_logo_scp データ構成初期補正
 //
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsReformData.hpp"
 #include "JlsDataset.hpp"
@@ -337,7 +337,7 @@ void JlsReformData::adjustScpos(){
 			}
 
 			// 非同期２地点間のシーンチェンジがないか検索
-			// 間隔が5の倍数ではなくても非同期両端から3〜10秒のシーンチェンジは入れる
+			// 間隔が5の倍数ではなくても非同期両端から3～10秒のシーンチェンジは入れる
 			int msec_st = pdata->getMsecScp(nst);
 			int msec_ed = pdata->getMsecScp(ned);
 			pdata->setScpStatpos(ned, SCP_PRIOR_DECIDE);
@@ -536,18 +536,22 @@ void JlsReformData::detectCutmrg(){
 	}
 
 	//--- display auto detect CurMrgIn/Out ---
-	if (1){
+	{
 		string str_cutin;
 		string str_cutout;
 		// 検出マージン
 		detectCutmrgDispval(str_cutin,  cutin );
 		detectCutmrgDispval(str_cutout, cutout);
-		printf("auto detect CutMrgIn=%s CutMrgOut=%s\n", str_cutin.c_str(), str_cutout.c_str());
+		string mes1 = "auto detect CutMrgIn=" + str_cutin + " CutMrgOut=" + str_cutout;
 
 		// 設定マージン
 		detectCutmrgDispval(str_cutin,  pdata->extOpt.msecCutIn );
 		detectCutmrgDispval(str_cutout, pdata->extOpt.msecCutOut);
-		printf("current set CutMrgIn=%s CutMrgOut=%s\n", str_cutin.c_str(), str_cutout.c_str());
+		string mes2 = "current set CutMrgIn=" + str_cutin + " CutMrgOut=" + str_cutout;
+
+		// 表示
+		pdata->dispSysMesN(mes1, JlsDataset::SysMesType::CutMrg);
+		pdata->dispSysMesN(mes2, JlsDataset::SysMesType::CutMrg);
 	}
 }
 

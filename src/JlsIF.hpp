@@ -1,8 +1,11 @@
-//
+﻿//
 // join_logo_scp呼び出しクラス
 //
-#ifndef __JLSF__
-#define __JLSF__
+#pragma once
+
+#include <string>
+#include <vector>
+#include <memory>
 
 class JlsDataset;
 class JlsScript;
@@ -11,6 +14,9 @@ class JlsScript;
 class JlsIF
 {
 private:
+	const char* ChapterStrStill = (char *) u8"＿";	// chapter_exeのマーク（画像変化なしマーク）
+	const char* ChapterStrStillAscii = (char *) "_";  // chapter_exeのマーク（画像変化なしマーク）
+
 	//--- シーンチェンジと構成区切り用（入力データ） ---
 	struct DataScpIF {
 	// 読込データ
@@ -50,11 +56,13 @@ public:
 public:
 	JlsIF();
 	virtual ~JlsIF();
+	int start(int argc, char *argv[]);
 	void setArgFull(int argc, char *argv[]);		// 引数設定（まとめて）
 	void setArgEach(char *str);						// 引数設定（１個ずつ）
 	int  runScript();								// JLスクリプト実行
 
 private:
+	void clear();
 	int  expandArg(JlsScript &funcScript, std::vector <std::string> &listin);
 	int  expandArgFromFile(JlsScript &funcScript, const std::string &fname);
 	int  expandArgOne(JlsScript &funcScript, int argrest, const char* strv, const char* str1, const char* str2);
@@ -71,6 +79,7 @@ private:
 	bool emptyDataLogo();
 	void getRecordScp(DataScpIF &dt, int n);
 	void setRecordScp(DataScpIF &dt, int n);
+	void outputMesErr(const std::string& mes);
 	void clearRecord(DataLogoIF &dt);
 	void clearRecord(DataScpIF &dt);
 
@@ -91,4 +100,3 @@ private:
 	std::string m_outdivfile;		// 分割情報出力ファイル名
 };
 
-#endif

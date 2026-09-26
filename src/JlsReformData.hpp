@@ -1,8 +1,7 @@
-//
+﻿//
 // join_logo_scp データ構成初期補正
 //
-#ifndef __JLSREFORMDATA__
-#define __JLSREFORMDATA__
+#pragma once
 
 class JlsDataset;
 
@@ -29,5 +28,3 @@ private:
 	//--- 関数ポインタ作成 ---
 	JlsDataset *pdata;
 };
-
-#endif
