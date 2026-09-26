@@ -1,0 +1,30 @@
+﻿# join_logo_scp用の実行内容スクリプト
+#
+# 内容：chapter位置情報を追加する動作
+#       追加する位置を変数(chapter_pos_list)に設定しておく
+#       追加位置付近に既存ない場合のみ追加される
+#
+
+#----------------------------------------------
+# 設定
+#----------------------------------------------
+Default chapter_space_min  2.5       # chapter追加を許可する隣接構成からの最低期間
+
+#----------------------------------------------
+# 動作
+#----------------------------------------------
+CountUp once_check_set_chapteradd
+MemOnce ${once_check_set_chapteradd}  # このファイルのMemory/MemSet文は一度だけ実行
+
+#--- 出力前に区切りを追加する処理 ---
+MemSet FINALIZE -order 40 {     # 出力直前で自動的に実行（実行順位は少し早く）
+  ListClear -RegList chapter_pos_list -default    # 未設定時
+  Repeat $#{chapter_pos_list} -counter i 1 {
+    LocalSet pos ${chapter_pos_list[$i]}   # 対象位置
+    #--- 構成区切りが近くになければ区切り追加 ---
+    GetPos -fromabs ${pos} -Dm ${chapter_space_min} -RAC -clear
+    If ${POSHOLD}<0 {
+      AutoIns -fromabs ${pos} -EndLen 0 -fixpos
+    };
+  };
+};

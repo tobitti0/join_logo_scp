@@ -1,8 +1,7 @@
-//
+﻿//
 // Auto系JLコマンド実行用
 //
-#ifndef __JLSAUTOSCRIPT__
-#define __JLSAUTOSCRIPT__
+#pragma once
 
 class JlsCmdArg;
 class JlsCmdLimit;
@@ -89,8 +88,9 @@ private:
 	bool startAutoDel(JlsCmdLimit &cmdlimit);
 	bool subInsDelGetRange(RangeNscMsec& rangeData, JlsCmdLimit &cmdlimit);
 	Nsc  subInsDelGetBase(JlsCmdLimit &cmdlimit);
+	bool subInsDelIsLogoNow(RangeNsc rnsc);
 	void subInsDelAddUnit(RangeMsec rmsec, bool flagAdd);
-	void subInsDelChangeArExt(RangeMsec rmsec, bool flagAdd);
+	void subInsDelChangeArExt(RangeMsec rmsec, bool flagAdd, bool useKeep);
 	bool startAutoCutTR(RangeMsec autoscope);
 	Nsc  subCutTRGetLocSt(RangeMsec autoscope);
 	void subCutTRGetLocStSub(Nsc *r_nsc_cand, bool *r_flag_cand, RangeMsec autoscope, ElgCurrent elg);
@@ -133,5 +133,3 @@ private:
 	//--- 保持データ ---
 	JlsAutoArg		m_autoArg;				// JLコマンド（Auto系）現在行の内容データ
 };
-
-#endif
